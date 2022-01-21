@@ -5,8 +5,6 @@
  */
 package com.camackenzie.exvi.core.util;
 
-import org.junit.BeforeClass;
-
 /**
  *
  * @author callum
@@ -14,24 +12,6 @@ import org.junit.BeforeClass;
 public class CryptographyUtilsTest {
 
     public CryptographyUtilsTest() {
-    }
-
-    @org.junit.BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    /**
-     * Test of encrypt method, of class CryptographyUtils.
-     */
-    @org.junit.Test
-    public void testEncrypt() throws Exception {
-    }
-
-    /**
-     * Test of decrypt method, of class CryptographyUtils.
-     */
-    @org.junit.Test
-    public void testDecrypt() throws Exception {
     }
 
     /**
