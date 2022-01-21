@@ -17,6 +17,14 @@ public class AccountAccessKeyResult extends DataResult<String> {
         super(error, message, accessKey);
     }
 
+    public AccountAccessKeyResult(String msg, String key) {
+        this(0, msg, key);
+    }
+
+    public AccountAccessKeyResult(int err, String msg) {
+        this(err, msg, "");
+    }
+
     public String getAccessKey() {
         return this.getResult();
     }

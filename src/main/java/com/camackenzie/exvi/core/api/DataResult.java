@@ -33,4 +33,8 @@ public class DataResult<T> {
         return this.message;
     }
 
+    public boolean errorOccured() {
+        return this.error != 0;
+    }
+
 }
