@@ -6,63 +6,66 @@
 package com.camackenzie.exvi.core;
 
 import com.google.gson.Gson;
-import java.net.http.HttpResponse;
 import java.util.HashMap;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  *
  * @author callum
  */
-public class APIResult<T> implements Future<T> {
+public class APIResult<T> {
 
     private static Gson gson = new Gson();
 
-    private final Future<HttpResponse<String>> requestFuture;
-    private final Class<T> tClass;
+    private T body;
+    private int statusCode;
+    private HashMap<String, String> headers;
 
-    public APIResult(Class<T> tClass,
-            CompletableFuture<HttpResponse<String>> sendAsync) {
-        this.requestFuture = sendAsync;
-        this.tClass = tClass;
+    public APIResult(int statusCode, T body, HashMap<String, String> headers) {
+        this.statusCode = statusCode;
+        this.body = body;
+        this.headers = headers;
     }
 
-    @Override
-    public boolean cancel(boolean mayInterruptIfRunning) {
-        return this.requestFuture.cancel(mayInterruptIfRunning);
+    public APIResult<T> withJsonHeader() {
+        this.headers.put("content-type", "application/json");
+        return this;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return this.requestFuture.isCancelled();
+    public T getBody() {
+        return this.body;
     }
 
-    @Override
-    public boolean isDone() {
-        return this.requestFuture.isDone();
+    public void setBody(T body) {
+        this.body = body;
     }
 
-    @Override
-    public T get() throws InterruptedException, ExecutionException {
-        return this.getFromInternalFutureGet(this.requestFuture.get());
+    public HashMap<String, String> getHeaders() {
+        return this.headers;
     }
 
-    @Override
-    public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        return this.getFromInternalFutureGet(this.requestFuture.get(timeout, unit));
+    public void setHeaders(HashMap<String, String> headers) {
+        this.headers = headers;
     }
 
-    private T getFromInternalFutureGet(HttpResponse<String> resp) {
-        String responseBody = resp.body();
-        return gson.fromJson(responseBody, this.tClass);
+    public int getStatusCode() {
+        return this.statusCode;
     }
 
-    public Class<T> getResultClass() {
-        return this.tClass;
+    public void setStatusCode(int e) {
+        this.statusCode = e;
+    }
+
+    public String toJson() {
+        this.withJsonHeader();
+        return gson.toJson(this);
+    }
+
+    public static <T> APIResult<T> jsonResult(int statusCode, T body) {
+        return new APIResult(statusCode, body, new HashMap<>()).withJsonHeader();
+    }
+
+    public static <T> String jsonString(int statusCode, T body) {
+        return APIResult.<T>jsonResult(statusCode, body).toJson();
     }
 
 }

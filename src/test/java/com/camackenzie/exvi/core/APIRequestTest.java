@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core;
 
+import java.util.concurrent.Future;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Alexx
  */
 public class APIRequestTest {
-    
+
     public APIRequestTest() {
     }
 
@@ -85,7 +86,7 @@ public class APIRequestTest {
      */
     @org.junit.jupiter.api.Test
     public void testSendJson() {
-        APIResult apir = APIRequest.sendJson("", this);
+        Future<APIResult<String>> apir = APIRequest.sendJson("", "Hello!");
     }
-    
+
 }

@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -25,9 +26,13 @@ import java.net.http.HttpResponse.BodySubscriber;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Flow;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  *
@@ -80,7 +85,7 @@ public class APIRequest<T> {
         this.endpoint = e;
     }
 
-    public APIResult send() {
+    public Future<APIResult<T>> send() {
         HttpClient client = HttpClient.newHttpClient();
         Builder requestBuilder = HttpRequest.newBuilder()
                 .uri(URI.create(this.endpoint));
@@ -91,18 +96,99 @@ public class APIRequest<T> {
         requestBuilder.POST(BodyPublishers.ofString(gson.toJson(this.body)));
         HttpRequest request = requestBuilder.build();
 
-        return new APIResult(this.body.getClass(),
+        return new APIResultFutureWrapper<T>((Class<T>) this.body.getClass(),
                 client.sendAsync(request, BodyHandlers.ofString()));
     }
 
-    public static <T> APIResult send(String endpoint,
+    public static <T> APIRequest<T> fromJson(String json) {
+        return gson.fromJson(json, APIRequest.class);
+    }
+
+    public static <T> APIRequest<T> fromJson(Reader json) {
+        return gson.fromJson(json, APIRequest.class);
+    }
+
+    public static <T> Future<APIResult<T>> send(String endpoint,
             T body,
             HashMap<String, String> headers) {
         return new APIRequest(endpoint, body, headers).send();
     }
 
-    public static <T> APIResult sendJson(String endpoint, T body) {
+    public static <T> Future<APIResult<T>> sendJson(String endpoint, T body) {
         return new APIRequest(endpoint, body).withJsonHeader().send();
+    }
+
+    private class APIResultFutureWrapper<T> implements Future<APIResult<T>> {
+
+        private final transient Future<HttpResponse<String>> requestFuture;
+        private final transient Class<T> tClass;
+        private APIResult<T> result;
+
+        public APIResultFutureWrapper(Class<T> tClass,
+                CompletableFuture<HttpResponse<String>> sendAsync) {
+            this.requestFuture = sendAsync;
+            this.tClass = tClass;
+        }
+
+        @Override
+        public boolean cancel(boolean mayInterruptIfRunning) {
+            return this.requestFuture.cancel(mayInterruptIfRunning);
+        }
+
+        @Override
+        public boolean isCancelled() {
+            return this.requestFuture.isCancelled();
+        }
+
+        @Override
+        public boolean isDone() {
+            return this.requestFuture.isDone();
+        }
+
+        @Override
+        public APIResult<T> get() throws InterruptedException, ExecutionException {
+            return this.getFromInternalFutureGet(this.requestFuture.get());
+        }
+
+        @Override
+        public APIResult<T> get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+            return this.getFromInternalFutureGet(this.requestFuture.get(timeout, unit));
+        }
+
+        private APIResult<T> getFromInternalFutureGet(HttpResponse<String> resp) {
+            if (this.result == null) {
+                String responseBody = resp.body();
+                try {
+                    // Format headers
+                    HashMap<String, String> headers = new HashMap<>();
+                    this.requestFuture.get()
+                            .headers()
+                            .map()
+                            .entrySet()
+                            .stream()
+                            .forEach(en -> {
+                                String headerVal = en.getValue().size() == 0 ? "" : en.getValue().get(0);
+                                headers.put(en.getKey(), headerVal);
+                            });
+                    // Return proper api result
+                    return new APIResult(this.requestFuture.get().statusCode(),
+                            gson.fromJson(responseBody, this.tClass), headers);
+                } catch (InterruptedException e) {
+                    System.out.println(e);
+                    Thread.currentThread().interrupt();
+                } catch (ExecutionException e) {
+                    System.err.println(e);
+                }
+                return null;
+            } else {
+                return this.result;
+            }
+        }
+
+        public Class<T> getResultClass() {
+            return this.tClass;
+        }
+
     }
 
 }
