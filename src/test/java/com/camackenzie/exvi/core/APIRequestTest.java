@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -85,8 +86,52 @@ public class APIRequestTest {
      * Test of sendJson method, of class APIRequest.
      */
     @org.junit.jupiter.api.Test
-    public void testSendJson() {
-        Future<APIResult<String>> apir = APIRequest.sendJson("", "Hello!");
+    public void testSendJson() throws InterruptedException, ExecutionException {
+        Future<APIResult<VerificationResult>> apir
+                = APIRequest.sendJson("https://s36irvth41.execute-api.us-east-2.amazonaws.com/test/verification",
+                        new UserVerificationDetails("callum",
+                                "alexxander1611@gmail.com",
+                                "+14034731818"),
+                        VerificationResult.class);
+        System.out.println(apir.get().getBody());
+    }
+
+    public class UserVerificationDetails {
+
+        public String username;
+        public String email;
+        public String phone;
+
+        public UserVerificationDetails(String uname, String em, String phone) {
+            this.username = uname;
+            this.email = em;
+            this.phone = phone;
+        }
+
+        @Override
+        public String toString() {
+            return "Username: " + this.username
+                    + ", Email: " + this.email
+                    + ", Phone: " + this.phone;
+        }
+
+    }
+
+    public class VerificationResult {
+
+        public String message;
+        public int error;
+
+        public VerificationResult(int err, String message) {
+            this.error = err;
+            this.message = message;
+        }
+
+        @Override
+        public String toString() {
+            return "error: " + this.error + ", message: " + this.message;
+        }
+
     }
 
 }

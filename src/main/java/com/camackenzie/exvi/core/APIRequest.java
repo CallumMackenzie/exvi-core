@@ -85,7 +85,7 @@ public class APIRequest<T> {
         this.endpoint = e;
     }
 
-    public Future<APIResult<T>> send() {
+    public <E> Future<APIResult<E>> send(Class<E> resultClass) {
         HttpClient client = HttpClient.newHttpClient();
         Builder requestBuilder = HttpRequest.newBuilder()
                 .uri(URI.create(this.endpoint));
@@ -95,7 +95,7 @@ public class APIRequest<T> {
         }
         requestBuilder.POST(BodyPublishers.ofString(gson.toJson(this.body)));
 
-        return new APIResultFutureWrapper<T>((Class<T>) this.body.getClass(),
+        return new APIResultFutureWrapper<E>(resultClass,
                 client.sendAsync(requestBuilder.build(), BodyHandlers.ofString()));
     }
 
@@ -107,14 +107,16 @@ public class APIRequest<T> {
         return gson.fromJson(json, APIRequest.class);
     }
 
-    public static <T> Future<APIResult<T>> send(String endpoint,
+    public static <T, E> Future<APIResult<E>> send(String endpoint,
             T body,
-            HashMap<String, String> headers) {
-        return new APIRequest(endpoint, body, headers).send();
+            HashMap<String, String> headers,
+            Class<E> resultClass) {
+        return new APIRequest(endpoint, body, headers).send(resultClass);
     }
 
-    public static <T> Future<APIResult<T>> sendJson(String endpoint, T body) {
-        return new APIRequest(endpoint, body).withJsonHeader().send();
+    public static <T, E> Future<APIResult<E>> sendJson(String endpoint, T body,
+            Class<E> resultClass) {
+        return new APIRequest(endpoint, body).withJsonHeader().send(resultClass);
     }
 
     private static class APIResultFutureWrapper<T> implements Future<APIResult<T>> {
@@ -155,6 +157,7 @@ public class APIRequest<T> {
         }
 
         private APIResult<T> getFromInternalFuture(HttpResponse<String> resp) {
+            System.out.println("Internal future returned " + resp.body());
             if (this.result == null) {
                 String responseBody = resp.body();
                 try {
