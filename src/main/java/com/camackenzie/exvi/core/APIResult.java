@@ -5,35 +5,64 @@
  */
 package com.camackenzie.exvi.core;
 
+import com.google.gson.Gson;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 /**
  *
  * @author callum
  */
-public class APIResult<T> {
+public class APIResult<T> implements Future<T> {
 
-    private int statusCode;
-    private T body;
-    private HashMap<String, String> headers;
+    private static Gson gson = new Gson();
 
-    public APIResult withJsonHeader() {
+    private final Future<HttpResponse<String>> requestFuture;
+    private final Class<T> tClass;
+
+    public APIResult(Class<T> tClass,
+            CompletableFuture<HttpResponse<String>> sendAsync) {
+        this.requestFuture = sendAsync;
+        this.tClass = tClass;
     }
 
-    public int getStatusCode() {
+    @Override
+    public boolean cancel(boolean mayInterruptIfRunning) {
+        return this.requestFuture.cancel(mayInterruptIfRunning);
     }
 
-    public void setStatusCode(int c) {
+    @Override
+    public boolean isCancelled() {
+        return this.requestFuture.isCancelled();
     }
 
-    public T getBody() {
+    @Override
+    public boolean isDone() {
+        return this.requestFuture.isDone();
     }
 
-    public void setBody(T body) {
+    @Override
+    public T get() throws InterruptedException, ExecutionException {
+        return this.getFromInternalFutureGet(this.requestFuture.get());
     }
 
-    public HashMap<String, String> getHeaders() {
+    @Override
+    public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+        return this.getFromInternalFutureGet(this.requestFuture.get(timeout, unit));
     }
 
-    public void setHeaders(HashMap<String, String> headers) {
+    private T getFromInternalFutureGet(HttpResponse<String> resp) {
+        String responseBody = resp.body();
+        return gson.fromJson(responseBody, this.tClass);
+    }
+
+    public Class<T> getResultClass() {
+        return this.tClass;
     }
 
 }

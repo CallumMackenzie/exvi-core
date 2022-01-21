@@ -10,10 +10,10 @@ package com.camackenzie.exvi.core;
  * @author callum
  */
 public enum DistanceUnit implements Unit {
-    Centimeter(1),
-    Meter(0.01),
-    Inch(0.39370078740109),
-    Foot(0.0328084);
+    CENTIMETER(1),
+    METER(0.01),
+    INCH(0.39370078740109),
+    FOOT(0.0328084);
 
     private final double unit;
 

@@ -10,9 +10,15 @@ package com.camackenzie.exvi.core;
  * @author callum
  */
 public enum ExerciseMechanics {
-    Isolation,
-    Compound;
+    ISOLATION,
+    COMPOUND;
 
-    public static ExerciseExperienceLevel fromString(String s) {
+    public static ExerciseMechanics fromString(String s) {
+        return EnumUtils.enumFromString(ExerciseMechanics.class, s);
+    }
+
+    @Override
+    public String toString() {
+        return EnumUtils.formatName(super.toString());
     }
 }

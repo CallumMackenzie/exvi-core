@@ -11,6 +11,13 @@ package com.camackenzie.exvi.core;
  */
 public class ExerciseEquipment {
 
+    private final String name;
+
+    public ExerciseEquipment(String name) {
+        this.name = name;
+    }
+
     public String getName() {
+        return this.name;
     }
 }

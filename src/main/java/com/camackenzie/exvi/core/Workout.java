@@ -5,28 +5,103 @@
  */
 package com.camackenzie.exvi.core;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author callum
  */
 public class Workout {
 
+    private String name;
+    private String description;
+    private ArrayList<ExerciseSet> exercises;
+
+    public Workout(String name, String desc,
+            ArrayList<ExerciseSet> wex) {
+        this.name = name;
+        this.exercises = wex;
+        this.description = desc;
+    }
+
+    public Workout(String name,
+            ArrayList<ExerciseSet> wex) {
+        this(name, "", wex);
+    }
+
     public String getName() {
+        return this.name;
     }
 
     public String getDescription() {
+        return this.description;
     }
 
     public ArrayList<ExerciseSet> getExercises() {
+        return this.exercises;
     }
 
     public void setExercises(ArrayList<ExerciseSet> ex) {
+        this.exercises = ex;
     }
 
     public void setName(String s) {
+        this.name = s;
     }
 
     public ActiveWorkout getActiveWorkout() {
+        return new ActiveWorkout(this);
+    }
+
+    public String formatToTable() {
+        // Retrieve the longest exercise name
+        int longestExerciseName = 0;
+        for (var exercise : this.exercises) {
+            String exerciseName = exercise.getExercise().getName();
+            if (exerciseName.length() > longestExerciseName) {
+                longestExerciseName = exerciseName.length();
+            }
+        }
+
+        // Retrieve the longest string rep repersentation
+        int longestRepAmount = 0;
+        for (var exercise : this.exercises) {
+            for (var set : exercise.getSets()) {
+                String setString = set + " " + exercise.getUnit();
+                if (setString.length() > longestRepAmount) {
+                    longestRepAmount = setString.length();
+                }
+            }
+        }
+
+        // Build formatted table
+        StringBuilder ret = new StringBuilder();
+
+        for (var exercise : this.exercises) {
+            // Get the number of spaces needed to fill largest space
+            String exerciseName = exercise.getExercise().getName();
+            int numNameFillerSpaces = longestExerciseName - exerciseName.length();
+            // Append the beginning of the formatted row
+            ret.append("| ")
+                    .append(exerciseName)
+                    .append(" ".repeat(numNameFillerSpaces))
+                    .append(" | ");
+            // Fill the rest of the table according to exercise set count/reps
+            for (var set : exercise.getSets()) {
+                // Get the number of spaces needed to fill largest space
+                String setString = set + " " + exercise.getUnit();
+                int numSetFillerSpaces = longestRepAmount - setString.length();
+                // Append the formatted set row
+                ret.append("| ")
+                        .append(setString)
+                        .append(" ".repeat(numSetFillerSpaces))
+                        .append(" ");
+            }
+            ret.append("\n");
+        }
+
+        // Return formatted string
+        return ret.toString();
     }
 
 }

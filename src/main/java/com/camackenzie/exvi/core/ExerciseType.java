@@ -10,13 +10,19 @@ package com.camackenzie.exvi.core;
  * @author callum
  */
 public enum ExerciseType {
-    Strength,
-    Warmup,
-    Cooldown,
-    Plyometric,
-    Conditioning,
-    Powerlifting;
+    STRENGTH,
+    WARMUP,
+    COOLDOWN,
+    PLYOMETRIC,
+    CONDITIONING,
+    POWER_LIFTING;
 
     public static ExerciseType fromString(String s) {
+        return EnumUtils.enumFromString(ExerciseType.class, s);
+    }
+
+    @Override
+    public String toString() {
+        return EnumUtils.formatName(super.toString());
     }
 }

@@ -11,10 +11,20 @@ package com.camackenzie.exvi.core;
  */
 public class MuscleWorkData {
 
+    private final Muscle muscle;
+    private final double workCoeff;
+
+    public MuscleWorkData(Muscle m, double workCoeff) {
+        this.muscle = m;
+        this.workCoeff = workCoeff;
+    }
+
     public Muscle getMuscle() {
+        return this.muscle;
     }
 
     public double getWorkCoeff() {
+        return this.workCoeff;
     }
 
 }

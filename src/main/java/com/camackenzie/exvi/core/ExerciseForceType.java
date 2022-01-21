@@ -10,15 +10,21 @@ package com.camackenzie.exvi.core;
  * @author callum
  */
 public enum ExerciseForceType {
-    Push,
-    Pull,
-    DynamicStretch,
-    StaticStretch,
-    Compression,
-    Isometric,
-    Static,
-    Hinge;
+    PUSH,
+    PULL,
+    DYNAMIC_STRETCH,
+    STATIC_STRETCH,
+    COMPRESSION,
+    ISOMETRIC,
+    STATIC,
+    HINGE;
 
     public static ExerciseForceType fromString(String s) {
+        return EnumUtils.enumFromString(ExerciseForceType.class, s);
+    }
+
+    @Override
+    public String toString() {
+        return EnumUtils.formatName(super.toString());
     }
 }

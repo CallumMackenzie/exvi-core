@@ -10,8 +10,8 @@ package com.camackenzie.exvi.core;
  * @author callum
  */
 public enum EnergyUnit implements Unit {
-    Kilojoule(1),
-    KiloCalorie(0.239006);
+    KILOJOULE(1),
+    KILOCALORIE(0.239006);
 
     private final double unit;
 

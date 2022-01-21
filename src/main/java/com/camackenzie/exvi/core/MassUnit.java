@@ -10,9 +10,9 @@ package com.camackenzie.exvi.core;
  * @author callum
  */
 public enum MassUnit implements Unit {
-    Kilogram(1),
-    Pound(2.20462),
-    Gram(1000);
+    KILOGRAM(1),
+    POUND(2.20462),
+    GRAM(1000);
 
     private final double unit;
 

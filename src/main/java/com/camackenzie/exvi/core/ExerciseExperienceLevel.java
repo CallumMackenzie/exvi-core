@@ -10,10 +10,16 @@ package com.camackenzie.exvi.core;
  * @author callum
  */
 public enum ExerciseExperienceLevel {
-    Beginner,
-    Intermediate,
-    Advanced;
+    BEGINNER,
+    INTERMEDIATE,
+    ADVANCED;
 
     public static ExerciseExperienceLevel fromString(String s) {
+        return EnumUtils.enumFromString(ExerciseExperienceLevel.class, s);
+    }
+
+    @Override
+    public String toString() {
+        return EnumUtils.formatName(super.toString());
     }
 }
