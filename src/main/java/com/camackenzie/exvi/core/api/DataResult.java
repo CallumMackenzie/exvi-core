@@ -3,24 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core;
+package com.camackenzie.exvi.core.api;
 
 /**
  *
  * @author callum
  */
-public class AccountAccessKeyResult {
+public class DataResult<T> {
 
+    private final T result;
     private final int error;
     private final String message;
-    private final String accessKey;
 
-    public AccountAccessKeyResult(int error,
-            String message,
-            String accessKey) {
-        this.error = error;
-        this.message = message;
-        this.accessKey = accessKey;
+    public DataResult(int err, String msg, T res) {
+        this.error = err;
+        this.message = msg;
+        this.result = res;
+    }
+
+    public T getResult() {
+        return this.result;
     }
 
     public int getError() {
@@ -29,10 +31,6 @@ public class AccountAccessKeyResult {
 
     public String getMessage() {
         return this.message;
-    }
-
-    public String getAccessKey() {
-        return this.accessKey;
     }
 
 }

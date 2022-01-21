@@ -3,20 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core;
+package com.camackenzie.exvi.core.api;
 
 /**
  *
  * @author callum
  */
-public class VerificationResult {
+public class AccountAccessKeyResult {
 
     private final int error;
     private final String message;
+    private final String accessKey;
 
-    public VerificationResult(int err, String msg) {
-        this.error = err;
-        this.message = msg;
+    public AccountAccessKeyResult(int error,
+            String message,
+            String accessKey) {
+        this.error = error;
+        this.message = message;
+        this.accessKey = accessKey;
     }
 
     public int getError() {
@@ -26,4 +30,9 @@ public class VerificationResult {
     public String getMessage() {
         return this.message;
     }
+
+    public String getAccessKey() {
+        return this.accessKey;
+    }
+
 }

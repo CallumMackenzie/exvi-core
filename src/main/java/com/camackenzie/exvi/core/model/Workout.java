@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core;
+package com.camackenzie.exvi.core.model;
 
+import com.camackenzie.exvi.core.model.ActiveWorkout;
+import com.camackenzie.exvi.core.model.ExerciseSet;
 import java.util.ArrayList;
 
 /**

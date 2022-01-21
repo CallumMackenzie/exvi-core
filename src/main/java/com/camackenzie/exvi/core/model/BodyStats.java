@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core;
+package com.camackenzie.exvi.core.model;
 
 /**
  *
@@ -33,6 +33,21 @@ public class BodyStats {
 
     public void setHeight(UnitValue<DistanceUnit> mu) {
         this.height = mu;
+    }
+
+    public static BodyStats averageMale() {
+        return new BodyStats(new UnitValue(MassUnit.POUND, 190),
+                new UnitValue(DistanceUnit.METER, 1.7));
+    }
+
+    public static BodyStats averageFemale() {
+        return new BodyStats(new UnitValue(MassUnit.POUND, 170),
+                new UnitValue(DistanceUnit.METER, 1.625));
+    }
+
+    public static BodyStats average() {
+        return new BodyStats(new UnitValue(MassUnit.POUND, 180),
+                new UnitValue(DistanceUnit.METER, 1.68));
     }
 
 }

@@ -3,18 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core;
+package com.camackenzie.exvi.core.model;
 
 /**
  *
  * @author callum
  */
-public enum ExerciseMechanics {
-    ISOLATION,
-    COMPOUND;
+public enum ExerciseType {
+    STRENGTH,
+    WARMUP,
+    COOLDOWN,
+    PLYOMETRIC,
+    CONDITIONING,
+    POWER_LIFTING;
 
-    public static ExerciseMechanics fromString(String s) {
-        return EnumUtils.enumFromString(ExerciseMechanics.class, s);
+    public static ExerciseType fromString(String s) {
+        return EnumUtils.enumFromString(ExerciseType.class, s);
     }
 
     @Override
