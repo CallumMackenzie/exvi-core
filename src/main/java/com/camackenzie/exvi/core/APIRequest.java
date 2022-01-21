@@ -43,8 +43,8 @@ public class APIRequest<T> {
     private static final Gson gson = new Gson();
 
     private T body;
-    private HashMap<String, String> headers;
-    private String endpoint;
+    private transient HashMap<String, String> headers;
+    private transient String endpoint;
 
     public APIRequest(String endpoint, T body, HashMap<String, String> headers) {
         this.endpoint = endpoint;
@@ -94,10 +94,9 @@ public class APIRequest<T> {
                     header.getValue());
         }
         requestBuilder.POST(BodyPublishers.ofString(gson.toJson(this.body)));
-        HttpRequest request = requestBuilder.build();
 
         return new APIResultFutureWrapper<T>((Class<T>) this.body.getClass(),
-                client.sendAsync(request, BodyHandlers.ofString()));
+                client.sendAsync(requestBuilder.build(), BodyHandlers.ofString()));
     }
 
     public static <T> APIRequest<T> fromJson(String json) {
@@ -118,11 +117,11 @@ public class APIRequest<T> {
         return new APIRequest(endpoint, body).withJsonHeader().send();
     }
 
-    private class APIResultFutureWrapper<T> implements Future<APIResult<T>> {
+    private static class APIResultFutureWrapper<T> implements Future<APIResult<T>> {
 
-        private final transient Future<HttpResponse<String>> requestFuture;
-        private final transient Class<T> tClass;
-        private APIResult<T> result;
+        private final Future<HttpResponse<String>> requestFuture;
+        private final Class<T> tClass;
+        private APIResult<T> result = null;
 
         public APIResultFutureWrapper(Class<T> tClass,
                 CompletableFuture<HttpResponse<String>> sendAsync) {
@@ -147,15 +146,15 @@ public class APIRequest<T> {
 
         @Override
         public APIResult<T> get() throws InterruptedException, ExecutionException {
-            return this.getFromInternalFutureGet(this.requestFuture.get());
+            return this.getFromInternalFuture(this.requestFuture.get());
         }
 
         @Override
         public APIResult<T> get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-            return this.getFromInternalFutureGet(this.requestFuture.get(timeout, unit));
+            return this.getFromInternalFuture(this.requestFuture.get(timeout, unit));
         }
 
-        private APIResult<T> getFromInternalFutureGet(HttpResponse<String> resp) {
+        private APIResult<T> getFromInternalFuture(HttpResponse<String> resp) {
             if (this.result == null) {
                 String responseBody = resp.body();
                 try {
