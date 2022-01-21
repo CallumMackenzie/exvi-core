@@ -9,21 +9,9 @@ package com.camackenzie.exvi.core.api;
  *
  * @author callum
  */
-public class VerificationResult {
-
-    private final int error;
-    private final String message;
+public class VerificationResult extends DataResult<Object> {
 
     public VerificationResult(int err, String msg) {
-        this.error = err;
-        this.message = msg;
-    }
-
-    public int getError() {
-        return this.error;
-    }
-
-    public String getMessage() {
-        return this.message;
+        super(err, msg, new Object());
     }
 }

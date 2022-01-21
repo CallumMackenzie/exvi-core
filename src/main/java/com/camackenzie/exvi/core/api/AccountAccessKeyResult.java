@@ -9,30 +9,16 @@ package com.camackenzie.exvi.core.api;
  *
  * @author callum
  */
-public class AccountAccessKeyResult {
-
-    private final int error;
-    private final String message;
-    private final String accessKey;
+public class AccountAccessKeyResult extends DataResult<String> {
 
     public AccountAccessKeyResult(int error,
             String message,
             String accessKey) {
-        this.error = error;
-        this.message = message;
-        this.accessKey = accessKey;
-    }
-
-    public int getError() {
-        return this.error;
-    }
-
-    public String getMessage() {
-        return this.message;
+        super(error, message, accessKey);
     }
 
     public String getAccessKey() {
-        return this.accessKey;
+        return this.getResult();
     }
 
 }

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class ImmediateFuture<T> implements Future<T> {
 
-    private T data;
+    private final T data;
 
     public ImmediateFuture(T data) {
         this.data = data;
