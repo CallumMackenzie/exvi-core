@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core.api;
 
+import com.camackenzie.exvi.core.util.FutureWrapper;
 import com.google.gson.Gson;
 import java.io.Reader;
 import java.net.URI;
@@ -72,7 +73,7 @@ public class APIRequest<T> {
         this.endpoint = e;
     }
 
-    public <E> Future<APIResult<E>> send(Class<E> resultClass) {
+    public <E> FutureWrapper<APIResult<E>> send(Class<E> resultClass) {
         HttpClient client = HttpClient.newHttpClient();
         Builder requestBuilder = HttpRequest.newBuilder()
                 .uri(URI.create(this.endpoint));
@@ -82,8 +83,8 @@ public class APIRequest<T> {
         }
         requestBuilder.POST(BodyPublishers.ofString(gson.toJson(this.body)));
 
-        return new APIResultFutureWrapper<E>(resultClass,
-                client.sendAsync(requestBuilder.build(), BodyHandlers.ofString()));
+        return new FutureWrapper(new APIResultFutureWrapper<E>(resultClass,
+                client.sendAsync(requestBuilder.build(), BodyHandlers.ofString())));
     }
 
     public static <T> APIRequest<T> fromJson(String json) {
@@ -94,14 +95,14 @@ public class APIRequest<T> {
         return gson.fromJson(json, APIRequest.class);
     }
 
-    public static <T, E> Future<APIResult<E>> send(String endpoint,
+    public static <T, E> FutureWrapper<APIResult<E>> send(String endpoint,
             T body,
             HashMap<String, String> headers,
             Class<E> resultClass) {
         return new APIRequest(endpoint, body, headers).send(resultClass);
     }
 
-    public static <T, E> Future<APIResult<E>> sendJson(String endpoint, T body,
+    public static <T, E> FutureWrapper<APIResult<E>> sendJson(String endpoint, T body,
             Class<E> resultClass) {
         return new APIRequest(endpoint, body).withJsonHeader().send(resultClass);
     }
