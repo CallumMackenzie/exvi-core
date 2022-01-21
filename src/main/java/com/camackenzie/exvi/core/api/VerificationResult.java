@@ -12,6 +12,6 @@ package com.camackenzie.exvi.core.api;
 public class VerificationResult extends DataResult<Object> {
 
     public VerificationResult(int err, String msg) {
-        super(err, msg, new Object());
+        super(err, msg, null);
     }
 }
