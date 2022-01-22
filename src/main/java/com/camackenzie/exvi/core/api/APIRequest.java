@@ -40,6 +40,12 @@ public class APIRequest<T> {
         this.headers = headers;
     }
 
+    public APIRequest(APIRequest other, T newBody) {
+        this.endpoint = other.getEndpoint();
+        this.body = newBody;
+        this.headers = other.getHeaders();
+    }
+
     public APIRequest(String endpoint, T body) {
         this(endpoint, body, new HashMap<>());
     }
@@ -145,7 +151,6 @@ public class APIRequest<T> {
         }
 
         private APIResult<T> getFromInternalFuture(HttpResponse<String> resp) {
-            System.out.println("Internal future returned " + resp.body());
             if (this.result == null) {
                 String responseBody = resp.body();
                 try {

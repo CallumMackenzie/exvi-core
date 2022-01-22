@@ -26,6 +26,12 @@ public class APIResult<T> {
         this.headers = headers;
     }
 
+    public APIResult(APIResult other, T newBody) {
+        this.body = newBody;
+        this.statusCode = other.getStatusCode();
+        this.headers = other.getHeaders();
+    }
+
     public APIResult<T> withJsonHeader() {
         this.headers.put("content-type", "application/json");
         return this;
