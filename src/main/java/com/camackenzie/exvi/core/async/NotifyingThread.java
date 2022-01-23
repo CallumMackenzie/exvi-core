@@ -12,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  *
  * @author callum
  */
-public abstract class NotifyingThread extends Thread {
+public class NotifyingThread extends Thread {
 
     private final Set<ThreadCompleteListener> listeners
             = new CopyOnWriteArraySet<ThreadCompleteListener>();
