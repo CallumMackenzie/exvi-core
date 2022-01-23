@@ -3,53 +3,48 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.util;
+package com.camackenzie.exvi.core.async;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.function.Supplier;
 
 /**
  *
  * @author callum
  */
-public class SharedMethodFuture<T> implements Future<T> {
+public class ImmediateFuture<T> implements Future<T> {
 
-    private final FutureWrapper<T> parent;
-    private final Supplier<T> parentMethod;
+    private final T data;
 
-    public SharedMethodFuture(FutureWrapper<T> parent, Supplier<T> parentMethod) {
-        this.parent = parent;
-        this.parentMethod = parentMethod;
+    public ImmediateFuture(T data) {
+        this.data = data;
     }
 
     @Override
     public boolean cancel(boolean arg0) {
-        return this.parent.cancel(arg0);
+        return false;
     }
 
     @Override
     public boolean isCancelled() {
-        return this.parent.isCancelled();
+        return false;
     }
 
     @Override
     public boolean isDone() {
-        return this.parent.isDone();
+        return true;
     }
 
     @Override
     public T get() throws InterruptedException, ExecutionException {
-        this.parent.get();
-        return this.parentMethod.get();
+        return this.data;
     }
 
     @Override
     public T get(long arg0, TimeUnit arg1) throws InterruptedException, ExecutionException, TimeoutException {
-        this.parent.get(arg0, arg1);
-        return this.parentMethod.get();
+        return this.data;
     }
 
 }

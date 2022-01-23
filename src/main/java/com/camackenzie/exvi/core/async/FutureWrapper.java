@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.util;
+package com.camackenzie.exvi.core.async;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;

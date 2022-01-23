@@ -5,7 +5,7 @@
  */
 package com.camackenzie.exvi.core.api;
 
-import com.camackenzie.exvi.core.util.FutureWrapper;
+import com.camackenzie.exvi.core.async.FutureWrapper;
 import com.google.gson.Gson;
 import java.io.Reader;
 import java.net.URI;
