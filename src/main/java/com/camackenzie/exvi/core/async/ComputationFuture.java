@@ -47,12 +47,14 @@ public class ComputationFuture<T> implements Future<T> {
     @Override
     public T get() throws InterruptedException, ExecutionException {
         this.future.get();
+        this.future.getThread().join();
         return this.computation.getResult();
     }
 
     @Override
     public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
         this.future.get(timeout, unit);
+        this.future.getThread().join();
         return this.computation.getResult();
     }
 
