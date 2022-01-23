@@ -23,6 +23,10 @@ public class ThreadCompletionFuture<T extends NotifyingThread> implements Future
         this.thread = thread;
         this.thread.addListener(new ThreadListener());
     }
+    
+    public T getThread() {
+        return this.thread;
+    }
 
     @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
