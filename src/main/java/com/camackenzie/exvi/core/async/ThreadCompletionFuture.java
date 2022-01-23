@@ -17,13 +17,13 @@ import java.util.concurrent.TimeoutException;
 public class ThreadCompletionFuture<T extends NotifyingThread> implements Future<T> {
 
     private final T thread;
-    private boolean complete, cancelled;
+    private volatile boolean complete, cancelled;
 
     public ThreadCompletionFuture(T thread) {
         this.thread = thread;
         this.thread.addListener(new ThreadListener());
     }
-    
+
     public T getThread() {
         return this.thread;
     }
@@ -50,7 +50,9 @@ public class ThreadCompletionFuture<T extends NotifyingThread> implements Future
     @Override
     public T get() throws InterruptedException, ExecutionException {
         while (!this.isDone()) {
-            Thread.currentThread().wait(100);
+            synchronized (this) {
+                this.wait(50);
+            }
         }
         return this.thread;
     }
@@ -63,7 +65,9 @@ public class ThreadCompletionFuture<T extends NotifyingThread> implements Future
             if (System.currentTimeMillis() - startWait < maxWait) {
                 throw new TimeoutException();
             }
-            Thread.currentThread().wait(50);
+            synchronized (this) {
+                this.wait(50);
+            }
         }
         return this.thread;
     }
