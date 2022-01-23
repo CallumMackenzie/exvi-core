@@ -12,8 +12,8 @@ package com.camackenzie.exvi.core.model;
 public enum ExerciseForceType {
     PUSH,
     PULL,
-    DYNAMIC_STRETCH,
-    STATIC_STRETCH,
+    DYNAMIC_STRETCHING,
+    STATIC_STRETCHING,
     COMPRESSION,
     ISOMETRIC,
     STATIC,
