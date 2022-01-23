@@ -53,4 +53,8 @@ public class SharedMethodFuture<T> implements Future<T> {
         return this.parentMethod.get();
     }
 
+    public FutureWrapper<T> wrapped() {
+        return new FutureWrapper(this);
+    }
+
 }

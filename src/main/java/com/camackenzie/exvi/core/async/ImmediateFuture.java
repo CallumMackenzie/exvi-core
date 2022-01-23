@@ -47,4 +47,8 @@ public class ImmediateFuture<T> implements Future<T> {
         return this.data;
     }
 
+    public FutureWrapper<T> wrapped() {
+        return new FutureWrapper(this);
+    }
+
 }

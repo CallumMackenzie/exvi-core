@@ -67,4 +67,13 @@ public class FutureWrapper<T> implements Future<T> {
         }
     }
 
+    public T getFailOnErrorExceptTimeout(long value, TimeUnit unit)
+            throws TimeoutException {
+        try {
+            return this.get(value, unit);
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

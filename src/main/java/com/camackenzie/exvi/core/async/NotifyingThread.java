@@ -17,25 +17,39 @@ public abstract class NotifyingThread extends Thread {
     private final Set<ThreadCompleteListener> listeners
             = new CopyOnWriteArraySet<ThreadCompleteListener>();
 
-    public final void addListener(ThreadCompleteListener listener) {
+    public NotifyingThread(Runnable r) {
+        super(r);
+    }
+
+    public void addAllListeners(ThreadCompleteListener... listeners) {
+        for (var listener : listeners) {
+            this.addListener(listener);
+        }
+    }
+
+    public void removeAllListeners(ThreadCompleteListener... listeners) {
+        for (var listener : listeners) {
+            this.removeListener(listener);
+        }
+    }
+
+    public void addListener(ThreadCompleteListener listener) {
         this.listeners.add(listener);
     }
 
-    public final void removeListener(ThreadCompleteListener listener) {
+    public void removeListener(ThreadCompleteListener listener) {
         this.listeners.remove(listener);
     }
 
-    private final void notifyListeners() {
-        for (ThreadCompleteListener listener : this.listeners) {
+    private void notifyListeners() {
+        for (var listener : this.listeners) {
             listener.notifyThreadComplete(this);
         }
     }
 
     @Override
     public final void run() {
-        doRun();
-        notifyListeners();
+        super.run();
+        this.notifyListeners();
     }
-
-    public abstract void doRun();
 }

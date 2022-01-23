@@ -73,4 +73,8 @@ public class ThreadCompletionFuture<T extends NotifyingThread> implements Future
 
     }
 
+    public FutureWrapper<T> wrapped() {
+        return new FutureWrapper(this);
+    }
+
 }
