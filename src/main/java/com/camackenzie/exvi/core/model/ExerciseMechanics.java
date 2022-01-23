@@ -11,7 +11,8 @@ package com.camackenzie.exvi.core.model;
  */
 public enum ExerciseMechanics {
     ISOLATION,
-    COMPOUND;
+    COMPOUND,
+    OTHER;
 
     public static ExerciseMechanics fromString(String s) {
         return EnumUtils.enumFromString(ExerciseMechanics.class, s);

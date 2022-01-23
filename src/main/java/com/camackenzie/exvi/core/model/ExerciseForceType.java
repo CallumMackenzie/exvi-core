@@ -17,7 +17,8 @@ public enum ExerciseForceType {
     COMPRESSION,
     ISOMETRIC,
     STATIC,
-    HINGE;
+    HINGE,
+    OTHER;
 
     public static ExerciseForceType fromString(String s) {
         return EnumUtils.enumFromString(ExerciseForceType.class, s);
