@@ -20,4 +20,12 @@ public class ExerciseEquipment {
     public String getName() {
         return this.name;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof ExerciseEquipment) {
+            return this.name.equalsIgnoreCase(((ExerciseEquipment) other).name);
+        }
+        return false;
+    }
 }
