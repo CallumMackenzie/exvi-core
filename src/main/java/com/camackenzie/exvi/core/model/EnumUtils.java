@@ -17,7 +17,9 @@ public class EnumUtils {
                 return enm;
             }
         }
-        throw new RuntimeException("Enum type could not be found froms string: " + st);
+        throw new RuntimeException("Enum type of class "
+                + en.getName()
+                + " could not be found from string: " + st);
     }
 
     public static String formatName(String superStr) {
