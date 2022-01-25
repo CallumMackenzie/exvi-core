@@ -18,10 +18,10 @@ import java.util.function.Supplier;
  */
 public class SharedMethodFuture<T> implements Future<T> {
 
-    private final FutureWrapper<T> parent;
+    private final FutureWrapper parent;
     private final Supplier<T> parentMethod;
 
-    public SharedMethodFuture(FutureWrapper<T> parent, Supplier<T> parentMethod) {
+    public SharedMethodFuture(FutureWrapper parent, Supplier<T> parentMethod) {
         this.parent = parent;
         this.parentMethod = parentMethod;
     }
