@@ -11,13 +11,13 @@ package com.camackenzie.exvi.core.api;
  */
 public class RetrieveSaltRequest {
 
-    private String username;
+    private final String username;
 
     public RetrieveSaltRequest(String username) {
         this.username = username;
     }
 
-    public String getUsername(String username) {
+    public String getUsername() {
         return this.username;
     }
 
