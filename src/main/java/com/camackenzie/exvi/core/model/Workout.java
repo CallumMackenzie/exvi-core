@@ -31,6 +31,14 @@ public class Workout {
         this(name, "", wex);
     }
 
+    public Workout(String name) {
+        this(name, new ArrayList<>());
+    }
+
+    public Workout(String name, String desc) {
+        this(name, desc, new ArrayList<>());
+    }
+
     public String getName() {
         return this.name;
     }
