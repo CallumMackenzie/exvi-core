@@ -6,35 +6,25 @@
 package com.camackenzie.exvi.core.util;
 
 import java.security.Key;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  *
  * @author callum
  */
-public class CachedKey implements Key {
+public class CachedKey {
 
-    private final String algorithm, format;
-    private final byte[] encoded;
+    private final String algorithm, encoded;
 
     public CachedKey(Key key) {
-        this.algorithm = key.getAlgorithm();
-        this.encoded = key.getEncoded();
-        this.format = key.getFormat();
+        this.algorithm = CryptographyUtils.bytesToBase64String(key.getAlgorithm().getBytes());
+        this.encoded = CryptographyUtils.bytesToBase64String(key.getEncoded());
     }
 
-    @Override
-    public String getAlgorithm() {
-        return this.algorithm;
-    }
-
-    @Override
-    public String getFormat() {
-        return this.format;
-    }
-
-    @Override
-    public byte[] getEncoded() {
-        return this.encoded;
+    public Key getKey() {
+        String algo = new String(CryptographyUtils.bytesFromBase64String(this.algorithm));
+        byte[] enc = CryptographyUtils.bytesFromBase64String(this.encoded);
+        return new SecretKeySpec(enc, algo);
     }
 
 }

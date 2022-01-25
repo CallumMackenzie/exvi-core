@@ -52,7 +52,7 @@ public class CryptographyUtils {
             NoSuchPaddingException,
             InvalidKeyException {
         Cipher cipher = Cipher.getInstance(algo);
-        cipher.init(Cipher.DECRYPT_MODE, in.getKey());
+        cipher.init(Cipher.DECRYPT_MODE, in.getKey().getKey());
         byte[] encrypted = bytesFromBase64String(in.getEncrypted());
         byte[] decrypted = cipher.doFinal(encrypted);
         return new String(decrypted, StandardCharsets.UTF_8);
