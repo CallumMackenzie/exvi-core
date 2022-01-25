@@ -12,7 +12,7 @@ package com.camackenzie.exvi.core.api;
 public class DataResult<T> {
 
     private final T result;
-    private final int error;
+    private int error = Integer.MAX_VALUE;
     private final String message;
 
     public DataResult(int err, String msg, T res) {
