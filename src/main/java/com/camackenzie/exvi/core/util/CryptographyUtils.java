@@ -42,7 +42,7 @@ public class CryptographyUtils {
         cipher.init(Cipher.ENCRYPT_MODE, key);
         byte[] encrypted = cipher.doFinal(in.getBytes(StandardCharsets.UTF_8));
         String encryptedStr = bytesToBase64String(encrypted);
-        return new EncryptionResult(encryptedStr, key);
+        return new EncryptionResult(encryptedStr, new CachedKey(key));
     }
 
     public static String decrypt(EncryptionResult in, String algo)

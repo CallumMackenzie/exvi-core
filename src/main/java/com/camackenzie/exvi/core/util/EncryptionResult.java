@@ -14,9 +14,9 @@ import java.security.Key;
 public class EncryptionResult {
 
     private final String encrypted;
-    private final Key key;
+    private final CachedKey key;
 
-    public EncryptionResult(String enc, Key key) {
+    public EncryptionResult(String enc, CachedKey key) {
         this.encrypted = enc;
         this.key = key;
     }
@@ -25,7 +25,7 @@ public class EncryptionResult {
         return this.encrypted;
     }
 
-    public Key getKey() {
+    public CachedKey getKey() {
         return this.key;
     }
 
