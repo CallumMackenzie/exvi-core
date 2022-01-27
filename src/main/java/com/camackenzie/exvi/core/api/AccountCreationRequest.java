@@ -5,34 +5,37 @@
  */
 package com.camackenzie.exvi.core.api;
 
+import com.camackenzie.exvi.core.util.CryptographyUtils;
+import com.camackenzie.exvi.core.util.EncodedStringCache;
+
 /**
  *
  * @author callum
  */
 public class AccountCreationRequest {
 
-    private final String username,
+    private final EncodedStringCache username,
             verificationCode,
             password;
 
     public AccountCreationRequest(String username,
             String verificationCode,
             String password) {
-        this.username = username;
-        this.verificationCode = verificationCode;
-        this.password = password;
+        this.username = new EncodedStringCache(username);
+        this.verificationCode = new EncodedStringCache(verificationCode);
+        this.password = new EncodedStringCache(password);
     }
 
     public String getUsername() {
-        return username;
+        return username.get();
     }
 
     public String getVerificationCode() {
-        return verificationCode;
+        return verificationCode.get();
     }
 
     public String getPassword() {
-        return password;
+        return password.get();
     }
 
 }

@@ -5,27 +5,30 @@
  */
 package com.camackenzie.exvi.core.api;
 
+import com.camackenzie.exvi.core.util.CryptographyUtils;
+import com.camackenzie.exvi.core.util.EncodedStringCache;
+
 /**
  *
  * @author callum
  */
-public class AccountSaltResult extends DataResult<String> {
+public class AccountSaltResult extends DataResult<EncodedStringCache> {
 
     public AccountSaltResult(int err,
             String msg, String salt) {
-        super(err, msg, salt);
+        super(err, msg, new EncodedStringCache(salt));
     }
 
     public AccountSaltResult(int err, String msg) {
-        super(err, msg, "");
+        super(err, msg, new EncodedStringCache(""));
     }
 
     public AccountSaltResult(String msg, String salt) {
-        super(0, msg, salt);
+        super(0, msg, new EncodedStringCache(salt));
     }
 
     public String getSalt() {
-        return this.getResult();
+        return this.getResult().get();
     }
 
 }

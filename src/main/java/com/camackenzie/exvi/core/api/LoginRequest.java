@@ -5,26 +5,29 @@
  */
 package com.camackenzie.exvi.core.api;
 
+import com.camackenzie.exvi.core.util.CryptographyUtils;
+import com.camackenzie.exvi.core.util.EncodedStringCache;
+
 /**
  *
  * @author callum
  */
 public class LoginRequest {
 
-    private final String username,
+    private final EncodedStringCache username,
             passwordHash;
 
     public LoginRequest(String username, String passwordHash) {
-        this.username = username;
-        this.passwordHash = passwordHash;
+        this.username = new EncodedStringCache(username);
+        this.passwordHash = new EncodedStringCache(passwordHash);
     }
 
     public String getUsername() {
-        return this.username;
+        return this.username.get();
     }
 
     public String getPasswordHash() {
-        return this.passwordHash;
+        return this.passwordHash.get();
     }
 
 }

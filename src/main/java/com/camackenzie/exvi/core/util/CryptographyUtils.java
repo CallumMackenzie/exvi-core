@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core.util;
 
+import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -13,6 +14,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Random;
+import java.util.function.Function;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -27,6 +29,7 @@ import javax.crypto.SecretKey;
 public class CryptographyUtils {
 
     private static final Random random = new Random();
+    private static final Gson gson = new Gson();
 
     public static EncryptionResult encrypt(String in, String algo, String keyAlgo)
             throws NoSuchAlgorithmException,
@@ -88,6 +91,36 @@ public class CryptographyUtils {
         return new String(Base64.getEncoder().encode(bytes));
     }
 
+    public static String encodeStringToBase64(String in) {
+        return CryptographyUtils
+                .bytesToBase64String(in.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static String decodeStringFromBase64(String in) {
+        return new String(CryptographyUtils.bytesFromBase64String(in),
+                StandardCharsets.UTF_8);
+    }
+
+    public static String applyRotationCipher(String in, int rotation) {
+        return CryptographyUtils.applyDynamicRotationCipher(in, i -> rotation);
+    }
+
+    public static String revertRotationCipher(String in, int rot) {
+        return CryptographyUtils.applyRotationCipher(in, -rot);
+    }
+
+    public static String applyDynamicRotationCipher(String in, Function<Integer, Integer> fn) {
+        StringBuilder ret = new StringBuilder();
+        for (int i = 0; i < in.length(); ++i) {
+            ret.append((char) (in.charAt(i) + fn.apply(i)));
+        }
+        return ret.toString();
+    }
+
+    public static String revertDynamicRotationCipher(String in, Function<Integer, Integer> fn) {
+        return CryptographyUtils.applyDynamicRotationCipher(in, i -> -fn.apply(i));
+    }
+
     public static String hashSHA256(String in) {
         return CryptographyUtils.hashWithAlgorithm(in, "SHA-256");
     }
@@ -119,6 +152,28 @@ public class CryptographyUtils {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String encodeString(String in) {
+        EncryptionResult er = CryptographyUtils.encryptAES(in);
+        String s0 = gson.toJson(er);
+        String s1 = CryptographyUtils.applyDynamicRotationCipher(s0, i -> i % 12);
+        String s2 = CryptographyUtils.encodeStringToBase64(s1);
+        String s3 = CryptographyUtils.applyDynamicRotationCipher(s2, i -> (int) ((i / (double) s2.length()) * 10));
+        String s4 = CryptographyUtils.encodeStringToBase64(s3);
+        String s5 = CryptographyUtils.applyRotationCipher(s4, 1);
+        return s5;
+    }
+
+    public static String decodeString(String s5) {
+        String s4 = CryptographyUtils.revertRotationCipher(s5, 1);
+        String s3 = CryptographyUtils.decodeStringFromBase64(s4);
+        String s2 = CryptographyUtils.revertDynamicRotationCipher(s3, i -> (int) ((i / (double) s3.length()) * 10));
+        String s1 = CryptographyUtils.decodeStringFromBase64(s2);
+        String s0 = CryptographyUtils.revertDynamicRotationCipher(s1, i -> i % 12);
+        EncryptionResult er = gson.fromJson(s0, EncryptionResult.class);
+        String in = CryptographyUtils.decryptAES(er);
+        return in;
     }
 
 }

@@ -5,6 +5,8 @@
  */
 package com.camackenzie.exvi.core.api;
 
+import com.camackenzie.exvi.core.util.CryptographyUtils;
+import com.camackenzie.exvi.core.util.EncodedStringCache;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
@@ -18,14 +20,28 @@ public class GenericDataRequest<T> {
 
     private final Class<T> requestClass;
     private final T body;
+    private final EncodedStringCache username,
+            accessKey;
 
-    public GenericDataRequest(T body) {
+    public GenericDataRequest(String username,
+            String accessKey,
+            T body) {
         this.requestClass = (Class<T>) body.getClass();
         this.body = body;
+        this.username = new EncodedStringCache(username);
+        this.accessKey = new EncodedStringCache(accessKey);
     }
 
     public Class<T> getRequestClass() {
         return this.requestClass;
+    }
+
+    public String getUsername() {
+        return this.username.get();
+    }
+
+    public String getAccessKey() {
+        return this.accessKey.get();
     }
 
     public T getBody() {

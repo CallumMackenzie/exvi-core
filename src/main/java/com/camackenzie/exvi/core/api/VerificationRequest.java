@@ -5,32 +5,34 @@
  */
 package com.camackenzie.exvi.core.api;
 
+import com.camackenzie.exvi.core.util.EncodedStringCache;
+
 /**
  *
  * @author callum
  */
 public class VerificationRequest {
 
-    private final String username, email, phone;
+    private final EncodedStringCache username, email, phone;
 
     public VerificationRequest(String username,
             String email,
             String phone) {
-        this.username = username;
-        this.email = email;
-        this.phone = phone;
+        this.username = new EncodedStringCache(username);
+        this.email = new EncodedStringCache(email);
+        this.phone = new EncodedStringCache(phone);
     }
 
     public String getUsername() {
-        return username;
+        return username.get();
     }
 
     public String getEmail() {
-        return email;
+        return email.get();
     }
 
     public String getPhone() {
-        return phone;
+        return phone.get();
     }
 
 }

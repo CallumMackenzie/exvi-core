@@ -5,20 +5,22 @@
  */
 package com.camackenzie.exvi.core.api;
 
+import com.camackenzie.exvi.core.util.EncodedStringCache;
+
 /**
  *
  * @author callum
  */
 public class RetrieveSaltRequest {
 
-    private final String username;
+    private final EncodedStringCache username;
 
     public RetrieveSaltRequest(String username) {
-        this.username = username;
+        this.username = new EncodedStringCache(username);
     }
 
     public String getUsername() {
-        return this.username;
+        return this.username.get();
     }
 
 }

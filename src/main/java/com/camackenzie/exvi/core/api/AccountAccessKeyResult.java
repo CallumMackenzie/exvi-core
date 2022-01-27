@@ -5,16 +5,19 @@
  */
 package com.camackenzie.exvi.core.api;
 
+import com.camackenzie.exvi.core.util.EncodedStringCache;
+
 /**
  *
  * @author callum
  */
-public class AccountAccessKeyResult extends DataResult<String> {
+public class AccountAccessKeyResult extends DataResult<EncodedStringCache> {
 
     public AccountAccessKeyResult(int error,
             String message,
             String accessKey) {
-        super(error, message, accessKey);
+        super(error, message,
+                new EncodedStringCache(accessKey));
     }
 
     public AccountAccessKeyResult(String msg, String key) {
@@ -26,7 +29,7 @@ public class AccountAccessKeyResult extends DataResult<String> {
     }
 
     public String getAccessKey() {
-        return this.getResult();
+        return this.getResult().get();
     }
 
 }
