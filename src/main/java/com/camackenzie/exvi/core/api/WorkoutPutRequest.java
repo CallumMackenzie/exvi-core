@@ -19,7 +19,7 @@ public class WorkoutPutRequest {
         this.workouts = workouts;
     }
 
-    public Workout[] getWorkotus() {
+    public Workout[] getWorkouts() {
         return this.workouts;
     }
 
