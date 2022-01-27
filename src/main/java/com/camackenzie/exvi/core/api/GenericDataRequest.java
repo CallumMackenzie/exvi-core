@@ -9,6 +9,8 @@ import com.camackenzie.exvi.core.util.CryptographyUtils;
 import com.camackenzie.exvi.core.util.EncodedStringCache;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,7 +20,7 @@ public class GenericDataRequest<T> {
 
     private static Gson gson = new Gson();
 
-    private final Class<T> requestClass;
+    private final EncodedStringCache requestClassString;
     private final T body;
     private final EncodedStringCache username,
             accessKey;
@@ -26,14 +28,14 @@ public class GenericDataRequest<T> {
     public GenericDataRequest(String username,
             String accessKey,
             T body) {
-        this.requestClass = (Class<T>) body.getClass();
+        this.requestClassString = new EncodedStringCache(body.getClass().getCanonicalName());
         this.body = body;
         this.username = new EncodedStringCache(username);
         this.accessKey = new EncodedStringCache(accessKey);
     }
 
-    public Class<T> getRequestClass() {
-        return this.requestClass;
+    public String getRequestClassString() {
+        return this.requestClassString.get();
     }
 
     public String getUsername() {
@@ -44,10 +46,18 @@ public class GenericDataRequest<T> {
         return this.accessKey.get();
     }
 
+    public Class<T> getRequestClass() {
+        try {
+            return (Class<T>) Class.forName(this.getRequestClassString());
+        } catch (ClassNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     public T getBody() {
         if (this.body instanceof JsonElement) {
-            return gson.fromJson((JsonElement) this.body, this.requestClass);
-        } else if (this.requestClass.isInstance(this.body)) {
+            return gson.fromJson((JsonElement) this.body, this.getRequestClass());
+        } else if (this.getRequestClass().isInstance(this.body)) {
             return (T) this.body;
         } else {
             throw new RuntimeException("Body could not be parsed: Class is " + this.body.getClass());
