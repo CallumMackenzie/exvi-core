@@ -5,26 +5,37 @@
  */
 package com.camackenzie.exvi.core.api;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
 /**
  *
  * @author callum
  */
 public class GenericDataRequest<T> {
 
-    private final Class requestClass;
-    private final T body;
+    private static Gson gson = new Gson();
+
+    private final Class<T> requestClass;
+    private final Object body;
 
     public GenericDataRequest(T body) {
-        this.requestClass = body.getClass();
+        this.requestClass = (Class<T>) body.getClass();
         this.body = body;
     }
 
-    public T getBody() {
-        return this.body;
+    public Class<T> getRequestClass() {
+        return this.requestClass;
     }
 
-    public Class getRequestClass() {
-        return this.requestClass;
+    public T getBody() {
+        if (this.body instanceof JsonElement) {
+            return gson.fromJson((JsonElement) this.body, this.requestClass);
+        } else if (this.requestClass.isInstance(this.body)) {
+            return (T) this.body;
+        } else {
+            throw new RuntimeException("Body could not be parsed: Class is " + this.body.getClass());
+        }
     }
 
 }
