@@ -17,7 +17,7 @@ public class GenericDataRequest<T> {
     private static Gson gson = new Gson();
 
     private final Class<T> requestClass;
-    private final Object body;
+    private final T body;
 
     public GenericDataRequest(T body) {
         this.requestClass = (Class<T>) body.getClass();
