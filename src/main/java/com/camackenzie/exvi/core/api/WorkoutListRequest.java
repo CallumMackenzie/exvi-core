@@ -11,7 +11,7 @@ package com.camackenzie.exvi.core.api;
  */
 public class WorkoutListRequest {
 
-    private static enum Type {
+    public static enum Type {
         LIST_ALL
     }
 
