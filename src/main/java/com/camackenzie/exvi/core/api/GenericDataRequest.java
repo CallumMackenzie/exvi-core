@@ -9,6 +9,7 @@ import com.camackenzie.exvi.core.util.CryptographyUtils;
 import com.camackenzie.exvi.core.util.EncodedStringCache;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.internal.LinkedTreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,6 +58,8 @@ public class GenericDataRequest<T> {
     public T getBody() {
         if (this.body instanceof JsonElement) {
             return gson.fromJson((JsonElement) this.body, this.getRequestClass());
+        } else if (this.body instanceof LinkedTreeMap) {
+            return gson.fromJson(gson.toJson((LinkedTreeMap) this.body), this.getRequestClass());
         } else if (this.getRequestClass().isInstance(this.body)) {
             return (T) this.body;
         } else {
