@@ -66,6 +66,14 @@ public class APIResult<T> {
         return gson.toJson(this);
     }
 
+    public boolean failed() {
+        return this.statusCode != 200;
+    }
+
+    public boolean succeeded() {
+        return !this.failed();
+    }
+
     public static <T> APIResult<T> jsonResult(int statusCode, T body) {
         return new APIResult(statusCode, body, new HashMap<>()).withJsonHeader();
     }
