@@ -8,7 +8,7 @@ package com.camackenzie.exvi.core.api;
 import com.camackenzie.exvi.core.util.EncodedStringCache;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.internal.LinkedTreeMap;
+import java.util.AbstractMap;
 
 /**
  *
@@ -52,7 +52,7 @@ public class GenericDataResult<T> extends DataResult<T> {
             return gson.fromJson((JsonElement) super.getResult(), this.getResponseClass());
         } else if (this.getResponseClass().isInstance(super.getResult())) {
             return (T) super.getResult();
-        } else if (super.getResult() instanceof LinkedTreeMap) {
+        } else if (super.getResult() instanceof AbstractMap) {
             return gson.fromJson(gson.toJson(super.getResult()), this.getResponseClass());
         } else {
             throw new RuntimeException("Body could not be parsed: Class is " + super.getResult().getClass());
