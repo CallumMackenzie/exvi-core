@@ -18,17 +18,17 @@ public class Workout {
 
     private String name;
     private String description;
-    private List<ExerciseSet> exercises;
+    private ArrayList<ExerciseSet> exercises;
 
     public Workout(String name, String desc,
-            List<ExerciseSet> wex) {
+            ArrayList<ExerciseSet> wex) {
         this.name = name;
         this.exercises = wex;
         this.description = desc;
     }
 
     public Workout(String name,
-            List<ExerciseSet> wex) {
+            ArrayList<ExerciseSet> wex) {
         this(name, "", wex);
     }
 
