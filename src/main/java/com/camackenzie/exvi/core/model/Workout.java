@@ -8,6 +8,7 @@ package com.camackenzie.exvi.core.model;
 import com.camackenzie.exvi.core.model.ActiveWorkout;
 import com.camackenzie.exvi.core.model.ExerciseSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -47,7 +48,7 @@ public class Workout {
         return this.description;
     }
 
-    public ArrayList<ExerciseSet> getExercises() {
+    public List<ExerciseSet> getExercises() {
         return this.exercises;
     }
 

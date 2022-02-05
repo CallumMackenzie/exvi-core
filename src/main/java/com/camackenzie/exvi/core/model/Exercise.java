@@ -5,13 +5,21 @@
  */
 package com.camackenzie.exvi.core.model;
 
+import com.camackenzie.exvi.core.model.Exercise;
+import com.camackenzie.exvi.core.model.ExerciseEquipment;
+import com.camackenzie.exvi.core.model.ExerciseExperienceLevel;
+import com.camackenzie.exvi.core.model.ExerciseForceType;
+import com.camackenzie.exvi.core.model.ExerciseMechanics;
+import com.camackenzie.exvi.core.model.ExerciseType;
+import com.camackenzie.exvi.core.model.Muscle;
+import com.camackenzie.exvi.core.model.MuscleWorkData;
 import java.util.HashSet;
 
 /**
  *
  * @author callum
  */
-public class Exercise {
+public class Exercise implements Comparable<Exercise> {
 
     private String name,
             description,
@@ -147,6 +155,24 @@ public class Exercise {
 
     public void setExperienceLevel(ExerciseExperienceLevel st) {
         this.experienceLevel = st;
+    }
+
+    @Override
+    public int compareTo(Exercise e) {
+        return this.name.compareTo(e.name);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Exercise) {
+            return this.compareTo((Exercise) other) == 0;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
     }
 
 }
