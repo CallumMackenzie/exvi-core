@@ -49,6 +49,9 @@ public class Exercise {
         this.equipment = eq;
     }
 
+    private Exercise() {
+    }
+
     public boolean worksMuscle(Muscle m) {
         for (var muscleData : this.getMusclesWorked()) {
             if (muscleData.getMuscle().isInvolvedIn(m)) {

@@ -7,4 +7,7 @@
 module ExviCore {
     requires com.google.gson;
     requires java.net.http;
+    exports com.camackenzie.exvi.core.api;
+    exports com.camackenzie.exvi.core.async;
+    exports com.camackenzie.exvi.core.util;
 }
