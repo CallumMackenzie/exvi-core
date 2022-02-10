@@ -1,6 +1,5 @@
 plugins {
     kotlin("multiplatform") version "1.6.10"
-    kotlin("jvm") version "1.0.0"
     kotlin("plugin.serialization") version "1.6.10"
 }
 
@@ -12,6 +11,7 @@ repositories {
 }
 
 kotlin {
+    android()
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
@@ -36,7 +36,6 @@ kotlin {
         isMingwX64 -> mingwX64("native")
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
     }
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -55,7 +54,4 @@ kotlin {
         val nativeMain by getting
         val nativeTest by getting
     }
-}
-dependencies {
-    implementation(kotlin("stdlib"))
 }
