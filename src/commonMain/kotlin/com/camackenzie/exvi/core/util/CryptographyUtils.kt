@@ -21,7 +21,7 @@ import kotlinx.serialization.json.*
 object CryptographyUtils {
 
     fun encryptAES(s: String): EncryptionResult {
-        val bytes = s.toByteArray(Charsets.UTF_8)
+        val bytes = s.encodeToByteArray()
         val key = CachedKey(SecureRandom.nextBytes(128).toBase64())
         val encrypted = AES.encryptAes128Cbc(bytes, key.getKeyAsBytes())
         return EncryptionResult(encrypted.toBase64(), key)
@@ -30,19 +30,19 @@ object CryptographyUtils {
     fun decryptAES(er: EncryptionResult): String {
         val encrypted = Base64.decode(er.encrypted)
         val decrypted = AES.decryptAes128Cbc(encrypted, er.key.getKeyAsBytes())
-        return decrypted.toString(Charsets.UTF_8)
+        return decrypted.decodeToString()
     }
 
     fun encodeStringToBase64(s: String): String {
-        return s.toByteArray(Charsets.UTF_8).toBase64()
+        return s.encodeToByteArray().toBase64()
     }
 
     fun decodeStringFromBase64(s: String) : String {
-        return Base64.decode(s).toString(Charsets.UTF_8)
+        return Base64.decode(s).decodeToString()
     }
 
     fun applyRotationCipher(s: String, rotation: Int): String {
-        return applyDynamicRotationCipher(s, { _ -> rotation })
+        return applyDynamicRotationCipher(s) { _ -> rotation }
     }
 
     fun revertRotationCipher(s: String, rot: Int): String {
@@ -51,18 +51,18 @@ object CryptographyUtils {
 
     fun applyDynamicRotationCipher(s: String, fn: (Int) -> Int): String {
         val ret = StringBuilder()
-        for (i in 0 until s.length) {
+        for (i in s.indices) {
             ret.append((s[i].code + fn(i)).toChar())
         }
         return ret.toString()
     }
 
     fun revertDynamicRotationCipher(s: String, fn: (Int) -> Int): String {
-        return applyDynamicRotationCipher(s, { i -> -fn(i) })
+        return applyDynamicRotationCipher(s) { i -> -fn(i) }
     }
 
     fun hashSHA256(s: String): String {
-        val bytes = s.toByteArray(Charsets.UTF_8)
+        val bytes = s.encodeToByteArray()
         return bytes.sha256().base64
     }
 

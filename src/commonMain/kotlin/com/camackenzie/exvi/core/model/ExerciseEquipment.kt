@@ -3,29 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
 
 /**
  *
  * @author callum
  */
-public class ExerciseEquipment {
+@kotlinx.serialization.Serializable
+data class ExerciseEquipment(val name: String) {
 
-    private final String name;
-
-    public ExerciseEquipment(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other instanceof ExerciseEquipment) {
-            return this.name.equalsIgnoreCase(((ExerciseEquipment) other).name);
-        }
-        return false;
+    override fun equals(other: Any?): Boolean {
+        return if (other is ExerciseEquipment) {
+            name.equals(other.name, ignoreCase = true)
+        } else false
     }
 }

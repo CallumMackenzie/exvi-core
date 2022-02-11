@@ -3,66 +3,46 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
+
+import com.camackenzie.exvi.core.model.GeneticSex
+import com.camackenzie.exvi.core.model.UnitValue
+import com.camackenzie.exvi.core.model.MassUnit
+import com.camackenzie.exvi.core.model.DistanceUnit
 
 /**
  *
  * @author callum
  */
-public class BodyStats {
+@kotlinx.serialization.Serializable
+data class BodyStats(
+    var sex: GeneticSex,
+    var totalMass: UnitValue<MassUnit>,
+    var height: UnitValue<DistanceUnit>
+) {
+    companion object {
+        fun averageMale(): BodyStats {
+            return BodyStats(
+                GeneticSex.MALE,
+                UnitValue(MassUnit.POUND, 190.0),
+                UnitValue(DistanceUnit.METER, 1.7)
+            )
+        }
 
-    private UnitValue<MassUnit> weight;
-    private UnitValue<DistanceUnit> height;
-    private GeneticSex sex;
+        fun averageFemale(): BodyStats {
+            return BodyStats(
+                GeneticSex.FEMALE,
+                UnitValue(MassUnit.POUND, 170.0),
+                UnitValue(DistanceUnit.METER, 1.625)
+            )
+        }
 
-    public BodyStats(GeneticSex sex,
-            UnitValue<MassUnit> weight,
-            UnitValue<DistanceUnit> height) {
-        this.weight = weight;
-        this.height = height;
-        this.sex = sex;
+        fun average(): BodyStats {
+            return BodyStats(
+                GeneticSex.UNKNOWN,
+                UnitValue(MassUnit.POUND, 180.0),
+                UnitValue(DistanceUnit.METER, 1.68)
+            )
+        }
     }
-
-    public GeneticSex getSex() {
-        return this.sex;
-    }
-
-    public void setGeneticSex(GeneticSex sex) {
-        this.sex = sex;
-    }
-
-    public UnitValue<MassUnit> getTotalMass() {
-        return this.weight;
-    }
-
-    public UnitValue<DistanceUnit> getHeight() {
-        return this.height;
-    }
-
-    public void setTotalMass(UnitValue<MassUnit> mu) {
-        this.weight = mu;
-    }
-
-    public void setHeight(UnitValue<DistanceUnit> mu) {
-        this.height = mu;
-    }
-
-    public static BodyStats averageMale() {
-        return new BodyStats(GeneticSex.MALE,
-                new UnitValue(MassUnit.POUND, 190),
-                new UnitValue(DistanceUnit.METER, 1.7));
-    }
-
-    public static BodyStats averageFemale() {
-        return new BodyStats(GeneticSex.FEMALE,
-                new UnitValue(MassUnit.POUND, 170),
-                new UnitValue(DistanceUnit.METER, 1.625));
-    }
-
-    public static BodyStats average() {
-        return new BodyStats(GeneticSex.UNKNOWN,
-                new UnitValue(MassUnit.POUND, 180),
-                new UnitValue(DistanceUnit.METER, 1.68));
-    }
-
 }

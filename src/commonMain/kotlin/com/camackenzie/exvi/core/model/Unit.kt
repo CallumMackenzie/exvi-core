@@ -10,9 +10,5 @@ package com.camackenzie.exvi.core.model;
  * @author callum
  */
 interface Unit {
-
     fun getBaseCoefficient(): Double
-
-    fun toString(): String
-
 }

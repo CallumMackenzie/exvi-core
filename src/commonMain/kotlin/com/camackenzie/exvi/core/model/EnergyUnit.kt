@@ -3,25 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
 
 /**
  *
  * @author callum
  */
-public enum EnergyUnit implements Unit {
-    KILOJOULE(1),
-    KILOCALORIE(0.239006);
+@kotlinx.serialization.Serializable
+enum class EnergyUnit(private val unit: Double) : Unit {
+    KILOJOULE(1.0), KILOCALORIE(0.239006);
 
-    private final double unit;
-
-    private EnergyUnit(double u) {
-        this.unit = u;
+    override fun getBaseCoefficient(): Double {
+        return unit
     }
-
-    @Override
-    public double getBaseCoefficient() {
-        return this.unit;
-    }
-
 }

@@ -3,27 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
+
 
 /**
  *
  * @author callum
  */
-public class EnumUtils {
-
-    public static <T extends Enum<T>> T enumFromString(Class<T> en, String st) {
-        for (var enm : en.getEnumConstants()) {
-            if (enm.toString().equalsIgnoreCase(st)) {
-                return enm;
+object EnumUtils {
+    inline fun <reified T : Enum<T>> enumFromString(st: String): T? {
+        for (enm in enumValues<T>()) {
+            if (enm.toString().equals(st, ignoreCase = true)) {
+                return enm
             }
         }
-        throw new RuntimeException("Enum type of class "
-                + en.getName()
-                + " could not be found from string: " + st);
+        return null
     }
 
-    public static String formatName(String superStr) {
-        return superStr.toLowerCase().replaceAll("_", " ");
+    fun formatName(superStr: String): String {
+        return superStr.lowercase().replace("_".toRegex(), " ")
     }
-
 }

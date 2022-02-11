@@ -3,62 +3,51 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
 
-import java.util.ArrayList;
+import kotlinx.datetime.Clock
 
 /**
  *
  * @author callum
  */
-public class ActiveWorkout {
+@kotlinx.serialization.Serializable
+class ActiveWorkout {
+    val exercises: Array<ActiveExercise>
+    val name: String
+    var startTimeMillis: Long?
+        private set
+    var endTimeMillis: Long?
+        private set
 
-    private final ArrayList<ActiveExercise> exercises;
-    private final String name;
-    private final long startTime;
-    private long endTime;
-
-    public ActiveWorkout(String name, ArrayList<ActiveExercise> exs) {
-        this.exercises = exs;
-        this.name = name;
-        this.startTime = System.currentTimeMillis();
+    constructor(workout: Workout) {
+        this.name = workout.name
+        this.exercises = workout.exercises.map { exercise ->
+            ActiveExercise(exercise)
+        }.toTypedArray()
+        this.startTimeMillis = null
+        this.endTimeMillis = null
     }
 
-    public ActiveWorkout(String name, ActiveExercise... exs) {
-        this(name, new ArrayList() {
-            {
-                for (var ex : exs) {
-                    add(ex);
-                }
-            }
-        });
+    fun start() {
+        startTimeMillis = Clock.System.now().epochSeconds
     }
 
-    public ActiveWorkout(Workout w) {
-        this(w.getName(),
-                w.getExercises().stream()
-                        .map(ex -> new ActiveExercise(ex))
-                        .toArray(sz -> new ActiveExercise[sz]));
+    fun end() {
+        endTimeMillis = Clock.System.now().epochSeconds
     }
 
-    public ArrayList<ActiveExercise> getActiveExercises() {
-        return this.exercises;
+    fun hasStarted(): Boolean {
+        return startTimeMillis != null
     }
 
-    public String getName() {
-        return this.name;
+    fun hasEnded(): Boolean {
+        return endTimeMillis != null
     }
 
-    public long getStartTimeMillis() {
-        return this.startTime;
+    fun finalElapsedTime(): Long? {
+        return if (startTimeMillis != null && endTimeMillis != null) {
+            endTimeMillis!! - startTimeMillis!!
+        } else null
     }
-
-    public long getEndTimeMillis() {
-        return this.endTime;
-    }
-
-    public void end() {
-        this.endTime = System.currentTimeMillis();
-    }
-
 }

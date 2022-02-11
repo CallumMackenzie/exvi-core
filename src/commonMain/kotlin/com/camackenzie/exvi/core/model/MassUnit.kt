@@ -3,25 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
 
 /**
  *
  * @author callum
  */
-public enum MassUnit implements Unit {
-    KILOGRAM(1),
-    POUND(2.20462),
-    GRAM(1000);
+@kotlinx.serialization.Serializable
+enum class MassUnit(private val unit: Double) : Unit {
+    KILOGRAM(1.0), POUND(2.20462), GRAM(1000.0);
 
-    private final double unit;
-
-    private MassUnit(double u) {
-        this.unit = u;
-    }
-
-    @Override
-    public double getBaseCoefficient() {
-        return this.unit;
+    override fun getBaseCoefficient(): Double {
+        return unit
     }
 }

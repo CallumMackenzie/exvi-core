@@ -3,29 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
 
-import com.camackenzie.exvi.core.model.EnumUtils;
-import java.util.HashSet;
+import com.camackenzie.exvi.core.model.EnumUtils
 
 /**
  *
  * @author callum
  */
-public enum Muscle {
+@kotlinx.serialization.Serializable
+enum class Muscle(subMuscles: Array<Muscle>, vararg altNames: String) {
     PECTORALIS_MAJOR("pecs"),
     TRAPEZIUS("traps"),
     RHOMBOIDS(),
-    LATISSIMUS_DORSI("lats", "latissimus"),
+    LATISSIMUS_DORSI(
+        "lats",
+        "latissimus"
+    ),
     ERECTOR_SPINAE("erector"),
     BICEPS_BRACHII(),
-    BICEPS_BRACHIALIS(),
-    TRICEPS("tricep"),
-    FOREARMS("forearm"),
+    BICEPS_BRACHIALIS(), TRICEPS("tricep"), FOREARMS("forearm"),
     ANTERIOR_HEAD(),
     LATERAL_HEAD(),
-    POSTERIOR_HEAD(),
-    QUADRICEPS("quads", "quad"),
+    POSTERIOR_HEAD(), QUADRICEPS(
+        "quads",
+        "quad"
+    ),
     ABDUCTORS(),
     ADDUCTORS(),
     GLUTES(),
@@ -37,108 +40,110 @@ public enum Muscle {
     TRANSEVERSE_ABDOMINIS(),
     INTERNAL_OBLIQUES(),
     EXTERNAL_OBLIQUES(),
-    HAMSTRINGS(new Muscle[]{ABDUCTORS, ADDUCTORS, IT_BAND}),
-    BICEPS(new Muscle[]{BICEPS_BRACHIALIS, BICEPS_BRACHII}),
-    LOWER_BACK(ERECTOR_SPINAE),
-    UPPER_BACK(new Muscle[]{TRAPEZIUS, RHOMBOIDS}),
-    NECK(),
-    OBLIQUES(new Muscle[]{INTERNAL_OBLIQUES, EXTERNAL_OBLIQUES}),
-    PALMAR_FASCIA("grip"),
-    PLANTAL_FASCIA("feet"),
-    BACK(new Muscle[]{LOWER_BACK, UPPER_BACK, LATISSIMUS_DORSI}),
-    CHEST(new Muscle[]{PECTORALIS_MAJOR}),
-    ARMS(new Muscle[]{BICEPS, PALMAR_FASCIA, TRICEPS, FOREARMS}),
-    SHOULDERS(new Muscle[]{ANTERIOR_HEAD, LATERAL_HEAD, POSTERIOR_HEAD}),
-    LEGS(new Muscle[]{QUADRICEPS, GLUTES, HAMSTRINGS}),
-    CALVES(new Muscle[]{GASTROCNEMIUS, SOLEUS}),
-    ABS(new Muscle[]{RECTUS_ABDOMINIS, OBLIQUES, TRANSEVERSE_ABDOMINIS});
+    HAMSTRINGS(
+        arrayOf(
+            ABDUCTORS, ADDUCTORS, IT_BAND
+        )
+    ),
+    BICEPS(arrayOf(BICEPS_BRACHIALIS, BICEPS_BRACHII)), LOWER_BACK(ERECTOR_SPINAE), UPPER_BACK(
+        arrayOf(
+            TRAPEZIUS,
+            RHOMBOIDS
+        )
+    ),
+    NECK(), OBLIQUES(
+        arrayOf(
+            INTERNAL_OBLIQUES, EXTERNAL_OBLIQUES
+        )
+    ),
+    PALMAR_FASCIA("grip"), PLANTAL_FASCIA("feet"), BACK(arrayOf(LOWER_BACK, UPPER_BACK, LATISSIMUS_DORSI)), CHEST(
+        arrayOf(
+            PECTORALIS_MAJOR
+        )
+    ),
+    ARMS(arrayOf(BICEPS, PALMAR_FASCIA, TRICEPS, FOREARMS)), SHOULDERS(
+        arrayOf(
+            ANTERIOR_HEAD,
+            LATERAL_HEAD,
+            POSTERIOR_HEAD
+        )
+    ),
+    LEGS(
+        arrayOf(
+            QUADRICEPS, GLUTES, HAMSTRINGS
+        )
+    ),
+    CALVES(arrayOf(GASTROCNEMIUS, SOLEUS)), ABS(arrayOf(RECTUS_ABDOMINIS, OBLIQUES, TRANSEVERSE_ABDOMINIS));
 
-    private final String[] altNames;
-    private final HashSet<Muscle> subMuscles = new HashSet<>();
-    private final HashSet<Muscle> superMuscles = new HashSet<>();
+    private val altNames: Array<String>
+    val subMuscles = HashSet<Muscle>()
+    val superMuscles = HashSet<Muscle>()
 
-    private Muscle(Muscle[] subMuscles, String... altNames) {
-        this.altNames = altNames;
-        for (var muscle : subMuscles) {
-            this.subMuscles.add(muscle);
+    init {
+        this.altNames = arrayOf(*altNames)
+        for (muscle in subMuscles) {
+            this.subMuscles.add(muscle)
         }
-        for (var muscle : subMuscles) {
-            muscle.superMuscles.add(this);
+        for (muscle in subMuscles) {
+            muscle.superMuscles.add(this)
         }
     }
 
-    private Muscle(Muscle sub) {
-        this(new Muscle[]{sub});
-    }
+    constructor(sub: Muscle) : this(arrayOf<Muscle>(sub)) {}
+    constructor(vararg altNames: String) : this(arrayOf<Muscle>(), *altNames) {}
+    constructor() : this(arrayOf<Muscle>()) {}
 
-    private Muscle(String... altNames) {
-        this(new Muscle[]{}, altNames);
-    }
+    val muscleName: String
+        get() = EnumUtils.formatName(super.toString())
 
-    private Muscle() {
-        this(new Muscle[]{});
-    }
-
-    public String getName() {
-        return EnumUtils.formatName(super.toString());
-    }
-
-    public HashSet<Muscle> getSubMuscles() {
-        return this.subMuscles;
-    }
-
-    public HashSet<Muscle> getSuperMuscles() {
-        return this.superMuscles;
-    }
-
-    public boolean matchesName(String name) {
-        for (var n : this.altNames) {
-            if (n.equalsIgnoreCase(name)) {
-                return true;
+    fun matchesName(name: String?): Boolean {
+        for (n in altNames) {
+            if (n.equals(name, ignoreCase = true)) {
+                return true
             }
         }
-        return this.getName().equalsIgnoreCase(name);
+        return this.muscleName.equals(name, ignoreCase = true)
     }
 
-    public boolean isComposedOf(Muscle m) {
-        return Muscle.validateMuscleSuper(this, m);
+    fun isComposedOf(m: Muscle): Boolean {
+        return validateMuscleSuper(this, m)
     }
 
-    public boolean isComponentOf(Muscle m) {
-        return Muscle.validateMuscleSub(this, m);
+    fun isComponentOf(m: Muscle): Boolean {
+        return validateMuscleSub(this, m)
     }
 
-    public boolean isInvolvedIn(Muscle m) {
-        return this.isComponentOf(m) || this.isComposedOf(m);
+    fun isInvolvedIn(m: Muscle): Boolean {
+        return isComponentOf(m) || isComposedOf(m)
     }
 
-    @Override
-    public String toString() {
-        return this.getName();
+    override fun toString(): String {
+        return muscleName
     }
 
-    private static boolean validateMuscleSub(Muscle constant, Muscle dyn) {
-        if (constant.matchesName(dyn.getName())) {
-            return true;
-        }
-        for (var subMuscle : dyn.getSubMuscles()) {
-            if (Muscle.validateMuscleSub(constant, subMuscle)) {
-                return true;
+    companion object {
+        private fun validateMuscleSub(constant: Muscle, dyn: Muscle): Boolean {
+            if (constant.matchesName(dyn.muscleName)) {
+                return true
             }
-        }
-        return false;
-    }
-
-    private static boolean validateMuscleSuper(Muscle constant, Muscle dyn) {
-        if (constant.matchesName(dyn.getName())) {
-            return true;
-        }
-        for (var superMuscle : dyn.getSuperMuscles()) {
-            if (Muscle.validateMuscleSuper(constant, superMuscle)) {
-                return true;
+            for (subMuscle in dyn.subMuscles) {
+                if (validateMuscleSub(constant, subMuscle)) {
+                    return true
+                }
             }
+            return false
         }
-        return false;
-    }
 
+        private fun validateMuscleSuper(constant: Muscle, dyn: Muscle): Boolean {
+            if (constant.matchesName(dyn.muscleName)) {
+                return true
+            }
+            for (superMuscle in dyn.superMuscles) {
+                if (validateMuscleSuper(constant, superMuscle)) {
+                    return true
+                }
+            }
+            return false
+        }
+    }
 }

@@ -3,53 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
 
-import com.camackenzie.exvi.core.model.ActiveWorkout;
-import java.util.ArrayList;
+import kotlin.collections.ArrayList
 
 /**
  *
  * @author callum
  */
-public class WorkoutManager {
+@kotlinx.serialization.Serializable
+data class WorkoutManager constructor(val workouts: ArrayList<Workout>, val activeWorkouts: ArrayList<ActiveWorkout>) {
 
-    private final ArrayList<Workout> workouts;
-    private final ArrayList<ActiveWorkout> activeWorkouts;
-
-    public WorkoutManager(ArrayList<Workout> wks,
-            ArrayList<ActiveWorkout> aws) {
-        this.workouts = wks;
-        this.activeWorkouts = aws;
-    }
-
-    public WorkoutManager() {
-        this(new ArrayList<>(), new ArrayList<>());
-    }
-
-    public ArrayList<Workout> getWorkouts() {
-        return this.workouts;
-    }
-
-    public Workout getNamedWorkout(String name) {
-        for (var w : this.workouts) {
-            if (w.getName().equalsIgnoreCase(name)) {
-                return w;
+    fun getNamedWorkout(name: String?): Workout? {
+        for (w in workouts) {
+            if (w.name.equals(name, ignoreCase = true)) {
+                return w
             }
         }
-        return null;
+        return null
     }
-
-    public void addWorkout(Workout w) {
-        this.workouts.add(w);
-    }
-
-    public ArrayList<ActiveWorkout> getActiveWorkouts() {
-        return this.activeWorkouts;
-    }
-
-    public void addActiveWorkout(ActiveWorkout w) {
-        this.activeWorkouts.add(w);
-    }
-
 }

@@ -3,43 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
+
+import com.camackenzie.exvi.core.model.Exercise
+import com.camackenzie.exvi.core.model.ExerciseSet
 
 /**
  *
  * @author callum
  */
-public class ActiveExercise {
+@kotlinx.serialization.Serializable
+class ActiveExercise(val exercise: Exercise, val targetSets: ExerciseSet, var activeSets: ExerciseSet) {
 
-    private final Exercise exercise;
-    private ExerciseSet targetSets, activeSets;
-
-    public ActiveExercise(Exercise ex, ExerciseSet targetSets, ExerciseSet activeSets) {
-        this.exercise = ex;
-        this.targetSets = targetSets;
-        this.activeSets = activeSets;
+    constructor(ex: ExerciseSet) : this(
+        ex.exercise,
+        ex,
+        ExerciseSet(ex.exercise, ex.unit, Array<Int>(ex.sets.size) { ex.sets[it] })
+    ) {
     }
-
-    public ActiveExercise(ExerciseSet ex) {
-        this(ex.getExercise(), ex,
-                new ExerciseSet(ex.getExercise(), ex.getUnit(),
-                        new int[ex.getSets().length]));
-    }
-
-    public Exercise getExercise() {
-        return this.exercise;
-    }
-
-    public ExerciseSet getTargetSets() {
-        return this.targetSets;
-    }
-
-    public ExerciseSet getActiveSets() {
-        return this.activeSets;
-    }
-
-    public void setActiveSets(ExerciseSet es) {
-        this.activeSets = es;
-    }
-
 }

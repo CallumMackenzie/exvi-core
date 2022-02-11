@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
 
 /**
  *
  * @author callum
  */
-public enum GeneticSex {
-    MALE,
-    FEMALE,
-    UNKNOWN
+@kotlinx.serialization.Serializable
+enum class GeneticSex {
+    MALE, FEMALE, UNKNOWN
 }

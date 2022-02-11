@@ -3,28 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
+
+import com.camackenzie.exvi.core.model.Muscle
 
 /**
  *
  * @author callum
  */
-public class MuscleWorkData {
-
-    private final Muscle muscle;
-    private final double workCoeff;
-
-    public MuscleWorkData(Muscle m, double workCoeff) {
-        this.muscle = m;
-        this.workCoeff = workCoeff;
-    }
-
-    public Muscle getMuscle() {
-        return this.muscle;
-    }
-
-    public double getWorkCoeff() {
-        return this.workCoeff;
-    }
-
-}
+@kotlinx.serialization.Serializable
+data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double)

@@ -3,37 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
 
 /**
  *
  * @author callum
  */
-public class UnitValue<T extends Unit> {
-
-    private final double value;
-    private final T unit;
-
-    public UnitValue(T unit, double val) {
-        this.unit = unit;
-        this.value = val;
+@kotlinx.serialization.Serializable
+data class UnitValue<T : Unit>(val unit: T, val value: Double) {
+    fun toUnit(m: T): UnitValue<T> {
+        return UnitValue<T>(m, value / unit.getBaseCoefficient() * m.getBaseCoefficient())
     }
 
-    public T getUnit() {
-        return this.unit;
+    override fun toString(): String {
+        return value.toString() + unit.toString()
     }
-
-    public double getValue() {
-        return this.value;
-    }
-
-    public UnitValue<T> toUnit(T m) {
-        return new UnitValue(m, this.value / this.unit.getBaseCoefficient() * m.getBaseCoefficient());
-    }
-
-    @Override
-    public String toString() {
-        return this.getValue() + this.getUnit().toString();
-    }
-
 }

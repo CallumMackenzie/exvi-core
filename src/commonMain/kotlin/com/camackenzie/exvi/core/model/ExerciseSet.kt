@@ -3,61 +3,46 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
 
 /**
  *
  * @author callum
  */
-public class ExerciseSet {
+@kotlinx.serialization.Serializable
+data class ExerciseSet(val exercise: Exercise, val unit: String, val sets: Array<Int>) {
 
-    private final Exercise exercise;
-    private int[] sets;
-    private String unit;
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
 
-    public ExerciseSet(Exercise ex, String unit, int... sets) {
-        this.exercise = ex;
-        this.sets = sets;
+        other as ExerciseSet
+
+        if (exercise != other.exercise) return false
+        if (unit != other.unit) return false
+        if (!sets.contentEquals(other.sets)) return false
+
+        return true
     }
 
-    public void setSet(int index, int count) {
-        this.sets[index] = count;
+    override fun hashCode(): Int {
+        var result = exercise.hashCode()
+        result = 31 * result + unit.hashCode()
+        result = 31 * result + sets.contentHashCode()
+        return result
     }
 
-    public int getSet(int index) {
-        return this.sets[index];
-    }
+    companion object {
+        fun repSets(ex: Exercise, sets: Array<Int>): ExerciseSet {
+            return ExerciseSet(ex, "rep", sets)
+        }
 
-    public Exercise getExercise() {
-        return this.exercise;
-    }
+        fun secondSets(ex: Exercise, sets: Array<Int>): ExerciseSet {
+            return ExerciseSet(ex, "second", sets)
+        }
 
-    public int[] getSets() {
-        return this.sets;
+        fun minuteSets(ex: Exercise, sets: Array<Int>): ExerciseSet {
+            return ExerciseSet(ex, "minute", sets)
+        }
     }
-
-    public void setSets(int... sets) {
-        this.sets = sets;
-    }
-
-    public String getUnit() {
-        return this.unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public static ExerciseSet repSets(Exercise ex, int... sets) {
-        return new ExerciseSet(ex, "rep", sets);
-    }
-
-    public static ExerciseSet secondSets(Exercise ex, int... sets) {
-        return new ExerciseSet(ex, "second", sets);
-    }
-
-    public static ExerciseSet minuteSets(Exercise ex, int... sets) {
-        return new ExerciseSet(ex, "minute", sets);
-    }
-
 }

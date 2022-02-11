@@ -5,26 +5,23 @@
  */
 package com.camackenzie.exvi.core.util
 
-import kotlin.jvm.Transient
-import com.camackenzie.exvi.core.util.EncryptionResult
-
 /**
  *
  * @author callum
  */
-class EncodedStringCache(str: String) {
-    private var string: String = str
+@kotlinx.serialization.Serializable
+class EncodedStringCache(var value: String) {
 
-    @Transient
+    @kotlinx.serialization.Transient
     private var cache: String? = null
 
     fun get(): String {
         return if (cache != null) cache as String
-        else CryptographyUtils.decodeString(string).also { cache = it }
+        else CryptographyUtils.decodeString(value).also { cache = it }
     }
 
     fun set(s: String) {
         cache = null
-        string = CryptographyUtils.encodeString(s)
+        value = CryptographyUtils.encodeString(s)
     }
 }

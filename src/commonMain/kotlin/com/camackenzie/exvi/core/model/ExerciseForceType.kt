@@ -3,29 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.model;
+package com.camackenzie.exvi.core.model
+
+import com.camackenzie.exvi.core.model.EnumUtils.formatName
+import com.camackenzie.exvi.core.model.EnumUtils
 
 /**
  *
  * @author callum
  */
-public enum ExerciseForceType {
-    PUSH,
-    PULL,
-    DYNAMIC_STRETCHING,
-    STATIC_STRETCHING,
-    COMPRESSION,
-    ISOMETRIC,
-    STATIC,
-    HINGE,
-    OTHER;
+@kotlinx.serialization.Serializable
+enum class ExerciseForceType {
+    PUSH, PULL, DYNAMIC_STRETCHING, STATIC_STRETCHING, COMPRESSION, ISOMETRIC, STATIC, HINGE, OTHER;
 
-    public static ExerciseForceType fromString(String s) {
-        return EnumUtils.enumFromString(ExerciseForceType.class, s);
+    override fun toString(): String {
+        return formatName(super.toString())
     }
 
-    @Override
-    public String toString() {
-        return EnumUtils.formatName(super.toString());
+    companion object {
+        fun fromString(s: String): ExerciseForceType? {
+            return EnumUtils.enumFromString<ExerciseForceType>(s)
+        }
     }
 }
