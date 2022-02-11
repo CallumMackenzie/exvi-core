@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.async;
+package com.camackenzie.exvi.core.model;
 
 /**
  *
  * @author callum
  */
-public interface Computation<T> extends Runnable {
+interface Unit {
 
-    public T getResult();
+    fun getBaseCoefficient(): Double
+
+    fun toString(): String
 
 }

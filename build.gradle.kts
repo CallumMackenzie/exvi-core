@@ -42,6 +42,7 @@ kotlin {
                 implementation("com.soywiz.korlibs.krypto:krypto:2.2.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
             }
         }
         val commonTest by getting {
