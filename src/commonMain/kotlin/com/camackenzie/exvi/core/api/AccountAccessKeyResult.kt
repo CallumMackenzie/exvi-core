@@ -3,33 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.api;
+package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.util.EncodedStringCache;
+import com.camackenzie.exvi.core.util.EncodedStringCache
 
 /**
  *
  * @author callum
  */
-public class AccountAccessKeyResult extends DataResult<EncodedStringCache> {
+class AccountAccessKeyResult(
+    error: Int,
+    message: String?,
+    accessKey: String?
+) : com.camackenzie.exvi.core.api.DataResult<EncodedStringCache?>(
+    error, message,
+    EncodedStringCache(accessKey)
+) {
+    constructor(msg: String?, key: String?) : this(0, msg, key) {}
+    constructor(err: Int, msg: String?) : this(err, msg, "") {}
 
-    public AccountAccessKeyResult(int error,
-            String message,
-            String accessKey) {
-        super(error, message,
-                new EncodedStringCache(accessKey));
-    }
-
-    public AccountAccessKeyResult(String msg, String key) {
-        this(0, msg, key);
-    }
-
-    public AccountAccessKeyResult(int err, String msg) {
-        this(err, msg, "");
-    }
-
-    public String getAccessKey() {
-        return this.getResult().get();
-    }
-
+    val accessKey: String
+        get() = this.getResult().get()
 }

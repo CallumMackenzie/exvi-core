@@ -3,31 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.util;
+package com.camackenzie.exvi.core.util
+
+import kotlin.jvm.Transient
 
 /**
  *
  * @author callum
  */
-public final class EncodedStringCache {
+class EncodedStringCache(`val`: String?) {
+    private var string: String? = null
 
-    private String string;
-    private transient String cache;
+    @Transient
+    private var cache: String? = null
 
-    public EncodedStringCache(String val) {
-        this.set(val);
+    init {
+        this.set(`val`)
     }
 
-    public String get() {
-        if (this.cache != null) {
-            return this.cache;
-        }
-        return this.cache = CryptographyUtils.decodeString(this.string);
+    fun get(): String? {
+        return if (cache != null) {
+            cache
+        } else com.camackenzie.exvi.core.util.CryptographyUtils.decodeString(string).also { cache = it }
     }
 
-    public void set(String val) {
-        this.cache = null;
-        this.string = CryptographyUtils.encodeString(val);
+    fun set(`val`: String?) {
+        cache = null
+        string = com.camackenzie.exvi.core.util.CryptographyUtils.encodeString(`val`)
     }
-
 }

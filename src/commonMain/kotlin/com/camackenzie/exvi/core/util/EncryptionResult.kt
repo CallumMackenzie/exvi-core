@@ -3,30 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.util;
-
-import java.security.Key;
+package com.camackenzie.exvi.core.util
 
 /**
  *
  * @author callum
  */
-public class EncryptionResult {
-
-    private final String encrypted;
-    private final CachedKey key;
-
-    public EncryptionResult(String enc, CachedKey key) {
-        this.encrypted = enc;
-        this.key = key;
-    }
-
-    public String getEncrypted() {
-        return this.encrypted;
-    }
-
-    public CachedKey getKey() {
-        return this.key;
-    }
-
-}
+@kotlinx.serialization.Serializable
+class EncryptionResult(val encrypted: String, val key: CachedKey)
