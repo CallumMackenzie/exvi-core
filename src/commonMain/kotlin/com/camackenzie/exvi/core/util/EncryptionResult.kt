@@ -5,9 +5,12 @@
  */
 package com.camackenzie.exvi.core.util
 
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+
 /**
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
-class EncryptionResult(val encrypted: String, val key: CachedKey)
+@Serializable
+data class EncryptionResult(val encrypted: String, val key: CachedKey)

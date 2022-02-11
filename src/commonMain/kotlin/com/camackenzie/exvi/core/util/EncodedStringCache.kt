@@ -13,22 +13,18 @@ import com.camackenzie.exvi.core.util.EncryptionResult
  * @author callum
  */
 class EncodedStringCache(str: String) {
-    private var string: String
+    private var string: String = str
 
     @Transient
     private var cache: String? = null
 
-    init {
-        this.set(str)
-    }
-
     fun get(): String {
-        return if (cache != null) cache
+        return if (cache != null) cache as String
         else CryptographyUtils.decodeString(string).also { cache = it }
     }
 
-    fun set(s: String?) {
+    fun set(s: String) {
         cache = null
-        string = CryptographyUtils.encodeString(`val`)
+        string = CryptographyUtils.encodeString(s)
     }
 }

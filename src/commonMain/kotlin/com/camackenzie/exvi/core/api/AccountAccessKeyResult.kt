@@ -6,6 +6,7 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.api.*
 
 /**
  *
@@ -13,14 +14,14 @@ import com.camackenzie.exvi.core.util.EncodedStringCache
  */
 class AccountAccessKeyResult(
     error: Int,
-    message: String?,
-    accessKey: String?
-) : com.camackenzie.exvi.core.api.DataResult<EncodedStringCache?>(
+    message: String,
+    accessKey: String
+) : DataResult<EncodedStringCache>(
     error, message,
     EncodedStringCache(accessKey)
 ) {
-    constructor(msg: String?, key: String?) : this(0, msg, key) {}
-    constructor(err: Int, msg: String?) : this(err, msg, "") {}
+    constructor(msg: String, key: String) : this(0, msg, key) {}
+    constructor(err: Int, msg: String) : this(err, msg, "") {}
 
     val accessKey: String
         get() = this.getResult().get()

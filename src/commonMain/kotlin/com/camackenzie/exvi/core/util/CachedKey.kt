@@ -6,11 +6,17 @@
 package com.camackenzie.exvi.core.util
 
 import kotlinx.serialization.*
-
+import kotlinx.serialization.json.*
+import com.soywiz.krypto.encoding.Base64
 
 /**
  *
  * @author callum
  */
 @Serializable
-class CachedKey(val key: ByteArray)
+data class CachedKey(val key: String) {
+
+    fun getKeyAsBytes(): ByteArray {
+        return Base64.decode(key)
+    }
+}
