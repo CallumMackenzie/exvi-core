@@ -16,7 +16,7 @@ import com.soywiz.krypto.SecureRandom
  */
 object CryptographyUtils {
 
-    fun encryptAES(`in`: String): EncryptionResult {
+    fun encryptAES(s: String): EncryptionResult {
         // TODO
     }
 
@@ -28,24 +28,24 @@ object CryptographyUtils {
         return s.encodeToByteArray().toBase64()
     }
 
-    fun applyRotationCipher(`in`: String, rotation: Int): String {
-        return applyDynamicRotationCipher(`in`, java.util.function.Function<Int, Int> { i: Int? -> rotation })
+    fun applyRotationCipher(s: String, rotation: Int): String {
+        return applyDynamicRotationCipher(s, { i: Int -> rotation })
     }
 
-    fun revertRotationCipher(`in`: String, rot: Int): String {
-        return applyRotationCipher(`in`, -rot)
+    fun revertRotationCipher(s: String, rot: Int): String {
+        return applyRotationCipher(s, -rot)
     }
 
-    fun applyDynamicRotationCipher(`in`: String, fn: java.util.function.Function<Int?, Int?>): String {
+    fun applyDynamicRotationCipher(s: String, fn: (Int) -> Int): String {
         val ret = StringBuilder()
-        for (i in 0 until `in`.length) {
-            ret.append((`in`[i].code + fn.apply(i)).toChar())
+        for (i in 0 until s.length) {
+            ret.append((s[i].code + fn(i)).toChar())
         }
         return ret.toString()
     }
 
-    fun revertDynamicRotationCipher(`in`: String, fn: java.util.function.Function<Int?, Int?>): String {
-        return applyDynamicRotationCipher(`in`, java.util.function.Function<Int, Int> { i: Int? -> -fn.apply(i) })
+    fun revertDynamicRotationCipher(s: String, fn: (Int) -> Int): String {
+        return applyDynamicRotationCipher(s, { i -> -fn(i) })
     }
 
     fun hashSHA256(s: String): String {
@@ -60,11 +60,11 @@ object CryptographyUtils {
         return generateSalt((SecureRandom.nextDouble() * 10 + 6).toInt() shl 1)
     }
 
-    fun encodeString(`in`: String): String {
+    fun encodeString(s: String): String {
         // TODO
     }
 
-    fun decodeString(s5: String): String {
+    fun decodeString(s: String): String {
         // TODO
     }
 }
