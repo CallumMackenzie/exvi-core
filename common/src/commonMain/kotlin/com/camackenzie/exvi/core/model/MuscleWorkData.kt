@@ -5,8 +5,6 @@
  */
 package com.camackenzie.exvi.core.model
 
-import com.camackenzie.exvi.core.model.Muscle
-
 /**
  *
  * @author callum

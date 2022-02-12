@@ -35,11 +35,6 @@ class APIResult<T> {
         return this
     }
 
-    fun toJson(): String {
-        withJsonHeader()
-        return Json.encodeToString(this)
-    }
-
     fun failed(): Boolean {
         return statusCode != 200
     }
@@ -50,15 +45,15 @@ class APIResult<T> {
 
     companion object {
         fun <T> jsonResult(statusCode: Int, body: T): APIResult<T> {
-            return APIResult(statusCode, body, HashMap<String, String>()).withJsonHeader()
-        }
-
-        fun <T> jsonString(statusCode: Int, body: T): String {
-            return jsonResult(statusCode, body).toJson()
+            return APIResult(statusCode, body, HashMap()).withJsonHeader()
         }
     }
 }
 
 inline fun <reified T> APIResult<String>.decodeBody(): T {
-    return Json.decodeFromString(this.body)
+    return Json.decodeFromString<T>(this.body)
+}
+
+inline fun APIResult<String>.toJson(): String {
+    return Json.encodeToString(this)
 }

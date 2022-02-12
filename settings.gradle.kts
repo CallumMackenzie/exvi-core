@@ -1,4 +1,3 @@
-
 pluginManagement {
     repositories {
         google()
@@ -9,3 +8,4 @@ pluginManagement {
 
 rootProject.name = "exvi-core"
 
+include(":common")

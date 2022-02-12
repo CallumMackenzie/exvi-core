@@ -5,11 +5,7 @@
  */
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.api.DataResult
 import com.camackenzie.exvi.core.util.None
-import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
 
 /**
  *

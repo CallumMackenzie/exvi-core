@@ -7,7 +7,6 @@ package com.camackenzie.exvi.core.util
 
 import com.soywiz.krypto.sha256
 import com.soywiz.krypto.encoding.toBase64
-import com.soywiz.krypto.encoding.fromBase64
 import com.soywiz.krypto.SecureRandom
 import com.soywiz.krypto.AES
 import com.soywiz.krypto.Padding

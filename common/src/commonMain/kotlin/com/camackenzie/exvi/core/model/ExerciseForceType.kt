@@ -6,7 +6,6 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.model.EnumUtils.formatName
-import com.camackenzie.exvi.core.model.EnumUtils
 
 /**
  *
