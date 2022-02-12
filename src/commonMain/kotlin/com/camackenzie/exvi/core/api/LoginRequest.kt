@@ -3,31 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.api;
+package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.util.CryptographyUtils;
-import com.camackenzie.exvi.core.util.EncodedStringCache;
+import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.cached
 
 /**
  *
  * @author callum
  */
-public class LoginRequest {
+@kotlinx.serialization.Serializable
+class LoginRequest {
+    private val username: EncodedStringCache
+    private val passwordHash: EncodedStringCache
 
-    private final EncodedStringCache username,
-            passwordHash;
-
-    public LoginRequest(String username, String passwordHash) {
-        this.username = new EncodedStringCache(username);
-        this.passwordHash = new EncodedStringCache(passwordHash);
+    constructor(username: String, passwordHash: String) {
+        this.username = username.cached()
+        this.passwordHash = passwordHash.cached()
     }
-
-    public String getUsername() {
-        return this.username.get();
-    }
-
-    public String getPasswordHash() {
-        return this.passwordHash.get();
-    }
-
 }

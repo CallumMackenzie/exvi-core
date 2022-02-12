@@ -3,36 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.api;
+package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.util.EncodedStringCache;
+import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.cached
 
 /**
  *
  * @author callum
  */
-public class VerificationRequest {
+@kotlinx.serialization.Serializable
+class VerificationRequest {
+    private val username: EncodedStringCache
+    private val email: EncodedStringCache
+    private val phone: EncodedStringCache
 
-    private final EncodedStringCache username, email, phone;
-
-    public VerificationRequest(String username,
-            String email,
-            String phone) {
-        this.username = new EncodedStringCache(username);
-        this.email = new EncodedStringCache(email);
-        this.phone = new EncodedStringCache(phone);
+    constructor(
+        username: String,
+        email: String,
+        phone: String
+    ) {
+        this.username = username.cached()
+        this.email = email.cached()
+        this.phone = phone.cached()
     }
-
-    public String getUsername() {
-        return username.get();
-    }
-
-    public String getEmail() {
-        return email.get();
-    }
-
-    public String getPhone() {
-        return phone.get();
-    }
-
 }

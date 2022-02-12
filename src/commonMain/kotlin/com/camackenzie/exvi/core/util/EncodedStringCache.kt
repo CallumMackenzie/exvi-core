@@ -24,4 +24,14 @@ class EncodedStringCache(var value: String) {
         cache = null
         value = CryptographyUtils.encodeString(s)
     }
+
+    companion object {
+        inline fun cached(s: String): EncodedStringCache {
+            return EncodedStringCache(s)
+        }
+    }
+}
+
+inline fun String.cached(): EncodedStringCache {
+    return EncodedStringCache.cached(this)
 }

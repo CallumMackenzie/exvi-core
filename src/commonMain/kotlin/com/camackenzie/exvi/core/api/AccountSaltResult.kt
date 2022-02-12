@@ -3,32 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.api;
+package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.util.CryptographyUtils;
-import com.camackenzie.exvi.core.util.EncodedStringCache;
+import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.cached
 
 /**
  *
  * @author callum
  */
-public class AccountSaltResult extends DataResult<EncodedStringCache> {
-
-    public AccountSaltResult(int err,
-            String msg, String salt) {
-        super(err, msg, new EncodedStringCache(salt));
+@kotlinx.serialization.Serializable
+class AccountSaltResult : DataResult<EncodedStringCache> {
+    constructor(
+        err: Int,
+        msg: String, salt: String
+    ) : super(err, msg, salt.cached()) {
     }
 
-    public AccountSaltResult(int err, String msg) {
-        super(err, msg, new EncodedStringCache(""));
-    }
+    constructor(err: Int, msg: String) : super(err, msg, "".cached()) {}
+    constructor(msg: String, salt: String) : super(0, msg, salt.cached()) {}
 
-    public AccountSaltResult(String msg, String salt) {
-        super(0, msg, new EncodedStringCache(salt));
-    }
-
-    public String getSalt() {
-        return this.getResult().get();
-    }
-
+    val salt: String
+        get() = result!!.get()
 }

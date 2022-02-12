@@ -3,38 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.api;
+package com.camackenzie.exvi.core.api
 
 /**
  *
  * @author callum
  */
-public class DataResult<T> {
+@kotlinx.serialization.Serializable
+open class DataResult<T>(val error: Int, val message: String, val result: T?) {
 
-    private final T result;
-    private int error = Integer.MAX_VALUE;
-    private final String message;
-
-    public DataResult(int err, String msg, T res) {
-        this.error = err;
-        this.message = msg;
-        this.result = res;
+    fun errorOccured(): Boolean {
+        return error != 0
     }
-
-    public T getResult() {
-        return this.result;
-    }
-
-    public int getError() {
-        return this.error;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
-
-    public boolean errorOccured() {
-        return this.error != 0;
-    }
-
 }

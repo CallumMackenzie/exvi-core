@@ -7,22 +7,25 @@ package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.api.*
+import com.camackenzie.exvi.core.util.cached
 
 /**
  *
  * @author callum
  */
-class AccountAccessKeyResult(
-    error: Int,
-    message: String,
-    accessKey: String
-) : DataResult<EncodedStringCache>(
-    error, message,
-    EncodedStringCache(accessKey)
-) {
+@kotlinx.serialization.Serializable
+class AccountAccessKeyResult : DataResult<EncodedStringCache> {
+
+    constructor(
+        error: Int,
+        message: String,
+        accessKey: String
+    ) : super(error, message, accessKey.cached()) {
+    }
+
     constructor(msg: String, key: String) : this(0, msg, key) {}
     constructor(err: Int, msg: String) : this(err, msg, "") {}
 
     val accessKey: String
-        get() = this.getResult().get()
+        get() = this.result!!.get()
 }

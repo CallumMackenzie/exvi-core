@@ -3,24 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.api;
+package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.model.Workout;
+import com.camackenzie.exvi.core.model.Workout
 
 /**
  *
  * @author callum
  */
-public class WorkoutListResult {
-
-    private final Workout[] workouts;
-
-    public WorkoutListResult(Workout[] workouts) {
-        this.workouts = workouts;
-    }
-
-    public Workout[] getWorkouts() {
-        return this.workouts;
-    }
-
-}
+@kotlinx.serialization.Serializable
+class WorkoutListResult(val workouts: Array<Workout>)

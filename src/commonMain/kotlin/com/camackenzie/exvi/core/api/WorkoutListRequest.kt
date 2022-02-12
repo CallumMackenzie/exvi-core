@@ -3,26 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.api;
+package com.camackenzie.exvi.core.api
 
 /**
  *
  * @author callum
  */
-public class WorkoutListRequest {
-
-    public static enum Type {
+@kotlinx.serialization.Serializable
+class WorkoutListRequest(val type: Type) {
+    enum class Type {
         LIST_ALL
     }
-
-    private final Type type;
-
-    public WorkoutListRequest(Type type) {
-        this.type = type;
-    }
-
-    public Type getType() {
-        return this.type;
-    }
-
 }

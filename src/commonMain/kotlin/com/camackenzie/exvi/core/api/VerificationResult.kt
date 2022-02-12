@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.api;
+package com.camackenzie.exvi.core.api
+
+import com.camackenzie.exvi.core.api.DataResult
 
 /**
  *
  * @author callum
  */
-public class VerificationResult extends DataResult<Object> {
-
-    public VerificationResult(int err, String msg) {
-        super(err, msg, null);
-    }
+@kotlinx.serialization.Serializable
+class VerificationResult : DataResult<Nothing> {
+    constructor(err: Int, msg: String) : super(err, msg, null) {}
 }

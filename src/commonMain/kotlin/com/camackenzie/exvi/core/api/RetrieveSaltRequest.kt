@@ -3,24 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.api;
+package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.util.EncodedStringCache;
+import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.cached
 
 /**
  *
  * @author callum
  */
-public class RetrieveSaltRequest {
+@kotlinx.serialization.Serializable
+class RetrieveSaltRequest {
+    private val username: EncodedStringCache
 
-    private final EncodedStringCache username;
-
-    public RetrieveSaltRequest(String username) {
-        this.username = new EncodedStringCache(username);
+    constructor(username: String) {
+        this.username = username.cached()
     }
-
-    public String getUsername() {
-        return this.username.get();
-    }
-
 }

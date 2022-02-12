@@ -3,60 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.camackenzie.exvi.core.api;
+package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.util.EncodedStringCache;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import java.util.AbstractMap;
+import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.cached
 
 /**
  *
  * @author callum
  */
-public class GenericDataResult<T> extends DataResult<T> {
+@kotlinx.serialization.Serializable
+open class GenericDataResult<T> : DataResult<T> {
+    val responder: EncodedStringCache
 
-    private static final Gson gson = new Gson();
-
-    private final EncodedStringCache responseClassString;
-
-    public GenericDataResult(int code, String msg, Class<T> resClass) {
-        super(code, msg, null);
-        this.responseClassString = new EncodedStringCache(resClass.getCanonicalName());
+    constructor(err: Int, msg: String, resp: T?) : super(err, msg, resp) {
+        responder = resp!!::class.qualifiedName!!.cached()
     }
 
-    public GenericDataResult(String msg, T resp) {
-        super(0, msg, resp);
-        this.responseClassString = new EncodedStringCache(resp.getClass().getCanonicalName());
-    }
+    constructor(resp: T) : this(0, "Success", resp) {}
 
-    public GenericDataResult(T resp) {
-        this("Success", resp);
-    }
+    companion object {
+        inline fun <T> success(resp: T): GenericDataResult<T> {
+            return GenericDataResult(resp)
+        }
 
-    public String getResponseClassString() {
-        return this.responseClassString.get();
-    }
-
-    public Class<T> getResponseClass() {
-        try {
-            return (Class<T>) Class.forName(this.getResponseClassString());
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException(ex);
+        inline fun <T> faliure(msg: String, err: Int): GenericDataResult<T> {
+            return GenericDataResult(err, msg, null)
         }
     }
-
-    @Override
-    public T getResult() {
-        if (super.getResult() instanceof JsonElement) {
-            return gson.fromJson((JsonElement) super.getResult(), this.getResponseClass());
-        } else if (this.getResponseClass().isInstance(super.getResult())) {
-            return (T) super.getResult();
-        } else if (super.getResult() instanceof AbstractMap) {
-            return gson.fromJson(gson.toJson(super.getResult()), this.getResponseClass());
-        } else {
-            throw new RuntimeException("Body could not be parsed: Class is " + super.getResult().getClass());
-        }
-    }
-
 }
