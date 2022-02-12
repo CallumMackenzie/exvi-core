@@ -89,9 +89,13 @@ class APIRequest<T : SelfSerializable> {
         suspend fun <T : SelfSerializable> request(
             endpoint: String,
             body: T,
+            headers: HashMap<String, String> = HashMap(),
             callback: (APIResult<String>) -> Unit
         ): Job {
             val req = APIRequest(endpoint, body)
+            for ((key, value) in headers) {
+                req.headers[key] = value
+            }
             return req.send() { result ->
                 callback(result)
             }
@@ -100,12 +104,22 @@ class APIRequest<T : SelfSerializable> {
         fun <T : SelfSerializable> requestAsync(
             endpoint: String,
             body: T,
+            headers: HashMap<String, String> = HashMap(),
             callback: (APIResult<String>) -> Unit
         ) {
             val req = APIRequest(endpoint, body)
+            for ((key, value) in headers) {
+                req.headers[key] = value
+            }
             req.sendAsync() { result ->
                 callback(result)
             }
+        }
+
+        fun jsonHeaders(): HashMap<String, String> {
+            val ret: HashMap<String, String> = HashMap()
+            ret["content-type"] = "application/json"
+            return ret
         }
     }
 
