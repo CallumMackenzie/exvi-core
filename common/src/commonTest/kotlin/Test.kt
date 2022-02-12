@@ -1,8 +1,10 @@
 import com.camackenzie.exvi.core.api.APIRequest
+import com.camackenzie.exvi.core.api.APIResult
 import com.camackenzie.exvi.core.api.RetrieveSaltRequest
 import com.camackenzie.exvi.core.util.CryptographyUtils
 import kotlinx.coroutines.*
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -16,7 +18,7 @@ class Tests {
             "https://s36irvth41.execute-api.us-east-2.amazonaws.com/test/salt",
             RetrieveSaltRequest("callum")
         ) { result ->
-            println(result.toJson())
+            println(Json.encodeToString<APIResult<String>>(result))
         }
     }
 
