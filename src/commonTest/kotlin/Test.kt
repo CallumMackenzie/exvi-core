@@ -1,6 +1,7 @@
 import com.camackenzie.exvi.core.api.APIRequest
 import com.camackenzie.exvi.core.api.RetrieveSaltRequest
 import com.camackenzie.exvi.core.util.CryptographyUtils
+import kotlinx.coroutines.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test

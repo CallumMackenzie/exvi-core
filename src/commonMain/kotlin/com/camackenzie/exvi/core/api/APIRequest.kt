@@ -64,9 +64,7 @@ class APIRequest<T : SelfSerializable> {
     }
 
     suspend fun send(callback: (HttpResponse, String) -> Unit): Job = coroutineScope {
-        println("send")
         return@coroutineScope launch {
-            println("send in coroutine scope")
             HttpClient {
                 expectSuccess = false
             }.use { httpClient ->

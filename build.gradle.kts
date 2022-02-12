@@ -53,11 +53,7 @@ kotlin {
                 implementation("com.soywiz.korlibs.krypto:krypto:$kryptoVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
-                implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt"){
-                    version {
-                        strictly("1.6.0-native-mt")
-                    }
-                }
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
             }
@@ -75,6 +71,13 @@ kotlin {
         }
         val nativeMain by getting {
             dependsOn(desktopMain)
+//            dependencies {
+//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt") {
+//                    version {
+//                        strictly("1.6.0-native-mt")
+//                    }
+//                }
+//            }
         }
         val jvmMain by getting {
             dependencies {
@@ -98,6 +101,11 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-ios:$ktorVersion")
+//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt") {
+//                    version {
+//                        strictly("1.6.0-native-mt")
+//                    }
+//                }
             }
         }
     }
