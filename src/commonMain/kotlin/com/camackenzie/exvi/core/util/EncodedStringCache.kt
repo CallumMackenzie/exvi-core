@@ -5,12 +5,15 @@
  */
 package com.camackenzie.exvi.core.util
 
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
+
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class EncodedStringCache(var value: String) {
+class EncodedStringCache(var value: String) : SelfSerializable {
 
     @kotlinx.serialization.Transient
     private var cache: String? = null
@@ -26,12 +29,16 @@ class EncodedStringCache(var value: String) {
     }
 
     companion object {
-        inline fun cached(s: String): EncodedStringCache {
+        fun cached(s: String): EncodedStringCache {
             return EncodedStringCache(s)
         }
     }
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
 }
 
-inline fun String.cached(): EncodedStringCache {
+fun String.cached(): EncodedStringCache {
     return EncodedStringCache.cached(this)
 }

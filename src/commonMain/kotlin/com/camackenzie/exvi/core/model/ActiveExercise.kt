@@ -5,9 +5,6 @@
  */
 package com.camackenzie.exvi.core.model
 
-import com.camackenzie.exvi.core.model.Exercise
-import com.camackenzie.exvi.core.model.ExerciseSet
-
 /**
  *
  * @author callum

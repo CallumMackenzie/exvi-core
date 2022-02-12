@@ -6,10 +6,17 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.model.Workout
+import com.camackenzie.exvi.core.util.SelfSerializable
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 
 /**
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
-class WorkoutPutRequest(val workouts: Array<Workout>)
+@Serializable
+class WorkoutPutRequest(val workouts: Array<Workout>) : SelfSerializable {
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+}

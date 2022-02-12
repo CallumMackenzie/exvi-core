@@ -6,6 +6,7 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
 
 /**
@@ -13,7 +14,7 @@ import com.camackenzie.exvi.core.util.cached
  * @author callum
  */
 @kotlinx.serialization.Serializable
-open class GenericDataRequest<T>(
+open class GenericDataRequest<T: SelfSerializable>(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
     val body: T,
@@ -22,6 +23,6 @@ open class GenericDataRequest<T>(
     val requester: EncodedStringCache
 
     init {
-        requester = body!!::class.qualifiedName!!.cached()
+        requester = body::class.qualifiedName!!.cached()
     }
 }

@@ -6,15 +6,18 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
-import com.camackenzie.exvi.core.api.*
+import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
+
 
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class AccountAccessKeyResult : DataResult<EncodedStringCache> {
+class AccountAccessKeyResult : DataResult<EncodedStringCache>, SelfSerializable {
 
     constructor(
         error: Int,
@@ -28,4 +31,8 @@ class AccountAccessKeyResult : DataResult<EncodedStringCache> {
 
     val accessKey: String
         get() = this.result!!.get()
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
 }

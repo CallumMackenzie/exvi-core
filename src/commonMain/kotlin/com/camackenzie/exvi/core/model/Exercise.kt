@@ -26,15 +26,15 @@ data class Exercise(
 
     fun worksMuscle(m: Muscle): Boolean {
         for ((muscle) in musclesWorked) {
-            if (muscle.isInvolvedIn(m!!)) {
+            if (muscle.isInvolvedIn(m)) {
                 return true
             }
         }
         return false
     }
 
-    override fun compareTo(e: Exercise): Int {
-        return name.compareTo(e.name)
+    override fun compareTo(other: Exercise): Int {
+        return name.compareTo(other.name)
     }
 
     override fun equals(other: Any?): Boolean {

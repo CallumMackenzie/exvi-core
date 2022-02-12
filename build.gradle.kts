@@ -44,6 +44,7 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
+                implementation("io.ktor:ktor-client-core:1.6.7")
             }
         }
         val commonTest by getting {

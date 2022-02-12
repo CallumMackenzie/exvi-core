@@ -5,12 +5,14 @@
  */
 package com.camackenzie.exvi.core.api
 
+import com.camackenzie.exvi.core.util.SelfSerializable
+
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-open class DataResult<T>(val error: Int, val message: String, val result: T?) {
+open class DataResult<T: SelfSerializable>(val error: Int, val message: String, val result: T?) {
 
     fun errorOccured(): Boolean {
         return error != 0

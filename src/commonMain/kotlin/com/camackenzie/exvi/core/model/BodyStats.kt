@@ -5,11 +5,6 @@
  */
 package com.camackenzie.exvi.core.model
 
-import com.camackenzie.exvi.core.model.GeneticSex
-import com.camackenzie.exvi.core.model.UnitValue
-import com.camackenzie.exvi.core.model.MassUnit
-import com.camackenzie.exvi.core.model.DistanceUnit
-
 /**
  *
  * @author callum
