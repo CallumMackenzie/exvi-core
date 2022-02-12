@@ -10,6 +10,7 @@ import com.soywiz.krypto.encoding.toBase64
 import com.soywiz.krypto.encoding.fromBase64
 import com.soywiz.krypto.SecureRandom
 import com.soywiz.krypto.AES
+import com.soywiz.krypto.Padding
 import com.soywiz.krypto.encoding.Base64
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
@@ -22,14 +23,14 @@ object CryptographyUtils {
 
     fun encryptAES(s: String): EncryptionResult {
         val bytes = s.encodeToByteArray()
-        val key = CachedKey(SecureRandom.nextBytes(128).toBase64())
-        val encrypted = AES.encryptAes128Cbc(bytes, key.getKeyAsBytes())
+        val key = CachedKey(SecureRandom.nextBytes(32).toBase64())
+        val encrypted = AES.encryptAes128Cbc(bytes, key.getKeyAsBytes(), Padding.ZeroPadding)
         return EncryptionResult(encrypted.toBase64(), key)
     }
 
     fun decryptAES(er: EncryptionResult): String {
         val encrypted = Base64.decode(er.encrypted)
-        val decrypted = AES.decryptAes128Cbc(encrypted, er.key.getKeyAsBytes())
+        val decrypted = AES.decryptAes128Cbc(encrypted, er.key.getKeyAsBytes(), Padding.ZeroPadding)
         return decrypted.decodeToString()
     }
 
@@ -37,7 +38,7 @@ object CryptographyUtils {
         return s.encodeToByteArray().toBase64()
     }
 
-    fun decodeStringFromBase64(s: String) : String {
+    fun decodeStringFromBase64(s: String): String {
         return Base64.decode(s).decodeToString()
     }
 
@@ -74,12 +75,16 @@ object CryptographyUtils {
         return generateSalt((SecureRandom.nextDouble() * 10 + 6).toInt() shl 1)
     }
 
+    private fun encodeCipher(i: Int, s2: String): Int {
+        return (i / s2.length.toDouble() * 10).toInt()
+    }
+
     fun encodeString(s: String): String {
-        val er = encryptAES(s)
+        val er: EncryptionResult = encryptAES(s)
         val s0 = Json.encodeToString(er)
-        val s1 = applyDynamicRotationCipher(s0) { i -> i % 12 }
+        val s1 = applyDynamicRotationCipher(s0) { i -> i % 6 }
         val s2 = encodeStringToBase64(s1)
-        val s3 = applyDynamicRotationCipher(s2) { i -> (i / s2.length.toDouble() * 10).toInt() }
+        val s3 = applyDynamicRotationCipher(s2) { i -> encodeCipher(i, s2) }
         val s4 = encodeStringToBase64(s3)
         return applyRotationCipher(s4, 1)
     }
@@ -88,10 +93,10 @@ object CryptographyUtils {
         val s4 = revertRotationCipher(s, 1)
         val s3: String = decodeStringFromBase64(s4)
         val s2 =
-            revertDynamicRotationCipher(s3) { i -> (i / s3.length.toDouble() * 10).toInt() }
+            revertDynamicRotationCipher(s3) { i -> encodeCipher(i, s3) }
         val s1: String = decodeStringFromBase64(s2)
-        val s0 = revertDynamicRotationCipher(s1) { i -> i % 12 }
-        val er: EncryptionResult = Json.decodeFromString<EncryptionResult>(s0)
+        val s0 = revertDynamicRotationCipher(s1) { i -> i % 6 }
+        val er: EncryptionResult = Json.decodeFromString(s0)
         return decryptAES(er)
     }
 }

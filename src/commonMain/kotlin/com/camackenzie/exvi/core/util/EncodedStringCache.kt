@@ -13,10 +13,16 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class EncodedStringCache(var value: String) : SelfSerializable {
+class EncodedStringCache : SelfSerializable {
 
     @kotlinx.serialization.Transient
     private var cache: String? = null
+
+    private var value: String = ""
+
+    constructor(s: String) {
+        set(s)
+    }
 
     fun get(): String {
         return if (cache != null) cache as String

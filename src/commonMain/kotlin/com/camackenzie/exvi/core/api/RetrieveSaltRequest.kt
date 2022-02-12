@@ -17,7 +17,7 @@ import kotlinx.serialization.*
  */
 @kotlinx.serialization.Serializable
 class RetrieveSaltRequest : SelfSerializable {
-    private val username: EncodedStringCache
+    val username: EncodedStringCache
 
     constructor(username: String) {
         this.username = username.cached()
@@ -29,5 +29,11 @@ class RetrieveSaltRequest : SelfSerializable {
 
     override fun getUID(): String {
         return "RetrieveSaltRequest"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is RetrieveSaltRequest) {
+            other.username == username
+        } else false
     }
 }
