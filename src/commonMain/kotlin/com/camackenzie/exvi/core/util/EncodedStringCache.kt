@@ -37,6 +37,10 @@ class EncodedStringCache(var value: String) : SelfSerializable {
     override fun toJson(): String {
         return Json.encodeToString(this)
     }
+
+    override fun getUID(): String {
+        return "EncodedStringCache"
+    }
 }
 
 fun String.cached(): EncodedStringCache {

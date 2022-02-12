@@ -6,6 +6,7 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.None
 import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
 
@@ -16,9 +17,11 @@ import com.camackenzie.exvi.core.util.cached
 @kotlinx.serialization.Serializable
 open class GenericDataResult<T : SelfSerializable> : DataResult<T> {
     val responder: EncodedStringCache
+    override val result: T?
 
-    constructor(err: Int, msg: String, resp: T?) : super(err, msg, resp) {
-        responder = resp!!::class.qualifiedName!!.cached()
+    constructor(err: Int, msg: String, resp: T) : super(err, msg) {
+        responder = resp.getUID().cached()
+        result = resp
     }
 
     constructor(resp: T) : this(0, "Success", resp) {}
@@ -28,8 +31,8 @@ open class GenericDataResult<T : SelfSerializable> : DataResult<T> {
             return GenericDataResult(resp)
         }
 
-        fun <T : SelfSerializable> faliure(msg: String, err: Int): GenericDataResult<T> {
-            return GenericDataResult(err, msg, null)
+        fun faliure(msg: String, err: Int): GenericDataResult<None> {
+            return GenericDataResult(err, msg, None.instance)
         }
     }
 }

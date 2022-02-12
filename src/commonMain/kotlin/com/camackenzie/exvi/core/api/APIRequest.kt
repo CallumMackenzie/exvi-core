@@ -56,15 +56,17 @@ class APIRequest<T : SelfSerializable> {
         }
     }
 
-    suspend fun send(callback: (APIResult<String>) -> Unit) {
-        send() { response, body ->
+    suspend fun send(callback: (APIResult<String>) -> Unit): Job {
+        return send() { response, body ->
             val parsedResponse: APIResult<String> = APIResult(response.status.value, body, HashMap())
             callback(parsedResponse)
         }
     }
 
-    suspend fun send(callback: (HttpResponse, String) -> Unit) = coroutineScope {
-        launch {
+    suspend fun send(callback: (HttpResponse, String) -> Unit): Job = coroutineScope {
+        println("send")
+        return@coroutineScope launch {
+            println("send in coroutine scope")
             HttpClient {
                 expectSuccess = false
             }.use { httpClient ->
@@ -88,9 +90,9 @@ class APIRequest<T : SelfSerializable> {
             endpoint: String,
             body: T,
             callback: (APIResult<String>) -> Unit
-        ) {
+        ): Job {
             val req = APIRequest(endpoint, body)
-            req.send() { result ->
+            return req.send() { result ->
                 callback(result)
             }
         }

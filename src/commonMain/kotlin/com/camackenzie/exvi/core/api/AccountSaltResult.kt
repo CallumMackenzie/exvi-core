@@ -14,14 +14,22 @@ import com.camackenzie.exvi.core.util.cached
  */
 @kotlinx.serialization.Serializable
 class AccountSaltResult : DataResult<EncodedStringCache> {
+    override val result: EncodedStringCache?
+
     constructor(
         err: Int,
         msg: String, salt: String
-    ) : super(err, msg, salt.cached()) {
+    ) : super(err, msg) {
+        result = salt.cached()
     }
 
-    constructor(err: Int, msg: String) : super(err, msg, "".cached()) {}
-    constructor(msg: String, salt: String) : super(0, msg, salt.cached()) {}
+    constructor(err: Int, msg: String) : super(err, msg) {
+        result = salt.cached()
+    }
+
+    constructor(msg: String, salt: String) : super(0, msg) {
+        result = salt.cached()
+    }
 
     val salt: String
         get() = result!!.get()

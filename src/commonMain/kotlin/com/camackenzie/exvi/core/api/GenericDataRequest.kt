@@ -14,15 +14,15 @@ import com.camackenzie.exvi.core.util.cached
  * @author callum
  */
 @kotlinx.serialization.Serializable
-open class GenericDataRequest<T: SelfSerializable>(
+abstract class GenericDataRequest<T : SelfSerializable>(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
-    val body: T,
 ) {
+    abstract val body: T
 
     val requester: EncodedStringCache
 
     init {
-        requester = body::class.qualifiedName!!.cached()
+        requester = body.getUID().cached()
     }
 }

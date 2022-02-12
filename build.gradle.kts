@@ -11,7 +11,6 @@ repositories {
 }
 
 kotlin {
-//    android()
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
@@ -42,7 +41,11 @@ kotlin {
                 implementation("com.soywiz.korlibs.krypto:krypto:2.2.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0") {
+                    version {
+                        strictly("1.6.0")
+                    }
+                }
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
                 implementation("io.ktor:ktor-client-core:1.6.7")
             }

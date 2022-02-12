@@ -19,4 +19,8 @@ class WorkoutPutRequest(val workouts: Array<Workout>) : SelfSerializable {
     override fun toJson(): String {
         return Json.encodeToString(this)
     }
+
+    override fun getUID(): String {
+        return "WorkoutPutRequest"
+    }
 }

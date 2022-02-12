@@ -12,7 +12,8 @@ import com.camackenzie.exvi.core.util.SelfSerializable
  * @author callum
  */
 @kotlinx.serialization.Serializable
-open class DataResult<T: SelfSerializable>(val error: Int, val message: String, val result: T?) {
+abstract class DataResult<T: SelfSerializable>(val error: Int, val message: String) {
+    abstract val result: T?
 
     fun errorOccured(): Boolean {
         return error != 0
