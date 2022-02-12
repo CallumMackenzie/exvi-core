@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform") version "1.6.10"
     kotlin("plugin.serialization") version "1.6.10"
-    `maven-publish`
+    id("maven-publish")
 }
 
 group = "com.camackenzie"
@@ -16,7 +16,6 @@ kotlin {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
         }
-        withJava()
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
         }
