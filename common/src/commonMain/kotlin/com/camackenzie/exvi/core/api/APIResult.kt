@@ -54,6 +54,6 @@ inline fun <reified T> APIResult<String>.decodeBody(): T {
     return Json.decodeFromString<T>(this.body)
 }
 
-inline fun APIResult<String>.toJson(): String {
-    return Json.encodeToString(this)
+fun APIResult<String>.toJson(): String {
+    return Json.encodeToString<APIResult<String>>(this)
 }

@@ -1,5 +1,6 @@
 val ktorVersion = "1.6.7"
 val kryptoVersion = "2.2.0"
+val coroutineVersion = "1.6.0"
 
 plugins {
     kotlin("multiplatform") // version "1.6.10"
@@ -47,7 +48,7 @@ kotlin {
                 implementation("com.soywiz.korlibs.krypto:krypto:$kryptoVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
             }
@@ -57,21 +58,15 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val desktopMain by creating {
-            dependsOn(commonMain)
+        val nativeMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-curl:$ktorVersion")
-            }
-        }
-        val nativeMain by getting {
-            dependsOn(desktopMain)
-//            dependencies {
 //                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt") {
 //                    version {
 //                        strictly("1.6.0-native-mt")
 //                    }
 //                }
-//            }
+            }
         }
         val jvmMain by getting {
             dependencies {
@@ -89,6 +84,7 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
                 implementation("com.soywiz.korlibs.krypto:krypto-android:$kryptoVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
                 api("androidx.appcompat:appcompat:1.2.0")
                 api("androidx.core:core-ktx:1.3.1")
             }
