@@ -46,8 +46,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.soywiz.korlibs.krypto:krypto:$kryptoVersion")
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                api("com.soywiz.korlibs.krypto:krypto:$kryptoVersion")
+                api("io.ktor:ktor-client-core:$ktorVersion")
                 api("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
                 api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
