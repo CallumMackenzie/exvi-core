@@ -1,6 +1,7 @@
 val ktorVersion = "1.6.7"
 val kryptoVersion = "2.2.0"
 val coroutineVersion = "1.6.0"
+val jUnitVersion = "4.7"
 
 plugins {
     kotlin("multiplatform") // version "1.6.10"
@@ -46,11 +47,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("com.soywiz.korlibs.krypto:krypto:$kryptoVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
+                api("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
             }
         }
         val commonTest by getting {
@@ -71,22 +72,29 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-java:$ktorVersion")
-                implementation("com.soywiz.korlibs.krypto:krypto-jvm:$kryptoVersion")
+//                implementation("com.soywiz.korlibs.krypto:krypto-jvm:$kryptoVersion") {
+//                    exclude(group="com.soywiz.korlibs.krypto", module = "krypto-android")
+//                }
             }
         }
         val jsMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-js:$ktorVersion")
-                implementation("com.soywiz.korlibs.krypto:krypto-js:$kryptoVersion")
+//                implementation("com.soywiz.korlibs.krypto:krypto-js:$kryptoVersion")
             }
         }
         val androidMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
-                implementation("com.soywiz.korlibs.krypto:krypto-android:$kryptoVersion")
+//                implementation("com.soywiz.korlibs.krypto:krypto-android:$kryptoVersion") {
+//                    exclude(group="com.soywiz.korlibs.krypto", module = "krypto-jvm")
+//                }
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
-                api("androidx.appcompat:appcompat:1.2.0")
-                api("androidx.core:core-ktx:1.3.1")
+            }
+        }
+        val androidTest by getting {
+            dependencies {
+                implementation("junit:junit:$jUnitVersion")
             }
         }
         val iosMain by getting {
@@ -112,5 +120,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude("META-INF/*.kotlin_module")
     }
 }

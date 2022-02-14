@@ -18,7 +18,7 @@ class EncodedStringCache : SelfSerializable {
     @kotlinx.serialization.Transient
     private var cache: String? = null
 
-    private var value: String = ""
+    private var string: String = ""
 
     constructor(s: String) {
         set(s)
@@ -26,12 +26,12 @@ class EncodedStringCache : SelfSerializable {
 
     fun get(): String {
         return if (cache != null) cache as String
-        else CryptographyUtils.decodeString(value).also { cache = it }
+        else CryptographyUtils.decodeString(string).also { cache = it }
     }
 
     fun set(s: String) {
         cache = null
-        value = CryptographyUtils.encodeString(s)
+        string = CryptographyUtils.encodeString(s)
     }
 
     companion object {
