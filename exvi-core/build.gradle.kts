@@ -6,8 +6,8 @@ val jUnitVersion = "4.7"
 plugins {
     kotlin("multiplatform") // version "1.6.10"
     kotlin("plugin.serialization") version "1.6.10"
-    id("maven-publish")
     id("com.android.library")
+    id("maven-publish")
 }
 
 group = "com.camackenzie"

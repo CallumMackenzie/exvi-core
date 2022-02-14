@@ -8,4 +8,4 @@ pluginManagement {
 
 rootProject.name = "exvi-core"
 
-include(":common")
+include(":exvi-core")
