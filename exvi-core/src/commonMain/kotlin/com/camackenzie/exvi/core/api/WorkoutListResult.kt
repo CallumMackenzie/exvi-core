@@ -6,10 +6,22 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.model.Workout
+import com.camackenzie.exvi.core.util.SelfSerializable
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
 
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class WorkoutListResult(val workouts: Array<Workout>)
+class WorkoutListResult(val workouts: Array<Workout>) : SelfSerializable {
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return "WorkoutListResult"
+    }
+
+}

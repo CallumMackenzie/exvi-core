@@ -7,6 +7,8 @@ package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.cached
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
 
 /**
  *
@@ -15,6 +17,14 @@ import com.camackenzie.exvi.core.util.cached
 @kotlinx.serialization.Serializable
 class AccountSaltResult : DataResult<EncodedStringCache> {
     override val result: EncodedStringCache?
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return "AccountSaltResult"
+    }
 
     constructor(
         err: Int,

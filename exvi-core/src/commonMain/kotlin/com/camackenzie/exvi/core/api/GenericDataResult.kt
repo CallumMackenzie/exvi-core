@@ -9,6 +9,8 @@ import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.None
 import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
 
 /**
  *
@@ -18,6 +20,14 @@ import com.camackenzie.exvi.core.util.cached
 open class GenericDataResult<T : SelfSerializable> : DataResult<T> {
     val responder: EncodedStringCache
     override val result: T?
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return "GenericDataResult"
+    }
 
     constructor(err: Int, msg: String, resp: T) : super(err, msg) {
         responder = resp.getUID().cached()

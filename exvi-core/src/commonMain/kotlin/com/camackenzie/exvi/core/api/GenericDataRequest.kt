@@ -8,21 +8,27 @@ package com.camackenzie.exvi.core.api
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-abstract class GenericDataRequest<T : SelfSerializable>(
+class GenericDataRequest<T : SelfSerializable>(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
-) {
-    abstract val body: T
+    val body: T
+) : SelfSerializable {
 
-    val requester: EncodedStringCache
+    val requester: EncodedStringCache = body.getUID().cached()
 
-    init {
-        requester = body.getUID().cached()
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return "GenericDataRequest"
     }
 }

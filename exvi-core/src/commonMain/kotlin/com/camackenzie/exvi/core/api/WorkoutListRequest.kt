@@ -5,13 +5,25 @@
  */
 package com.camackenzie.exvi.core.api
 
+import com.camackenzie.exvi.core.util.SelfSerializable
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
+
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class WorkoutListRequest(val type: Type) {
+class WorkoutListRequest(val type: Type) : SelfSerializable {
     enum class Type {
         LIST_ALL
+    }
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return "WorkoutListRequest"
     }
 }

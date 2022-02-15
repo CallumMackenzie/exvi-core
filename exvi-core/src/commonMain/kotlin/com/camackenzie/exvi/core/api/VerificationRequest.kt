@@ -6,14 +6,18 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
+
 
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class VerificationRequest {
+class VerificationRequest : SelfSerializable {
     private val username: EncodedStringCache
     private val email: EncodedStringCache
     private val phone: EncodedStringCache
@@ -26,5 +30,13 @@ class VerificationRequest {
         this.username = username.cached()
         this.email = email.cached()
         this.phone = phone.cached()
+    }
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return "VerificationRequest"
     }
 }

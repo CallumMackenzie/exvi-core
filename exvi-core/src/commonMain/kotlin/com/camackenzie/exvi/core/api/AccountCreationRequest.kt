@@ -6,14 +6,17 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
 
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class AccountCreationRequest {
+class AccountCreationRequest : SelfSerializable {
     private val username: EncodedStringCache
     private val verificationCode: EncodedStringCache
     private val password: EncodedStringCache
@@ -26,5 +29,13 @@ class AccountCreationRequest {
         this.username = username.cached()
         this.verificationCode = verificationCode.cached()
         this.password = password.cached()
+    }
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return "AccountCreationRequest"
     }
 }
