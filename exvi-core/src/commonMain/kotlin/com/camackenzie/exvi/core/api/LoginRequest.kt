@@ -17,8 +17,8 @@ import kotlinx.serialization.*
  */
 @kotlinx.serialization.Serializable
 class LoginRequest : SelfSerializable {
-    private val username: EncodedStringCache
-    private val passwordHash: EncodedStringCache
+    val username: EncodedStringCache
+    val passwordHash: EncodedStringCache
 
     constructor(username: String, passwordHash: String) {
         this.username = username.cached()

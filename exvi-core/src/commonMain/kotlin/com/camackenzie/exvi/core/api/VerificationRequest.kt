@@ -18,9 +18,9 @@ import kotlinx.serialization.*
  */
 @kotlinx.serialization.Serializable
 class VerificationRequest : SelfSerializable {
-    private val username: EncodedStringCache
-    private val email: EncodedStringCache
-    private val phone: EncodedStringCache
+    val username: EncodedStringCache
+    val email: EncodedStringCache
+    val phone: EncodedStringCache
 
     constructor(
         username: String,
