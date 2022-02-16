@@ -12,6 +12,7 @@ import com.soywiz.krypto.AES
 import com.soywiz.krypto.Padding
 import com.soywiz.krypto.encoding.Base64
 import com.soywiz.krypto.encoding.base64
+import io.ktor.util.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
@@ -117,5 +118,10 @@ object CryptographyUtils {
     @kotlin.jvm.JvmStatic
     fun bytesToBase64String(byteArray: ByteArray): String {
         return byteArray.toBase64()
+    }
+
+    @kotlin.jvm.JvmStatic
+    fun bytesFromBase64String(str: String): ByteArray {
+        return Base64.decode(str)
     }
 }
