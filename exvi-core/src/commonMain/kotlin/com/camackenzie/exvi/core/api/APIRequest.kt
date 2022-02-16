@@ -33,6 +33,8 @@ class APIRequest<T : SelfSerializable> {
         this.headers = headers
     }
 
+    constructor(body: T, headers: HashMap<String, String> = HashMap()) : this("", body, headers)
+
     constructor(other: APIRequest<*>, newBody: T) {
         endpoint = other.endpoint
         body = newBody
@@ -48,6 +50,10 @@ class APIRequest<T : SelfSerializable> {
         CoroutineScope(Dispatchers.Default).launch {
             send(callback)
         }
+    }
+
+    fun hasEndpoint(): Boolean {
+        return endpoint.isBlank()
     }
 
     fun sendAsync(callback: (HttpResponse, String) -> Unit) {
