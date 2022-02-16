@@ -33,14 +33,17 @@ data class ExerciseSet(val exercise: Exercise, val unit: String, val sets: Array
     }
 
     companion object {
+        @kotlin.jvm.JvmStatic
         fun repSets(ex: Exercise, sets: Array<Int>): ExerciseSet {
             return ExerciseSet(ex, "rep", sets)
         }
 
+        @kotlin.jvm.JvmStatic
         fun secondSets(ex: Exercise, sets: Array<Int>): ExerciseSet {
             return ExerciseSet(ex, "second", sets)
         }
 
+        @kotlin.jvm.JvmStatic
         fun minuteSets(ex: Exercise, sets: Array<Int>): ExerciseSet {
             return ExerciseSet(ex, "minute", sets)
         }

@@ -16,6 +16,7 @@ data class BodyStats(
     var height: UnitValue<DistanceUnit>
 ) {
     companion object {
+        @kotlin.jvm.JvmStatic
         fun averageMale(): BodyStats {
             return BodyStats(
                 GeneticSex.MALE,
@@ -24,6 +25,7 @@ data class BodyStats(
             )
         }
 
+        @kotlin.jvm.JvmStatic
         fun averageFemale(): BodyStats {
             return BodyStats(
                 GeneticSex.FEMALE,
@@ -32,6 +34,7 @@ data class BodyStats(
             )
         }
 
+        @kotlin.jvm.JvmStatic
         fun average(): BodyStats {
             return BodyStats(
                 GeneticSex.UNKNOWN,

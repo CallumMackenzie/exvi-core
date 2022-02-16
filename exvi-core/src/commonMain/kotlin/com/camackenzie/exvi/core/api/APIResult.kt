@@ -44,6 +44,7 @@ class APIResult<T> {
     }
 
     companion object {
+        @kotlin.jvm.JvmStatic
         fun <T> jsonResult(statusCode: Int, body: T): APIResult<T> {
             return APIResult(statusCode, body, HashMap()).withJsonHeader()
         }

@@ -20,6 +20,7 @@ enum class ExerciseExperienceLevel {
     }
 
     companion object {
+        @kotlin.jvm.JvmStatic
         fun fromString(s: String): ExerciseExperienceLevel? {
             return EnumUtils.enumFromString<ExerciseExperienceLevel>(s)
         }

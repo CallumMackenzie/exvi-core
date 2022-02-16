@@ -5,13 +5,7 @@ import kotlinx.serialization.json.Json
 
 
 @kotlinx.serialization.Serializable
-class None : SelfSerializable {
-
-    companion object {
-        val instance: None = None()
-    }
-
-    private constructor()
+object None : SelfSerializable {
 
     override fun toJson(): String {
         return Json.encodeToString(this)

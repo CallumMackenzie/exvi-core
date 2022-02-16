@@ -84,6 +84,7 @@ class APIRequest<T : SelfSerializable> {
     }
 
     companion object {
+        @kotlin.jvm.JvmStatic
         suspend fun <T : SelfSerializable> request(
             endpoint: String,
             body: T,
@@ -99,6 +100,7 @@ class APIRequest<T : SelfSerializable> {
             }
         }
 
+        @kotlin.jvm.JvmStatic
         fun <T : SelfSerializable> requestAsync(
             endpoint: String,
             body: T,
@@ -114,6 +116,7 @@ class APIRequest<T : SelfSerializable> {
             }
         }
 
+        @kotlin.jvm.JvmStatic
         fun jsonHeaders(): HashMap<String, String> {
             val ret: HashMap<String, String> = HashMap()
             ret["content-type"] = "application/json"

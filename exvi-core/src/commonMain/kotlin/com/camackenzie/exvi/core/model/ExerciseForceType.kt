@@ -20,6 +20,7 @@ enum class ExerciseForceType {
     }
 
     companion object {
+        @kotlin.jvm.JvmStatic
         fun fromString(s: String): ExerciseForceType? {
             return EnumUtils.enumFromString<ExerciseForceType>(s)
         }

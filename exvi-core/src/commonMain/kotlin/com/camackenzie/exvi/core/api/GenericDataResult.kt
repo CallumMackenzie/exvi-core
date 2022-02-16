@@ -42,7 +42,7 @@ open class GenericDataResult<T : SelfSerializable> : DataResult<T> {
         }
 
         fun faliure(msg: String, err: Int): GenericDataResult<None> {
-            return GenericDataResult(err, msg, None.instance)
+            return GenericDataResult(err, msg, None)
         }
     }
 }

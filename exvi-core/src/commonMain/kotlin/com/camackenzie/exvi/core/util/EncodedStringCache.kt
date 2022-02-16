@@ -35,6 +35,7 @@ class EncodedStringCache : SelfSerializable {
     }
 
     companion object {
+        @kotlin.jvm.JvmStatic
         fun cached(s: String): EncodedStringCache {
             return EncodedStringCache(s)
         }
