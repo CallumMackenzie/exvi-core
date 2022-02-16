@@ -35,20 +35,13 @@ class AccountSaltResult : DataResult<EncodedStringCache> {
     }
 
     constructor(
-        err: Int,
-        msg: String, salt: String
+        err: Int = 0,
+        msg: String = "",
+        salt: String = ""
     ) : super(err, msg) {
         result = salt.cached()
     }
 
-    constructor(err: Int, msg: String) : super(err, msg) {
-        result = salt.cached()
-    }
-
-    constructor(msg: String, salt: String) : super(0, msg) {
-        result = salt.cached()
-    }
-
-    val salt: String
-        get() = result!!.get()
+    val salt: String?
+        get() = if (result == null) null else result!!.get()
 }
