@@ -34,6 +34,7 @@ class AccountSaltResult : DataResult<EncodedStringCache> {
         }
     }
 
+    @kotlin.jvm.JvmOverloads
     constructor(
         err: Int = 0,
         msg: String = "",
