@@ -44,5 +44,5 @@ class AccountSaltResult : DataResult<EncodedStringCache> {
     }
 
     val salt: String?
-        get() = if (result == null) null else result!!.get()
+        get() = if (result == null) null else result.get()
 }
