@@ -39,6 +39,14 @@ class AccountAccessKeyResult : DataResult<EncodedStringCache>, SelfSerializable 
     }
 
     override fun getUID(): String {
-        return "AccountAccessKeyResult"
+        return Companion.getUID()
+    }
+
+    companion object {
+        @kotlin.jvm.JvmStatic
+        @kotlin.jvm.JvmName("UID")
+        fun getUID(): String {
+            return "AccountAccessKeyResult"
+        }
     }
 }

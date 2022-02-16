@@ -26,7 +26,7 @@ open class GenericDataResult<T : SelfSerializable> : DataResult<T> {
     }
 
     override fun getUID(): String {
-        return "GenericDataResult"
+        return Companion.getUID()
     }
 
     constructor(err: Int, msg: String, resp: T) : super(err, msg) {
@@ -37,12 +37,20 @@ open class GenericDataResult<T : SelfSerializable> : DataResult<T> {
     constructor(resp: T) : this(0, "Success", resp) {}
 
     companion object {
+        @kotlin.jvm.JvmStatic
         fun <T : SelfSerializable> success(resp: T): GenericDataResult<T> {
             return GenericDataResult(resp)
         }
 
+        @kotlin.jvm.JvmStatic
         fun faliure(msg: String, err: Int): GenericDataResult<None> {
             return GenericDataResult(err, msg, None)
+        }
+
+        @kotlin.jvm.JvmStatic
+        @kotlin.jvm.JvmName("UID")
+        fun getUID(): String {
+            return "GenericDataRequest"
         }
     }
 }

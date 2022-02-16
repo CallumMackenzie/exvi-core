@@ -30,6 +30,14 @@ class LoginRequest : SelfSerializable {
     }
 
     override fun getUID(): String {
-        return "LoginRequest"
+        return Companion.getUID()
+    }
+
+    companion object {
+        @kotlin.jvm.JvmStatic
+        @kotlin.jvm.JvmName("UID")
+        fun getUID(): String {
+            return "LoginRequest"
+        }
     }
 }

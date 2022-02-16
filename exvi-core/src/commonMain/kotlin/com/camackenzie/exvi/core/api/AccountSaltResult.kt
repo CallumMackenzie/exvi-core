@@ -23,7 +23,15 @@ class AccountSaltResult : DataResult<EncodedStringCache> {
     }
 
     override fun getUID(): String {
-        return "AccountSaltResult"
+        return Companion.getUID()
+    }
+
+    companion object {
+        @kotlin.jvm.JvmStatic
+        @kotlin.jvm.JvmName("UID")
+        fun getUID(): String {
+            return "AccountSaltResult"
+        }
     }
 
     constructor(

@@ -24,6 +24,14 @@ class WorkoutListRequest(val type: Type) : SelfSerializable {
     }
 
     override fun getUID(): String {
-        return "WorkoutListRequest"
+        return Companion.getUID()
+    }
+
+    companion object {
+        @kotlin.jvm.JvmStatic
+        @kotlin.jvm.JvmName("UID")
+        fun getUID(): String {
+            return "WorkoutListRequest"
+        }
     }
 }

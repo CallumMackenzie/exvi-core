@@ -29,6 +29,14 @@ class GenericDataRequest<T : SelfSerializable>(
     }
 
     override fun getUID(): String {
-        return "GenericDataRequest"
+        return Companion.getUID()
+    }
+
+    companion object {
+        @kotlin.jvm.JvmStatic
+        @kotlin.jvm.JvmName("UID")
+        fun getUID(): String {
+            return "GenericDataRequest"
+        }
     }
 }

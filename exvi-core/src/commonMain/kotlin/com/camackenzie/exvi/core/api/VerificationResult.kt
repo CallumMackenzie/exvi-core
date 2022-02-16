@@ -21,7 +21,15 @@ class VerificationResult : DataResult<None> {
     }
 
     override fun getUID(): String {
-        return "VerificationResult"
+        return Companion.getUID()
+    }
+
+    companion object {
+        @kotlin.jvm.JvmStatic
+        @kotlin.jvm.JvmName("UID")
+        fun getUID(): String {
+            return "VerificationResult"
+        }
     }
 
     constructor(err: Int, msg: String) : super(err, msg) {}
