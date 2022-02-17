@@ -61,7 +61,7 @@ kotlin {
         }
         val nativeMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-curl:$ktorVersion")
+                api("io.ktor:ktor-client-curl:$ktorVersion")
 //                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt") {
 //                    version {
 //                        strictly("1.6.0-native-mt")
@@ -71,7 +71,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-java:$ktorVersion")
+                api("io.ktor:ktor-client-java:$ktorVersion")
 //                implementation("com.soywiz.korlibs.krypto:krypto-jvm:$kryptoVersion") {
 //                    exclude(group="com.soywiz.korlibs.krypto", module = "krypto-android")
 //                }
@@ -79,27 +79,27 @@ kotlin {
         }
         val jsMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-js:$ktorVersion")
+                api("io.ktor:ktor-client-js:$ktorVersion")
 //                implementation("com.soywiz.korlibs.krypto:krypto-js:$kryptoVersion")
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-android:$ktorVersion")
+                api("io.ktor:ktor-client-android:$ktorVersion")
 //                implementation("com.soywiz.korlibs.krypto:krypto-android:$kryptoVersion") {
 //                    exclude(group="com.soywiz.korlibs.krypto", module = "krypto-jvm")
 //                }
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
             }
         }
         val androidTest by getting {
             dependencies {
-                implementation("junit:junit:$jUnitVersion")
+                api("junit:junit:$jUnitVersion")
             }
         }
         val iosMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-ios:$ktorVersion")
+                api("io.ktor:ktor-client-ios:$ktorVersion")
 //                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt") {
 //                    version {
 //                        strictly("1.6.0-native-mt")
