@@ -5,21 +5,52 @@
  */
 package com.camackenzie.exvi.core.model
 
-import kotlin.collections.ArrayList
+import com.camackenzie.exvi.core.api.APIResult
+import kotlin.Unit
+
+interface WorkoutManager {
+    fun getWorkouts(
+        onFail: (APIResult<String>) -> Unit = {},
+        onSuccess: (Array<Workout>) -> Unit = {},
+        onComplete: () -> Unit = {}
+    )
+
+    fun putWorkouts(
+        workoutsToAdd: Array<Workout>,
+        onFail: (APIResult<String>) -> Unit = {},
+        onSuccess: () -> Unit = {},
+        onComplete: () -> Unit = {}
+    )
+}
 
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-data class WorkoutManager constructor(val workouts: ArrayList<Workout>, val activeWorkouts: ArrayList<ActiveWorkout>) {
+data class LocalWorkoutManager constructor(
+    val workouts: ArrayList<Workout> = ArrayList(),
+    val activeWorkouts: ArrayList<ActiveWorkout> = ArrayList()
+) : WorkoutManager {
 
-    fun getNamedWorkout(name: String?): Workout? {
-        for (w in workouts) {
-            if (w.name.equals(name, ignoreCase = true)) {
-                return w
-            }
-        }
-        return null
+    override fun getWorkouts(
+        onFail: (APIResult<String>) -> Unit,
+        onSuccess: (Array<Workout>) -> Unit,
+        onComplete: () -> Unit
+    ) {
+        onSuccess(workouts.toTypedArray())
+        onComplete()
+    }
+
+    override fun putWorkouts(
+        workoutsToAdd: Array<Workout>,
+        onFail: (APIResult<String>) -> Unit,
+        onSuccess: () -> Unit,
+        onComplete: () -> Unit
+    ) {
+        workouts.addAll(workoutsToAdd)
+        onSuccess()
+        onComplete()
     }
 }
+

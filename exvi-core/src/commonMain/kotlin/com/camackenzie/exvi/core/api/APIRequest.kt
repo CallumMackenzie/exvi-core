@@ -94,7 +94,7 @@ class APIRequest<T : SelfSerializable> {
         suspend fun <T : SelfSerializable> request(
             endpoint: String,
             body: T,
-            headers: HashMap<String, String> = HashMap(),
+            headers: HashMap<String, String> = jsonHeaders(),
             callback: (APIResult<String>) -> Unit
         ): Job {
             val req = APIRequest(endpoint, body)
@@ -110,7 +110,7 @@ class APIRequest<T : SelfSerializable> {
         fun <T : SelfSerializable> requestAsync(
             endpoint: String,
             body: T,
-            headers: HashMap<String, String> = HashMap(),
+            headers: HashMap<String, String> = jsonHeaders(),
             callback: (APIResult<String>) -> Unit
         ) {
             val req = APIRequest(endpoint, body)
