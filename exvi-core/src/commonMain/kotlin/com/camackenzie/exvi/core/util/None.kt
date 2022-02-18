@@ -12,6 +12,8 @@ object None : SelfSerializable {
     }
 
     override fun getUID(): String {
-        return "None"
+        return uid
     }
+
+    const val uid = "None"
 }
