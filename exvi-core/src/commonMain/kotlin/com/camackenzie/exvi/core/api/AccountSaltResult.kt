@@ -20,6 +20,8 @@ class AccountSaltResult(val result: EncodedStringCache) : GenericDataResult(uid)
     val salt: String
         get() = result.get()
 
+    constructor(result: String) : this(result.cached())
+
     override fun toJson(): String {
         return Json.encodeToString(this)
     }

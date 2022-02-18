@@ -22,6 +22,8 @@ class AccountAccessKeyResult(val result: EncodedStringCache) : GenericDataResult
     val accessKey: String
         get() = this.result.get()
 
+    constructor(result: String) : this(result.cached())
+
     override fun toJson(): String {
         return Json.encodeToString(this)
     }

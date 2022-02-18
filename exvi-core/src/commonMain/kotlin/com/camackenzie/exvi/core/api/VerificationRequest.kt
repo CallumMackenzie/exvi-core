@@ -17,20 +17,17 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class VerificationRequest : SelfSerializable {
-    val username: EncodedStringCache
-    val email: EncodedStringCache
+class VerificationRequest(
+    val username: EncodedStringCache,
+    val email: EncodedStringCache,
     val phone: EncodedStringCache
+) : SelfSerializable {
 
     constructor(
         username: String,
         email: String,
         phone: String
-    ) {
-        this.username = username.cached()
-        this.email = email.cached()
-        this.phone = phone.cached()
-    }
+    ) : this(username.cached(), email.cached(), phone.cached())
 
     override fun toJson(): String {
         return Json.encodeToString(this)
