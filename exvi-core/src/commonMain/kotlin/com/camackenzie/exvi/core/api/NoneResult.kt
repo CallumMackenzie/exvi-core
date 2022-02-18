@@ -6,7 +6,7 @@ import kotlinx.serialization.json.*
 @kotlinx.serialization.Serializable
 object NoneResult : GenericDataResult("NoneResult") {
 
-    @kotlin.jvm.JvmStatic
+    @kotlin.jvm.JvmField
     @kotlin.jvm.Transient
     @kotlinx.serialization.Transient
     val uid = "NoneResult"

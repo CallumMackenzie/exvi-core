@@ -38,7 +38,7 @@ class RetrieveSaltRequest : SelfSerializable {
     }
 
     companion object {
-        @kotlin.jvm.JvmStatic
+        @kotlin.jvm.JvmField
         val uid = "RetrieveSaltRequest"
     }
 }

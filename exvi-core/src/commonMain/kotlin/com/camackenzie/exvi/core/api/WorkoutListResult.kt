@@ -26,7 +26,7 @@ class WorkoutListResult(val workouts: Array<Workout>) : GenericDataResult(uid) {
     }
 
     companion object {
-        @kotlin.jvm.JvmStatic
+        @kotlin.jvm.JvmField
         val uid = "WorkoutListResult"
     }
 }
