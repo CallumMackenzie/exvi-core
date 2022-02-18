@@ -8,6 +8,7 @@ package com.camackenzie.exvi.core.api
 import com.camackenzie.exvi.core.model.Workout
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.SelfSerializable
+import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
@@ -21,6 +22,13 @@ class WorkoutPutRequest(
     val accessKey: EncodedStringCache,
     val workouts: Array<Workout>
 ) : GenericDataRequest(uid) {
+
+    constructor(username: String, accessKey: String, workouts: Array<Workout>) : this(
+        username.cached(),
+        accessKey.cached(),
+        workouts
+    )
+
     override fun toJson(): String {
         return Json.encodeToString(this)
     }
