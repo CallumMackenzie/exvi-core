@@ -4,12 +4,12 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
 @kotlinx.serialization.Serializable
-class NoneResult : GenericDataResult(uid) {
+object NoneResult : GenericDataResult("NoneResult") {
 
-    companion object {
-        @kotlin.jvm.JvmStatic
-        val uid = "NoneResult"
-    }
+    @kotlin.jvm.JvmStatic
+    @kotlin.jvm.Transient
+    @kotlinx.serialization.Transient
+    val uid = "NoneResult"
 
     override fun toJson(): String {
         return Json.encodeToString(this)
