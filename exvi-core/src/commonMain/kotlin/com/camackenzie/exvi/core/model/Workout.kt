@@ -5,7 +5,9 @@
  */
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.CryptographyUtils
 import com.camackenzie.exvi.core.util.SelfSerializable
+import kotlinx.datetime.Clock
 import kotlin.collections.ArrayList
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
@@ -15,8 +17,11 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-data class Workout(var name: String, var description: String, val exercises: ArrayList<ExerciseSet>)
-    : SelfSerializable {
+data class Workout(var name: String, var description: String, val exercises: ArrayList<ExerciseSet>) :
+    SelfSerializable {
+
+    val uid =
+        CryptographyUtils.hashSHA256(Clock.System.now().nanosecondsOfSecond.toString()) + Clock.System.now().epochSeconds.toString()
 
     fun newActiveWorkout(): ActiveWorkout {
         return ActiveWorkout(this)
