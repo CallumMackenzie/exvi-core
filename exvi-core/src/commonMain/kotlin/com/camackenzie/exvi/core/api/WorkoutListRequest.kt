@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core.api
 
+import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
@@ -14,7 +15,12 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class WorkoutListRequest(val type: Type) : SelfSerializable {
+class WorkoutListRequest(
+    val username: EncodedStringCache,
+    val accessKey: EncodedStringCache,
+    val type: Type
+) : GenericDataRequest(this.getUID()) {
+
     enum class Type {
         LIST_ALL
     }

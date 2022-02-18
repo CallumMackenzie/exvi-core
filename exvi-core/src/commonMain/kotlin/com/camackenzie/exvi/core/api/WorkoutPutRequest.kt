@@ -15,7 +15,7 @@ import kotlinx.serialization.json.*
  * @author callum
  */
 @Serializable
-class WorkoutPutRequest(val workouts: Array<Workout>) : SelfSerializable {
+class WorkoutPutRequest(val workouts: Array<Workout>) : GenericDataRequest(this.getUID()) {
     override fun toJson(): String {
         return Json.encodeToString(this)
     }
