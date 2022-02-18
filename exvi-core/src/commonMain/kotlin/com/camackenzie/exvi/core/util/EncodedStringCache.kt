@@ -16,6 +16,7 @@ import kotlinx.serialization.*
 class EncodedStringCache : SelfSerializable {
 
     @kotlinx.serialization.Transient
+    @kotlin.jvm.Transient
     private var cache: String? = null
 
     private var string: String = ""

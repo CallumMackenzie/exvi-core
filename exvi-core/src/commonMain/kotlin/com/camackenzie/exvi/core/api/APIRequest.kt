@@ -21,9 +21,11 @@ import kotlinx.coroutines.*
 class APIRequest<T : SelfSerializable> {
     val body: T
 
+    @kotlin.jvm.Transient
     @kotlinx.serialization.Transient
     var headers: HashMap<String, String> = HashMap()
 
+    @kotlin.jvm.Transient
     @kotlinx.serialization.Transient
     var endpoint: String = ""
 
