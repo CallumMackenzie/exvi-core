@@ -15,25 +15,14 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class AccountSaltResult : DataResult<EncodedStringCache> {
-    override val result: EncodedStringCache?
+class AccountSaltResult(val result: EncodedStringCache) : GenericDataResult(uid) {
 
-    @kotlin.jvm.JvmOverloads
-    constructor(
-        err: Int = 0,
-        msg: String = "",
-        salt: String = ""
-    ) : super(err, msg) {
-        result = salt.cached()
-    }
-
-    val salt: String?
-        get() = result?.get()
+    val salt: String
+        get() = result.get()
 
     override fun toJson(): String {
         return Json.encodeToString(this)
     }
-
 
     override fun getUID(): String {
         return Companion.uid

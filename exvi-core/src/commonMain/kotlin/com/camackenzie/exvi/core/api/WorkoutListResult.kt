@@ -15,7 +15,7 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class WorkoutListResult(val workouts: Array<Workout>) : SelfSerializable {
+class WorkoutListResult(val workouts: Array<Workout>) : GenericDataResult(uid) {
 
     override fun toJson(): String {
         return Json.encodeToString(this)

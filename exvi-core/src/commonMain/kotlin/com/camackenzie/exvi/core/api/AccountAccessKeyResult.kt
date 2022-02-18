@@ -17,22 +17,10 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class AccountAccessKeyResult : DataResult<EncodedStringCache>, SelfSerializable {
-    override val result: EncodedStringCache?
-
-    constructor(
-        error: Int,
-        message: String,
-        accessKey: String
-    ) : super(error, message) {
-        result = accessKey.cached()
-    }
-
-    constructor(msg: String, key: String) : this(0, msg, key) {}
-    constructor(err: Int, msg: String) : this(err, msg, "") {}
+class AccountAccessKeyResult(val result: EncodedStringCache) : GenericDataResult(uid) {
 
     val accessKey: String
-        get() = this.result!!.get()
+        get() = this.result.get()
 
     override fun toJson(): String {
         return Json.encodeToString(this)

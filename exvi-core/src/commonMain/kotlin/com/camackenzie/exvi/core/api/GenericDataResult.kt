@@ -17,37 +17,6 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-open class GenericDataResult<T : SelfSerializable> : DataResult<T> {
-    val responder: EncodedStringCache
-    override val result: T?
-
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
-
-    constructor(err: Int, msg: String, resp: T) : super(err, msg) {
-        responder = resp.getUID().cached()
-        result = resp
-    }
-
-    constructor(resp: T) : this(0, "Success", resp) {}
-
-    override fun getUID(): String {
-        return Companion.uid
-    }
-
-    companion object {
-        @kotlin.jvm.JvmStatic
-        fun <T : SelfSerializable> success(resp: T): GenericDataResult<T> {
-            return GenericDataResult(resp)
-        }
-
-        @kotlin.jvm.JvmStatic
-        fun faliure(msg: String, err: Int): GenericDataResult<None> {
-            return GenericDataResult(err, msg, None)
-        }
-
-        @kotlin.jvm.JvmStatic
-        val uid = "GenericDataResult"
-    }
+abstract class GenericDataResult(val responder: EncodedStringCache) : SelfSerializable {
+    constructor(responder: String) : this(responder.cached())
 }
