@@ -18,22 +18,6 @@ import kotlinx.serialization.*
 class AccountSaltResult : DataResult<EncodedStringCache> {
     override val result: EncodedStringCache?
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
-
-    override fun getUID(): String {
-        return Companion.getUID()
-    }
-
-    companion object {
-        @kotlin.jvm.JvmStatic
-        @kotlin.jvm.JvmName("UID")
-        fun getUID(): String {
-            return "AccountSaltResult"
-        }
-    }
-
     @kotlin.jvm.JvmOverloads
     constructor(
         err: Int = 0,
@@ -44,5 +28,19 @@ class AccountSaltResult : DataResult<EncodedStringCache> {
     }
 
     val salt: String?
-        get() = if (result == null) null else result.get()
+        get() = result?.get()
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+
+    override fun getUID(): String {
+        return Companion.uid
+    }
+
+    companion object {
+        @kotlin.jvm.JvmStatic
+        val uid = "AccountSaltResult"
+    }
 }

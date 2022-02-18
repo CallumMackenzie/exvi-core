@@ -27,22 +27,18 @@ class RetrieveSaltRequest : SelfSerializable {
         return Json.encodeToString(this)
     }
 
-
-    override fun getUID(): String {
-        return Companion.getUID()
-    }
-
-    companion object {
-        @kotlin.jvm.JvmStatic
-        @kotlin.jvm.JvmName("UID")
-        fun getUID(): String {
-            return "RetrieveSaltRequest"
-        }
-    }
-
     override fun equals(other: Any?): Boolean {
         return if (other is RetrieveSaltRequest) {
             other.username == username
         } else false
+    }
+
+    override fun getUID(): String {
+        return Companion.uid
+    }
+
+    companion object {
+        @kotlin.jvm.JvmStatic
+        val uid = "RetrieveSaltRequest"
     }
 }

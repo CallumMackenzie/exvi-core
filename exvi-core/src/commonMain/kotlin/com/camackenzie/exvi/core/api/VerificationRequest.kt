@@ -37,14 +37,11 @@ class VerificationRequest : SelfSerializable {
     }
 
     override fun getUID(): String {
-        return Companion.getUID()
+        return Companion.uid
     }
 
     companion object {
         @kotlin.jvm.JvmStatic
-        @kotlin.jvm.JvmName("UID")
-        fun getUID(): String {
-            return "VerificationRequest"
-        }
+        val uid = "VerificationRequest"
     }
 }

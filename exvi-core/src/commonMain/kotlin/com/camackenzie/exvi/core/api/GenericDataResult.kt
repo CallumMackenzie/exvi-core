@@ -25,16 +25,16 @@ open class GenericDataResult<T : SelfSerializable> : DataResult<T> {
         return Json.encodeToString(this)
     }
 
-    override fun getUID(): String {
-        return Companion.getUID()
-    }
-
     constructor(err: Int, msg: String, resp: T) : super(err, msg) {
         responder = resp.getUID().cached()
         result = resp
     }
 
     constructor(resp: T) : this(0, "Success", resp) {}
+
+    override fun getUID(): String {
+        return Companion.uid
+    }
 
     companion object {
         @kotlin.jvm.JvmStatic
@@ -48,9 +48,6 @@ open class GenericDataResult<T : SelfSerializable> : DataResult<T> {
         }
 
         @kotlin.jvm.JvmStatic
-        @kotlin.jvm.JvmName("UID")
-        fun getUID(): String {
-            return "GenericDataRequest"
-        }
+        val uid = "GenericDataResult"
     }
 }

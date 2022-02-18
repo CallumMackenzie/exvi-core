@@ -16,20 +16,17 @@ import kotlinx.serialization.*
  */
 @kotlinx.serialization.Serializable
 class WorkoutListResult(val workouts: Array<Workout>) : SelfSerializable {
+
     override fun toJson(): String {
         return Json.encodeToString(this)
     }
 
     override fun getUID(): String {
-        return Companion.getUID()
+        return Companion.uid
     }
 
     companion object {
         @kotlin.jvm.JvmStatic
-        @kotlin.jvm.JvmName("UID")
-        fun getUID(): String {
-            return "WorkoutListResult"
-        }
+        val uid = "WorkoutListResult"
     }
-
 }

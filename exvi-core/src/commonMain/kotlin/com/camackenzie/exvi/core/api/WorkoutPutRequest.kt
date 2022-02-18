@@ -15,20 +15,17 @@ import kotlinx.serialization.json.*
  * @author callum
  */
 @Serializable
-class WorkoutPutRequest(val workouts: Array<Workout>) : GenericDataRequest(this.getUID()) {
+class WorkoutPutRequest(val workouts: Array<Workout>) : GenericDataRequest(uid) {
     override fun toJson(): String {
         return Json.encodeToString(this)
     }
 
     override fun getUID(): String {
-        return Companion.getUID()
+        return Companion.uid
     }
 
     companion object {
         @kotlin.jvm.JvmStatic
-        @kotlin.jvm.JvmName("UID")
-        fun getUID(): String {
-            return "WorkoutPutRequest"
-        }
+        val uid = "WorkoutPutRequest"
     }
 }

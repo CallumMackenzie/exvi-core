@@ -16,21 +16,19 @@ import kotlinx.serialization.*
 @kotlinx.serialization.Serializable
 class VerificationResult : DataResult<None> {
     override val result: None? = null
+
+    constructor(err: Int, msg: String) : super(err, msg) {}
+
     override fun toJson(): String {
         return Json.encodeToString(this)
     }
 
     override fun getUID(): String {
-        return Companion.getUID()
+        return Companion.uid
     }
 
     companion object {
         @kotlin.jvm.JvmStatic
-        @kotlin.jvm.JvmName("UID")
-        fun getUID(): String {
-            return "VerificationResult"
-        }
+        val uid = "VerificationResult"
     }
-
-    constructor(err: Int, msg: String) : super(err, msg) {}
 }
