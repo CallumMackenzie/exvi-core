@@ -38,7 +38,6 @@ class VerificationRequest(
     }
 
     companion object {
-        @kotlin.jvm.JvmField
-        val uid = "VerificationRequest"
+        const val uid = "VerificationRequest"
     }
 }

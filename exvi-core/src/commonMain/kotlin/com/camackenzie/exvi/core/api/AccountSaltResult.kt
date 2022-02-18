@@ -31,7 +31,6 @@ class AccountSaltResult(val result: EncodedStringCache) : GenericDataResult(uid)
     }
 
     companion object {
-        @kotlin.jvm.JvmField
-        val uid = "AccountSaltResult"
+        const val uid = "AccountSaltResult"
     }
 }

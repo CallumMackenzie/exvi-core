@@ -33,7 +33,6 @@ class AccountAccessKeyResult(val result: EncodedStringCache) : GenericDataResult
     }
 
     companion object {
-        @kotlin.jvm.JvmField
-        val uid = "AccountAccessKeyResult"
+        const val uid = "AccountAccessKeyResult"
     }
 }

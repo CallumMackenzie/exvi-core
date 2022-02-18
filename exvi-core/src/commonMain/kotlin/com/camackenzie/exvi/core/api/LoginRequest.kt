@@ -34,7 +34,6 @@ class LoginRequest : SelfSerializable {
     }
 
     companion object {
-        @kotlin.jvm.JvmField
-        val uid = "LoginRequest"
+        const val uid = "LoginRequest"
     }
 }

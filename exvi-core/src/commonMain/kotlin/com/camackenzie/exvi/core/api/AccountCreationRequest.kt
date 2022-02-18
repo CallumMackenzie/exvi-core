@@ -40,7 +40,6 @@ class AccountCreationRequest : SelfSerializable {
     }
 
     companion object {
-        @kotlin.jvm.JvmField
-        val uid = "AccountCreationRequest"
+        const val uid = "AccountCreationRequest"
     }
 }

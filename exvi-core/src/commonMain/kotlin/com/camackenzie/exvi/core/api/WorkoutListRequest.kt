@@ -38,7 +38,6 @@ class WorkoutListRequest(
     }
 
     companion object {
-        @kotlin.jvm.JvmField
-        val uid = "WorkoutListRequest"
+        const val uid = "WorkoutListRequest"
     }
 }

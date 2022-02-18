@@ -6,10 +6,9 @@ import kotlinx.serialization.json.*
 @kotlinx.serialization.Serializable
 object NoneResult : GenericDataResult("NoneResult") {
 
-    @kotlin.jvm.JvmField
     @kotlin.jvm.Transient
     @kotlinx.serialization.Transient
-    val uid = "NoneResult"
+    const val uid = "NoneResult"
 
     override fun toJson(): String {
         return Json.encodeToString(this)
