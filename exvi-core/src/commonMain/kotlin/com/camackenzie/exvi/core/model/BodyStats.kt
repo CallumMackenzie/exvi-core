@@ -5,6 +5,10 @@
  */
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.SelfSerializable
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
+
 /**
  *
  * @author callum
@@ -14,8 +18,19 @@ data class BodyStats(
     var sex: GeneticSex,
     var totalMass: UnitValue<MassUnit>,
     var height: UnitValue<DistanceUnit>
-) {
+) : SelfSerializable {
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return uid
+    }
+
     companion object {
+        const val uid = "BodyStats"
+
         @kotlin.jvm.JvmStatic
         fun averageMale(): BodyStats {
             return BodyStats(
@@ -43,4 +58,5 @@ data class BodyStats(
             )
         }
     }
+
 }

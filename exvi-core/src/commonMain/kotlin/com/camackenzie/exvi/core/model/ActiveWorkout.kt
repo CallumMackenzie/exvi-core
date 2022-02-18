@@ -5,14 +5,17 @@
  */
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.datetime.Clock
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
 
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class ActiveWorkout {
+class ActiveWorkout : SelfSerializable {
     val exercises: Array<ActiveExercise>
     val name: String
     var startTimeMillis: Long?
@@ -49,5 +52,17 @@ class ActiveWorkout {
         return if (startTimeMillis != null && endTimeMillis != null) {
             endTimeMillis!! - startTimeMillis!!
         } else null
+    }
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return uid
+    }
+
+    companion object {
+        const val uid = "ActiveWorkout"
     }
 }

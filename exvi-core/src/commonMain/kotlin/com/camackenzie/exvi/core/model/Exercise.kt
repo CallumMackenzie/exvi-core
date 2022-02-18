@@ -5,6 +5,10 @@
  */
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.SelfSerializable
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
+
 /**
  *
  * @author callum
@@ -22,7 +26,7 @@ data class Exercise(
     var mechanics: ExerciseMechanics,
     var forceType: ExerciseForceType,
     var equipment: HashSet<ExerciseEquipment>
-) : Comparable<Exercise> {
+) : Comparable<Exercise>, SelfSerializable {
 
     fun worksMuscle(m: Muscle): Boolean {
         for ((muscle) in musclesWorked) {
@@ -37,6 +41,14 @@ data class Exercise(
         return name.compareTo(other.name)
     }
 
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return uid
+    }
+
     override fun equals(other: Any?): Boolean {
         return if (other is Exercise) {
             this.compareTo(other) == 0
@@ -45,5 +57,9 @@ data class Exercise(
 
     override fun hashCode(): Int {
         return name.hashCode()
+    }
+
+    companion object {
+        const val uid = "Exercise"
     }
 }

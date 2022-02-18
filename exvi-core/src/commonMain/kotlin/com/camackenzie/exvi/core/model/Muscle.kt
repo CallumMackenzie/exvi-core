@@ -5,12 +5,16 @@
  */
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.SelfSerializable
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
+
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-enum class Muscle(subMuscles: Array<Muscle>, vararg altNames: String) {
+enum class Muscle(subMuscles: Array<Muscle>, vararg altNames: String) : SelfSerializable {
     PECTORALIS_MAJOR("pecs"),
     TRAPEZIUS("traps"),
     RHOMBOIDS(),
@@ -119,7 +123,17 @@ enum class Muscle(subMuscles: Array<Muscle>, vararg altNames: String) {
         return muscleName
     }
 
+    override fun getUID(): String {
+        return uid
+    }
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
     companion object {
+        const val uid = "Muscle"
+
         private fun validateMuscleSub(constant: Muscle, dyn: Muscle): Boolean {
             if (constant.matchesName(dyn.muscleName)) {
                 return true

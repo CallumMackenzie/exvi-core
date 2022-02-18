@@ -6,7 +6,6 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
-import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*

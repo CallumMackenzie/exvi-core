@@ -5,12 +5,16 @@
  */
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.SelfSerializable
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
+
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-data class ExerciseSet(val exercise: Exercise, val unit: String, val sets: Array<Int>) {
+data class ExerciseSet(val exercise: Exercise, val unit: String, val sets: Array<Int>) : SelfSerializable {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -32,7 +36,17 @@ data class ExerciseSet(val exercise: Exercise, val unit: String, val sets: Array
         return result
     }
 
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return uid
+    }
+
     companion object {
+        const val uid = "ExerciseSet"
+
         @kotlin.jvm.JvmStatic
         fun repSets(ex: Exercise, sets: Array<Int>): ExerciseSet {
             return ExerciseSet(ex, "rep", sets)

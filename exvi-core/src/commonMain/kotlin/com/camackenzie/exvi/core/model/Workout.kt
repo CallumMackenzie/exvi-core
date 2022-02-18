@@ -5,14 +5,18 @@
  */
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlin.collections.ArrayList
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
 
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
-data class Workout(var name: String, var description: String, val exercises: ArrayList<ExerciseSet>) {
+data class Workout(var name: String, var description: String, val exercises: ArrayList<ExerciseSet>)
+    : SelfSerializable {
 
     fun newActiveWorkout(): ActiveWorkout {
         return ActiveWorkout(this)
@@ -66,5 +70,17 @@ data class Workout(var name: String, var description: String, val exercises: Arr
 
         // Return formatted string
         return ret.toString()
+    }
+
+    override fun toJson(): String {
+        return Json.encodeToString(this)
+    }
+
+    override fun getUID(): String {
+        return uid
+    }
+
+    companion object {
+        const val uid = "Workout"
     }
 }
