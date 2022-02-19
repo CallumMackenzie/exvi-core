@@ -20,13 +20,18 @@ import kotlinx.datetime.Clock.System
  * @author callum
  */
 @kotlinx.serialization.Serializable
-data class Workout(var name: String, var description: String, val exercises: ArrayList<ExerciseSet>) :
-    SelfSerializable {
+data class Workout(
+    var name: String, var description: String, val exercises: ArrayList<ExerciseSet>,
+    val id: EncodedStringCache
+) : SelfSerializable {
 
-    val id: EncodedStringCache = StringBuilder()
-        .append(generateSalt(16))
-        .append(hashSHA256(System.now().epochSeconds.toString(16)))
-        .toString().cached()
+    constructor(name: String, description: String, exercises: ArrayList<ExerciseSet>) :
+            this(
+                name, description, exercises, StringBuilder()
+                    .append(generateSalt(16))
+                    .append(hashSHA256(System.now().epochSeconds.toString(16)))
+                    .toString().cached()
+            )
 
     fun newActiveWorkout(): ActiveWorkout {
         return ActiveWorkout(this)
