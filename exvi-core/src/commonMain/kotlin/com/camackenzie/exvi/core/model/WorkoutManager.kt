@@ -56,7 +56,15 @@ data class LocalWorkoutManager constructor(
         onSuccess: () -> Unit,
         onComplete: () -> Unit
     ) {
-        workouts.addAll(workoutsToAdd)
+        val workoutIds = workouts.map { it.id.get() }
+        for (workout in workoutsToAdd) {
+            val i = workoutIds.indexOf(workout.id.get())
+            if (i != -1) {
+                workouts[i] = workout
+            } else {
+                workouts.add(workout)
+            }
+        }
         onSuccess()
         onComplete()
     }
