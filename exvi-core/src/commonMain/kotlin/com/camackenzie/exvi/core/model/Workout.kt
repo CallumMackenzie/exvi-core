@@ -5,12 +5,15 @@
  */
 package com.camackenzie.exvi.core.model
 
-import com.camackenzie.exvi.core.util.CryptographyUtils
+import com.camackenzie.exvi.core.util.CryptographyUtils.generateSalt
+import com.camackenzie.exvi.core.util.CryptographyUtils.hashSHA256
+import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.datetime.Clock
+import com.camackenzie.exvi.core.util.cached
 import kotlin.collections.ArrayList
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
+import kotlinx.datetime.Clock.System
 
 /**
  *
@@ -20,8 +23,10 @@ import kotlinx.serialization.*
 data class Workout(var name: String, var description: String, val exercises: ArrayList<ExerciseSet>) :
     SelfSerializable {
 
-    val uid =
-        CryptographyUtils.hashSHA256(Clock.System.now().nanosecondsOfSecond.toString()) + Clock.System.now().epochSeconds.toString()
+    val id: EncodedStringCache = StringBuilder()
+        .append(generateSalt(16))
+        .append(hashSHA256(System.now().epochSeconds.toString(16)))
+        .toString().cached()
 
     fun newActiveWorkout(): ActiveWorkout {
         return ActiveWorkout(this)
@@ -82,7 +87,7 @@ data class Workout(var name: String, var description: String, val exercises: Arr
     }
 
     override fun getUID(): String {
-        return uid
+        return Companion.uid
     }
 
     companion object {
