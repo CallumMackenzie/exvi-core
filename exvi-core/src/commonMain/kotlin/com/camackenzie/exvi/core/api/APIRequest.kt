@@ -58,7 +58,7 @@ class APIRequest<T : SelfSerializable> {
         return endpoint.isBlank()
     }
 
-    fun sendAsync(callback: (HttpResponse, String) -> Unit) {
+    fun sendAsync(callback: (HttpResponse?, String) -> Unit) {
         CoroutineScope(Dispatchers.Default).launch {
             send(callback)
         }
@@ -66,27 +66,31 @@ class APIRequest<T : SelfSerializable> {
 
     suspend fun send(callback: (APIResult<String>) -> Unit): Job {
         return send() { response, body ->
-            val parsedResponse: APIResult<String> = APIResult(response.status.value, body, HashMap())
+            val parsedResponse: APIResult<String> = APIResult(response?.status.value ?: 418, body, HashMap())
             callback(parsedResponse)
         }
     }
 
-    suspend fun send(callback: (HttpResponse, String) -> Unit): Job = coroutineScope {
+    suspend fun send(callback: (HttpResponse?, String) -> Unit): Job = coroutineScope {
         return@coroutineScope launch {
-            HttpClient {
-                expectSuccess = false
-            }.use { httpClient ->
-                val reqHeaders = headers
-                val reqBody = body.toJson()
-                val response = httpClient.post<HttpResponse>(endpoint) {
-                    headers {
-                        for ((key, value) in reqHeaders) {
-                            append(key, value)
+            try {
+                HttpClient {
+                    expectSuccess = false
+                }.use { httpClient ->
+                    val reqHeaders = headers
+                    val reqBody = body.toJson()
+                    val response = httpClient.post<HttpResponse>(endpoint) {
+                        headers {
+                            for ((key, value) in reqHeaders) {
+                                append(key, value)
+                            }
                         }
+                        body = reqBody
                     }
-                    body = reqBody
+                    callback(response, response.receive())
                 }
-                callback(response, response.receive())
+            } catch {
+                callback(null, "Could not send request")
             }
         }
     }
