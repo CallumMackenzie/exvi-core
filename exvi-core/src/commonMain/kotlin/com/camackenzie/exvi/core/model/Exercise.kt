@@ -37,6 +37,22 @@ data class Exercise(
         return false
     }
 
+    fun hasDescription(): Boolean {
+        return description.isNotBlank()
+    }
+
+    fun hasVideoLink(): Boolean {
+        return videoLink.isNotBlank()
+    }
+
+    fun hasTips(): Boolean {
+        return tips.isNotBlank()
+    }
+
+    fun hasOverview(): Boolean {
+        return overview.isNotBlank()
+    }
+
     override fun compareTo(other: Exercise): Int {
         return name.compareTo(other.name)
     }
