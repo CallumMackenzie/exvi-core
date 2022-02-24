@@ -66,7 +66,7 @@ class APIRequest<T : SelfSerializable> {
 
     suspend fun send(callback: (APIResult<String>) -> Unit): Job {
         return send() { response, body ->
-            val parsedResponse: APIResult<String> = APIResult(response?.status.value ?: 418, body, HashMap())
+            val parsedResponse: APIResult<String> = APIResult(response?.status?.value ?: 418, body, HashMap())
             callback(parsedResponse)
         }
     }
@@ -89,7 +89,7 @@ class APIRequest<T : SelfSerializable> {
                     }
                     callback(response, response.receive())
                 }
-            } catch {
+            } catch (e: Exception) {
                 callback(null, "Could not send request")
             }
         }
