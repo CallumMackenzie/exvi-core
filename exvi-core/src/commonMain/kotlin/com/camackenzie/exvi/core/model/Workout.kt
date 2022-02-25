@@ -21,11 +21,17 @@ import kotlinx.datetime.Clock.System
  */
 @kotlinx.serialization.Serializable
 data class Workout(
-    var name: String, var description: String, val exercises: ArrayList<ExerciseSet>,
+    var name: String = "",
+    var description: String = "",
+    val exercises: ArrayList<ExerciseSet> = arrayListOf(),
     val id: EncodedStringCache
 ) : SelfSerializable {
 
-    constructor(name: String, description: String, exercises: ArrayList<ExerciseSet>) :
+    constructor(
+        name: String = "",
+        description: String = "",
+        exercises: ArrayList<ExerciseSet> = arrayListOf()
+    ) :
             this(
                 name, description, exercises, StringBuilder()
                     .append(generateSalt(16))
