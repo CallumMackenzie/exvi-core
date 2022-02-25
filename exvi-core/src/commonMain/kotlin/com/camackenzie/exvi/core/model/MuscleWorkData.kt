@@ -23,7 +23,7 @@ data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double) : Sel
     }
 
     fun equals(other: MuscleWorkData, coefficientTolerance: Double): Boolean {
-        return other.muscle == this.muscle &&
+        return other.muscle.isInvolvedIn(this.muscle) &&
                 abs(other.workCoefficient - this.workCoefficient) < coefficientTolerance
     }
 
