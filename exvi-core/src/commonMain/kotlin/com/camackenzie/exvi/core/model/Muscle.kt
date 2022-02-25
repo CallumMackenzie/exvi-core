@@ -119,6 +119,10 @@ enum class Muscle(subMuscles: Array<Muscle>, vararg altNames: String) : SelfSeri
         return isComponentOf(m) || isComposedOf(m)
     }
 
+    fun workData(workCoefficient: Double): MuscleWorkData {
+        return MuscleWorkData(this, workCoefficient)
+    }
+
     override fun toString(): String {
         return muscleName
     }
