@@ -39,6 +39,10 @@ data class Workout(
                     .toString().cached()
             )
 
+    constructor(other: Workout) : this(
+        other.name, other.description, other.exercises, other.id
+    )
+
     fun newActiveWorkout(): ActiveWorkout {
         return ActiveWorkout(this)
     }
