@@ -11,8 +11,15 @@ package com.camackenzie.exvi.core.model
  */
 @kotlinx.serialization.Serializable
 data class UnitValue<T : Unit>(val unit: T, val value: Double) {
+
     fun toUnit(m: T): UnitValue<T> {
-        return UnitValue<T>(m, value / unit.getBaseCoefficient() * m.getBaseCoefficient())
+        return UnitValue(m, value / unit.getBaseCoefficient() * m.getBaseCoefficient())
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is UnitValue<*>) {
+            this.unit == other.unit && this.value == other.value
+        } else false
     }
 
     override fun toString(): String {

@@ -8,6 +8,7 @@ package com.camackenzie.exvi.core.model
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
+import kotlin.math.abs
 
 /**
  *
@@ -37,6 +38,33 @@ data class Exercise(
         return false
     }
 
+    fun worksMuscle(workData: MuscleWorkData): Boolean {
+        for (muscle in musclesWorked) {
+            if (muscle == workData) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun isType(type: ExerciseType): Boolean {
+        for (ty in this.exerciseTypes) {
+            if (ty == type) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun usesEquipment(equipment: ExerciseEquipment): Boolean {
+        for (eq in this.equipment) {
+            if (eq == equipment) {
+                return true
+            }
+        }
+        return false
+    }
+
     fun hasDescription(): Boolean {
         return description.isNotBlank()
     }
@@ -53,6 +81,10 @@ data class Exercise(
         return overview.isNotBlank()
     }
 
+    fun hasEquipment(): Boolean {
+        return equipment.isEmpty()
+    }
+
     override fun compareTo(other: Exercise): Int {
         return name.compareTo(other.name)
     }
@@ -67,7 +99,7 @@ data class Exercise(
 
     override fun equals(other: Any?): Boolean {
         return if (other is Exercise) {
-            this.compareTo(other) == 0
+            this.name == other.name
         } else false
     }
 
