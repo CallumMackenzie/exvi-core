@@ -48,50 +48,44 @@ class APIRequest<T : SelfSerializable> {
         return this
     }
 
-    fun sendAsync(callback: (APIResult<String>) -> Unit) {
-        CoroutineScope(Dispatchers.Default).launch {
-            send(callback)
-        }
+    fun sendAsync(
+        coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+        dispatcher: CoroutineDispatcher = Dispatchers.Default,
+        callback: (APIResult<String>) -> Unit
+    ): Job = coroutineScope.launch(dispatcher) {
+        send(callback)
     }
 
     fun hasEndpoint(): Boolean {
         return endpoint.isBlank()
     }
 
-    fun sendAsync(callback: (HttpResponse?, String) -> Unit) {
-        CoroutineScope(Dispatchers.Default).launch {
-            send(callback)
-        }
-    }
-
-    suspend fun send(callback: (APIResult<String>) -> Unit): Job {
-        return send() { response, body ->
+    suspend fun send(callback: (APIResult<String>) -> Unit) {
+        return send { response, body ->
             val parsedResponse: APIResult<String> = APIResult(response?.status?.value ?: 418, body, HashMap())
             callback(parsedResponse)
         }
     }
 
-    suspend fun send(callback: (HttpResponse?, String) -> Unit): Job = coroutineScope {
-        return@coroutineScope launch {
-            try {
-                HttpClient {
-                    expectSuccess = false
-                }.use { httpClient ->
-                    val reqHeaders = headers
-                    val reqBody = body.toJson()
-                    val response = httpClient.post<HttpResponse>(endpoint) {
-                        headers {
-                            for ((key, value) in reqHeaders) {
-                                append(key, value)
-                            }
+    suspend fun send(callback: (HttpResponse?, String) -> Unit) {
+        try {
+            HttpClient {
+                expectSuccess = false
+            }.use { httpClient ->
+                val reqHeaders = headers
+                val reqBody = body.toJson()
+                val response = httpClient.post<HttpResponse>(endpoint) {
+                    headers {
+                        for ((key, value) in reqHeaders) {
+                            append(key, value)
                         }
-                        body = reqBody
                     }
-                    callback(response, response.receive())
+                    body = reqBody
                 }
-            } catch (e: Exception) {
-                callback(null, "Could not send request")
+                callback(response, response.receive())
             }
+        } catch (e: Exception) {
+            callback(null, "Could not send request")
         }
     }
 
@@ -102,31 +96,18 @@ class APIRequest<T : SelfSerializable> {
             body: T,
             headers: HashMap<String, String> = jsonHeaders(),
             callback: (APIResult<String>) -> Unit
-        ): Job {
-            val req = APIRequest(endpoint, body)
-            for ((key, value) in headers) {
-                req.headers[key] = value
-            }
-            return req.send() { result ->
-                callback(result)
-            }
-        }
+        ) = APIRequest(endpoint, body, headers).send(callback)
 
         @kotlin.jvm.JvmStatic
         fun <T : SelfSerializable> requestAsync(
             endpoint: String,
             body: T,
             headers: HashMap<String, String> = jsonHeaders(),
+            coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+            coroutineDispatcher: CoroutineDispatcher = Dispatchers.Default,
             callback: (APIResult<String>) -> Unit
-        ) {
-            val req = APIRequest(endpoint, body)
-            for ((key, value) in headers) {
-                req.headers[key] = value
-            }
-            req.sendAsync() { result ->
-                callback(result)
-            }
-        }
+        ): Job = APIRequest(endpoint, body, headers)
+            .sendAsync(coroutineScope, coroutineDispatcher, callback)
 
         @kotlin.jvm.JvmStatic
         fun jsonHeaders(): HashMap<String, String> {
