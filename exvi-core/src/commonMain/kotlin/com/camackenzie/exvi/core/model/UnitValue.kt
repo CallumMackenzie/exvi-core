@@ -19,6 +19,16 @@ data class UnitValue<T : Unit>(
         else UnitValue(unit, this.value / this.unit.getBaseCoefficient() * unit.getBaseCoefficient())
     }
 
+    private inline fun applyToValue(other: UnitValue<T>, apply: (Double) -> Double): UnitValue<T> =
+        UnitValue(unit, apply(other.toUnit(unit).value))
+
+    operator fun plus(other: UnitValue<T>): UnitValue<T> = applyToValue(other) { value + it }
+    operator fun minus(other: UnitValue<T>): UnitValue<T> = applyToValue(other) { value - it }
+    operator fun times(other: UnitValue<T>): UnitValue<T> = applyToValue(other) { value * it }
+    operator fun div(other: UnitValue<T>): UnitValue<T> = applyToValue(other) { value / it }
+    operator fun unaryMinus(): UnitValue<T> = UnitValue(unit, -value)
+    operator fun unaryPlus(): UnitValue<T> = UnitValue(unit, +value)
+
     override fun equals(other: Any?): Boolean {
         return if (other is UnitValue<*>) {
             if (this.unit == other.unit)
@@ -29,7 +39,5 @@ data class UnitValue<T : Unit>(
         } else false
     }
 
-    override fun toString(): String {
-        return "$value $unit"
-    }
+    override fun toString(): String = "$value ${unit.toString().lowercase()}s"
 }
