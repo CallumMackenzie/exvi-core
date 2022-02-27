@@ -20,6 +20,9 @@ data class ExerciseSet(
     var sets: Array<SingleExerciseSet>
 ) : SelfSerializable {
 
+    constructor(exercise: Exercise, unit: String, sets: Array<Int>)
+            : this(exercise, unit, sets.map { SingleExerciseSet(it) }.toTypedArray())
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
