@@ -6,16 +6,20 @@ data class SingleExerciseSet(
     val weight: Mass,
     val timing: Array<Time>
 ) {
+    
+    fun deepValueCopy(): SingleExerciseSet = SingleExerciseSet(
+        reps,
+        weight.copy(),
+        timing.map { it.copy() }.toTypedArray()
+    )
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
-
         other as SingleExerciseSet
-
         if (reps != other.reps) return false
         if (weight != other.weight) return false
         if (!timing.contentEquals(other.timing)) return false
-
         return true
     }
 

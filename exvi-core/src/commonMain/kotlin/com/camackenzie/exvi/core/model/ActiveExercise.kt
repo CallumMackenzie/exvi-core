@@ -14,15 +14,22 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class ActiveExercise(val exercise: Exercise, val targetSets: ExerciseSet, var activeSets: ExerciseSet) :
+class ActiveExercise(
+    val exercise: Exercise,
+    val targetSets: ExerciseSet,
+    var activeSets: ExerciseSet
+) :
     SelfSerializable {
 
     constructor(ex: ExerciseSet) : this(
-        ex.exercise,
-        ex,
-        ExerciseSet(ex.exercise, ex.unit, Array<Int>(ex.sets.size) { ex.sets[it] })
-    ) {
-    }
+        exercise = ex.exercise,
+        targetSets = ex,
+        activeSets = ExerciseSet(
+            ex.exercise,
+            ex.unit,
+            Array(ex.sets.size) { ex.sets[it].deepValueCopy() }
+        )
+    )
 
     override fun toJson(): String {
         return Json.encodeToString(this)

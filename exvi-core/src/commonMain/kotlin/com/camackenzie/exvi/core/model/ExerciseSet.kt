@@ -16,8 +16,8 @@ import kotlinx.serialization.*
 @kotlinx.serialization.Serializable
 data class ExerciseSet(
     val exercise: Exercise,
-    val unit: String,
-    val sets: Array<SingleExerciseSet>
+    var unit: String,
+    var sets: Array<SingleExerciseSet>
 ) : SelfSerializable {
 
     override fun equals(other: Any?): Boolean {

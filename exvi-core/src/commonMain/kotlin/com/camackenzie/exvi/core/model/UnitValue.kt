@@ -20,7 +20,11 @@ data class UnitValue<T : Unit>(
 
     override fun equals(other: Any?): Boolean {
         return if (other is UnitValue<*>) {
-            this.unit == other.unit && this.value == other.value
+            if (this.unit == other.unit)
+                this.value == other.value
+            else if (this.unit::class == other.unit::class)
+                this.toUnit(other.unit as T) == other
+            else false
         } else false
     }
 
