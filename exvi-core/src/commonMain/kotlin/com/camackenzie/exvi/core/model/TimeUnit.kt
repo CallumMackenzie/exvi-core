@@ -13,3 +13,5 @@ enum class TimeUnit(private val unit: Double) : Unit {
 
     override fun getBaseCoefficient(): Double = unit
 }
+
+fun Time.none(): Time = Time(TimeUnit.Second, 0.0)

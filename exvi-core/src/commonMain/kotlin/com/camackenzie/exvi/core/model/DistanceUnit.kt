@@ -23,3 +23,5 @@ enum class DistanceUnit(private val unit: Double) : Unit {
         return unit
     }
 }
+
+fun Distance.none(): Distance = Distance(DistanceUnit.Centimeter, 0.0)

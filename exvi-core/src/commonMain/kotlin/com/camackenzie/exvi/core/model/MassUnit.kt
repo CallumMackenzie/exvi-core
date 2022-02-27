@@ -19,3 +19,5 @@ enum class MassUnit(private val unit: Double) : Unit {
 
     override fun getBaseCoefficient(): Double = unit
 }
+
+fun Mass.none(): Mass = Mass(MassUnit.Kilogram, 0.0)

@@ -18,3 +18,5 @@ enum class EnergyUnit(private val unit: Double) : Unit {
 
     override fun getBaseCoefficient(): Double = unit
 }
+
+fun Energy.none(): Energy = Energy(EnergyUnit.KiloJoule, 0.0)
