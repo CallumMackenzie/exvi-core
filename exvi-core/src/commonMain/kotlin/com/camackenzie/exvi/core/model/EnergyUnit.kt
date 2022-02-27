@@ -5,15 +5,16 @@
  */
 package com.camackenzie.exvi.core.model
 
+typealias Energy = UnitValue<EnergyUnit>
+
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
 enum class EnergyUnit(private val unit: Double) : Unit {
-    KILOJOULE(1.0), KILOCALORIE(0.239006);
+    KiloJoule(1.0),
+    KiloCalorie(0.239006);
 
-    override fun getBaseCoefficient(): Double {
-        return unit
-    }
+    override fun getBaseCoefficient(): Double = unit
 }

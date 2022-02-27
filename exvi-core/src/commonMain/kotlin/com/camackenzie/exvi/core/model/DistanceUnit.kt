@@ -5,13 +5,19 @@
  */
 package com.camackenzie.exvi.core.model
 
+typealias Distance = UnitValue<DistanceUnit>
+
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
 enum class DistanceUnit(private val unit: Double) : Unit {
-    CENTIMETER(1.0), METER(0.01), INCH(0.39370078740109), FOOT(0.0328084);
+    Centimeter(1.0),
+    Meter(Centimeter.unit / 100.0),
+    Kilometer(Meter.unit / 1000.0),
+    Inch(0.39370078740109),
+    Foot(Inch.unit / 12.0);
 
     override fun getBaseCoefficient(): Double {
         return unit

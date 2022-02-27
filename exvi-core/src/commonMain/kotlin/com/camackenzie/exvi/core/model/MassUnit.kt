@@ -5,15 +5,17 @@
  */
 package com.camackenzie.exvi.core.model
 
+typealias Mass = UnitValue<MassUnit>
+
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
 enum class MassUnit(private val unit: Double) : Unit {
-    KILOGRAM(1.0), POUND(2.20462), GRAM(1000.0);
+    Kilogram(1.0),
+    Pound(2.20462),
+    Gram(1000.0);
 
-    override fun getBaseCoefficient(): Double {
-        return unit
-    }
+    override fun getBaseCoefficient(): Double = unit
 }

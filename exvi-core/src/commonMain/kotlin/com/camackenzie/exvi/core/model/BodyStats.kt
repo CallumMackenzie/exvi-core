@@ -35,8 +35,8 @@ data class BodyStats(
         fun averageMale(): BodyStats {
             return BodyStats(
                 GeneticSex.MALE,
-                UnitValue(MassUnit.POUND, 190.0),
-                UnitValue(DistanceUnit.METER, 1.7)
+                UnitValue(MassUnit.Pound, 190.0),
+                UnitValue(DistanceUnit.Meter, 1.7)
             )
         }
 
@@ -44,8 +44,8 @@ data class BodyStats(
         fun averageFemale(): BodyStats {
             return BodyStats(
                 GeneticSex.FEMALE,
-                UnitValue(MassUnit.POUND, 170.0),
-                UnitValue(DistanceUnit.METER, 1.625)
+                UnitValue(MassUnit.Pound, 170.0),
+                UnitValue(DistanceUnit.Meter, 1.625)
             )
         }
 
@@ -53,8 +53,8 @@ data class BodyStats(
         fun average(): BodyStats {
             return BodyStats(
                 GeneticSex.UNKNOWN,
-                UnitValue(MassUnit.POUND, 180.0),
-                UnitValue(DistanceUnit.METER, 1.68)
+                UnitValue(MassUnit.Pound, 180.0),
+                UnitValue(DistanceUnit.Meter, 1.68)
             )
         }
     }

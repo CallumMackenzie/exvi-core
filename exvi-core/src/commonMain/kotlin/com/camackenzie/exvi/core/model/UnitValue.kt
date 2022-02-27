@@ -10,8 +10,10 @@ package com.camackenzie.exvi.core.model
  * @author callum
  */
 @kotlinx.serialization.Serializable
-data class UnitValue<T : Unit>(val unit: T, val value: Double) {
-
+data class UnitValue<T : Unit>(
+    val unit: T,
+    val value: Double
+) {
     fun toUnit(m: T): UnitValue<T> {
         return UnitValue(m, value / unit.getBaseCoefficient() * m.getBaseCoefficient())
     }
@@ -23,6 +25,6 @@ data class UnitValue<T : Unit>(val unit: T, val value: Double) {
     }
 
     override fun toString(): String {
-        return value.toString() + unit.toString()
+        return "$value $unit"
     }
 }
