@@ -14,8 +14,9 @@ data class UnitValue<T : Unit>(
     val unit: T,
     val value: Double
 ) {
-    fun toUnit(m: T): UnitValue<T> {
-        return UnitValue(m, value / unit.getBaseCoefficient() * m.getBaseCoefficient())
+    fun toUnit(unit: T): UnitValue<T> {
+        return if (unit == this.unit) this
+        else UnitValue(unit, this.value / this.unit.getBaseCoefficient() * unit.getBaseCoefficient())
     }
 
     override fun equals(other: Any?): Boolean {

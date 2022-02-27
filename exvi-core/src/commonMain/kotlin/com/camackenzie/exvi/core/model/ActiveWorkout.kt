@@ -23,6 +23,11 @@ class ActiveWorkout : SelfSerializable {
     var endTimeMillis: Long?
         private set
 
+    val startTime: Time?
+        get() = Time(TimeUnit.Millisecond, startTimeMillis as Double)
+    val endTime: Time?
+        get() = Time(TimeUnit.Millisecond, startTimeMillis as Double)
+
     constructor(workout: Workout) {
         this.name = workout.name
         this.exercises = workout.exercises.map { exercise ->
