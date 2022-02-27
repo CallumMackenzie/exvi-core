@@ -50,14 +50,16 @@ class ActiveWorkout : SelfSerializable {
     }
 
     fun hasEnded(): Boolean {
-        return endTimeMillis != null
+        return hasStarted() && endTimeMillis != null
     }
 
-    fun finalElapsedTime(): Long? {
-        return if (startTimeMillis != null && endTimeMillis != null) {
-            endTimeMillis!! - startTimeMillis!!
-        } else null
-    }
+    fun finalElapsedTimeMillis(): Long? =
+        if (hasEnded()) endTimeMillis!! - startTimeMillis!!
+        else null
+
+    fun finalElapsedTime(): Time? = if (hasEnded())
+        Time(TimeUnit.Millisecond, finalElapsedTimeMillis() as Double)
+    else null
 
     override fun toJson(): String {
         return Json.encodeToString(this)
