@@ -12,6 +12,8 @@ enum class TimeUnit(private val unit: Double) : Unit {
     Week(Day.unit / 7.0);
 
     override fun getBaseCoefficient(): Double = unit
-}
 
-fun Time.none(): Time = Time(TimeUnit.Second, 0.0)
+    companion object {
+        fun none(): Time = Time(Second, 0.0)
+    }
+}

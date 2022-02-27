@@ -19,9 +19,9 @@ enum class DistanceUnit(private val unit: Double) : Unit {
     Inch(0.39370078740109),
     Foot(Inch.unit / 12.0);
 
-    override fun getBaseCoefficient(): Double {
-        return unit
+    override fun getBaseCoefficient(): Double = unit
+
+    companion object {
+        fun none(): Distance = Distance(Centimeter, 0.0)
     }
 }
-
-fun Distance.none(): Distance = Distance(DistanceUnit.Centimeter, 0.0)
