@@ -10,7 +10,7 @@ package com.camackenzie.exvi.core.model
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class UnitValue<T : Unit> private constructor(
+class UnitValue<T : Unit>(
     private var iUnit: T,
     private var iValue: Double
 ) {
@@ -20,6 +20,8 @@ class UnitValue<T : Unit> private constructor(
         get() = iValue
 
     private fun toOtherValue(unit: T): Double = iValue / iUnit.getBaseCoefficient() * unit.getBaseCoefficient()
+
+    fun valueCopy(): UnitValue<T> = UnitValue(iUnit, iValue)
 
     /**
      * Returns a new UnitValue with this unit converted to the given unit

@@ -9,8 +9,8 @@ data class SingleExerciseSet(
 
     fun deepValueCopy(): SingleExerciseSet = SingleExerciseSet(
         reps,
-        weight.copy(),
-        timing.map { it.copy() }.toTypedArray()
+        weight.valueCopy(),
+        timing.map { it.valueCopy() }.toTypedArray()
     )
 
     override fun equals(other: Any?): Boolean {
