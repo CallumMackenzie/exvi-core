@@ -6,11 +6,15 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.api.APIResult
-import com.camackenzie.exvi.core.util.EncodedStringCache
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlin.Unit
 
 interface WorkoutManager {
     fun getWorkouts(
+        coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+        dispatcher: CoroutineDispatcher = Dispatchers.Default,
         onFail: (APIResult<String>) -> Unit = {},
         onSuccess: (Array<Workout>) -> Unit = {},
         onComplete: () -> Unit = {}
@@ -18,6 +22,8 @@ interface WorkoutManager {
 
     fun putWorkouts(
         workoutsToAdd: Array<Workout>,
+        coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+        dispatcher: CoroutineDispatcher = Dispatchers.Default,
         onFail: (APIResult<String>) -> Unit = {},
         onSuccess: () -> Unit = {},
         onComplete: () -> Unit = {}
@@ -25,61 +31,11 @@ interface WorkoutManager {
 
     fun deleteWorkouts(
         toDelete: Array<String>,
+        coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+        dispatcher: CoroutineDispatcher = Dispatchers.Default,
         onFail: (APIResult<String>) -> Unit = {},
         onSuccess: () -> Unit = {},
         onComplete: () -> Unit = {}
     )
+
 }
-
-/**
- *
- * @author callum
- */
-@kotlinx.serialization.Serializable
-data class LocalWorkoutManager constructor(
-    val workouts: ArrayList<Workout> = ArrayList(),
-    val activeWorkouts: ArrayList<ActiveWorkout> = ArrayList()
-) : WorkoutManager {
-
-    override fun getWorkouts(
-        onFail: (APIResult<String>) -> Unit,
-        onSuccess: (Array<Workout>) -> Unit,
-        onComplete: () -> Unit
-    ) {
-        onSuccess(workouts.toTypedArray())
-        onComplete()
-    }
-
-    override fun putWorkouts(
-        workoutsToAdd: Array<Workout>,
-        onFail: (APIResult<String>) -> Unit,
-        onSuccess: () -> Unit,
-        onComplete: () -> Unit
-    ) {
-        val workoutIds = workouts.map { it.id.get() }
-        for (workout in workoutsToAdd) {
-            val i = workoutIds.indexOf(workout.id.get())
-            if (i != -1) {
-                workouts[i] = workout
-            } else {
-                workouts.add(workout)
-            }
-        }
-        onSuccess()
-        onComplete()
-    }
-
-    override fun deleteWorkouts(
-        toDelete: Array<String>,
-        onFail: (APIResult<String>) -> Unit,
-        onSuccess: () -> Unit,
-        onComplete: () -> Unit
-    ) {
-        workouts.removeAll {
-            toDelete.contains(it.id.get())
-        }
-        onSuccess()
-        onComplete()
-    }
-}
-
