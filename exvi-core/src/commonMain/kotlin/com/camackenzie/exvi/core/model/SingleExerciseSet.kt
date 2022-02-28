@@ -2,9 +2,9 @@ package com.camackenzie.exvi.core.model
 
 @kotlinx.serialization.Serializable
 data class SingleExerciseSet(
-    val reps: Int,
-    val weight: Mass = MassUnit.none(),
-    val timing: Array<Time> = emptyArray()
+    var reps: Int,
+    var weight: Mass = MassUnit.none(),
+    var timing: Array<Time> = emptyArray()
 ) {
 
     fun deepValueCopy(): SingleExerciseSet = SingleExerciseSet(
