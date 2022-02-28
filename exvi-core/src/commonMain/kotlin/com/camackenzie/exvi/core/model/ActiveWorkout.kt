@@ -24,9 +24,13 @@ class ActiveWorkout : SelfSerializable {
         private set
 
     val startTime: Time?
-        get() = Time(TimeUnit.Millisecond, startTimeMillis as Double)
+        get() = if (hasStarted())
+            Time(TimeUnit.Millisecond, startTimeMillis!!.toDouble())
+        else null
     val endTime: Time?
-        get() = Time(TimeUnit.Millisecond, startTimeMillis as Double)
+        get() = if (hasEnded())
+            Time(TimeUnit.Millisecond, startTimeMillis!!.toDouble())
+        else null
 
     constructor(workout: Workout) {
         this.name = workout.name
@@ -58,7 +62,7 @@ class ActiveWorkout : SelfSerializable {
         else null
 
     fun finalElapsedTime(): Time? = if (hasEnded())
-        Time(TimeUnit.Millisecond, finalElapsedTimeMillis() as Double)
+        Time(TimeUnit.Millisecond, finalElapsedTimeMillis()!!.toDouble())
     else null
 
     override fun toJson(): String {

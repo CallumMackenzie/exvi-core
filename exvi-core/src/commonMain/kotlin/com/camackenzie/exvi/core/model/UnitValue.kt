@@ -113,6 +113,7 @@ class UnitValue<T : Unit>(
     operator fun unaryMinus(): UnitValue<T> = UnitValue(iUnit, -iValue)
     operator fun unaryPlus(): UnitValue<T> = UnitValue(iUnit, +iValue)
 
+    @Suppress("UNCHECKED_CAST")
     override fun equals(other: Any?): Boolean {
         return if (other is UnitValue<*>) {
             if (this.iUnit == other.iUnit)
