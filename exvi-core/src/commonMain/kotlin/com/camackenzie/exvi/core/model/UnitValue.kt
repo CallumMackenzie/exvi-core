@@ -48,9 +48,6 @@ class UnitValue<T : Unit>(
     private inline fun applyToValue(other: UnitValue<T>, apply: (Double) -> Double): UnitValue<T> =
         UnitValue(iUnit, apply(other.toUnit(iUnit).iValue))
 
-    private inline fun applyAsValue(other: UnitValue<T>, apply: (Double) -> kotlin.Unit) =
-        apply(other.toOtherValue(iUnit))
-
     // Unit binary operators
     operator fun plus(other: UnitValue<T>): UnitValue<T> = applyToValue(other) { iValue + it }
     operator fun minus(other: UnitValue<T>): UnitValue<T> = applyToValue(other) { iValue - it }
@@ -68,46 +65,6 @@ class UnitValue<T : Unit>(
     operator fun minus(i: Double): UnitValue<T> = UnitValue(iUnit, iValue - i)
     operator fun times(i: Double): UnitValue<T> = UnitValue(iUnit, iValue * i)
     operator fun div(i: Double): UnitValue<T> = UnitValue(iUnit, iValue / i)
-
-    // Unit assignment operators
-    operator fun plusAssign(other: UnitValue<T>) = applyAsValue(other) { iValue += it }
-    operator fun minusAssign(other: UnitValue<T>) = applyAsValue(other) { iValue -= it }
-    operator fun timesAssign(other: UnitValue<T>) = applyAsValue(other) { iValue *= it }
-    operator fun divAssign(other: UnitValue<T>) = applyAsValue(other) { iValue /= it }
-
-    // Integer assignment operators
-    operator fun plusAssign(i: Int) {
-        iValue += i
-    }
-
-    operator fun minusAssign(i: Int) {
-        iValue -= i
-    }
-
-    operator fun timesAssign(i: Int) {
-        iValue *= i
-    }
-
-    operator fun divAssign(i: Int) {
-        iValue /= i
-    }
-
-    // Double assignment operators
-    operator fun plusAssign(i: Double) {
-        iValue += i
-    }
-
-    operator fun minusAssign(i: Double) {
-        iValue -= i
-    }
-
-    operator fun timesAssign(i: Double) {
-        iValue *= i
-    }
-
-    operator fun divAssign(i: Double) {
-        iValue /= i
-    }
 
     // Unary operators
     operator fun unaryMinus(): UnitValue<T> = UnitValue(iUnit, -iValue)
