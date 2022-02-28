@@ -9,6 +9,7 @@ import com.camackenzie.exvi.core.api.APIResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlin.Unit
 
 interface WorkoutManager {
@@ -18,7 +19,7 @@ interface WorkoutManager {
         onFail: (APIResult<String>) -> Unit = {},
         onSuccess: (Array<Workout>) -> Unit = {},
         onComplete: () -> Unit = {}
-    )
+    ): Job
 
     fun putWorkouts(
         workoutsToAdd: Array<Workout>,
@@ -27,7 +28,7 @@ interface WorkoutManager {
         onFail: (APIResult<String>) -> Unit = {},
         onSuccess: () -> Unit = {},
         onComplete: () -> Unit = {}
-    )
+    ): Job
 
     fun deleteWorkouts(
         toDelete: Array<String>,
@@ -36,6 +37,6 @@ interface WorkoutManager {
         onFail: (APIResult<String>) -> Unit = {},
         onSuccess: () -> Unit = {},
         onComplete: () -> Unit = {}
-    )
+    ): Job
 
 }
