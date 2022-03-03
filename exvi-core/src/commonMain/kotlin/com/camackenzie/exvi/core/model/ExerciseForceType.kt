@@ -24,7 +24,7 @@ enum class ExerciseForceType {
     @SerialName("DYNAMIC_STRETCHING")
     DynamicStretching,
 
-    @SerialName("DYNAMIC_STRETCHING")
+    @SerialName("STATIC_STRETCHING")
     StaticStretching,
 
     @SerialName("COMPRESSION")
