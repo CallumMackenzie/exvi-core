@@ -9,7 +9,13 @@ package com.camackenzie.exvi.core.model
  *
  * @author callum
  */
+
+interface Unit {
+    fun getBaseCoefficient(): Double
+}
+
 @kotlinx.serialization.Serializable
+@Suppress("unused")
 data class UnitValue<T : Unit>(
     private var iUnit: T,
     private var iValue: Double
@@ -36,6 +42,7 @@ data class UnitValue<T : Unit>(
      * Converts this unit value to the other and returns this object
      * Modifies this object
      */
+    @Suppress("UNUSED_EXPRESSION")
     fun asUnit(unit: T): UnitValue<T> {
         if (unit == iUnit) this
         else {
@@ -82,4 +89,9 @@ data class UnitValue<T : Unit>(
     }
 
     override fun toString(): String = "$iValue ${iUnit.toString().lowercase()}s"
+    override fun hashCode(): Int {
+        var result = iUnit.hashCode()
+        result = 31 * result + iValue.hashCode()
+        return result
+    }
 }

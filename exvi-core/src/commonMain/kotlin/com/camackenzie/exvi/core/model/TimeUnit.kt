@@ -10,6 +10,7 @@ import kotlin.time.Duration.Companion.seconds
 typealias Time = UnitValue<TimeUnit>
 
 @kotlinx.serialization.Serializable
+@Suppress("unused")
 enum class TimeUnit(private val unit: Double) : Unit {
     Second(1.0),
     Millisecond(Second.unit * 100.0),

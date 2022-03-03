@@ -10,6 +10,7 @@ package com.camackenzie.exvi.core.model
  * @author callum
  */
 @kotlinx.serialization.Serializable
+@Suppress("unused")
 enum class GeneticSex {
     Male, Female, Unspecified
 }

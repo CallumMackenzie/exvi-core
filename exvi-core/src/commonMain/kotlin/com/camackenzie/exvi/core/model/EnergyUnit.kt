@@ -12,6 +12,7 @@ typealias Energy = UnitValue<EnergyUnit>
  * @author callum
  */
 @kotlinx.serialization.Serializable
+@Suppress("unused")
 enum class EnergyUnit(private val unit: Double) : Unit {
     KiloJoule(1.0),
     KiloCalorie(0.239006);

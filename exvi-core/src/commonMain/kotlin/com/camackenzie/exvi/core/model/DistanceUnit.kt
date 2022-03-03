@@ -12,6 +12,7 @@ typealias Distance = UnitValue<DistanceUnit>
  * @author callum
  */
 @kotlinx.serialization.Serializable
+@Suppress("unused")
 enum class DistanceUnit(private val unit: Double) : Unit {
     Centimeter(1.0),
     Meter(Centimeter.unit / 100.0),

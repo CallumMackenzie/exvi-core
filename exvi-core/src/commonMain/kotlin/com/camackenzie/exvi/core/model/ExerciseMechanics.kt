@@ -13,6 +13,7 @@ import kotlinx.serialization.SerialName
  * @author callum
  */
 @kotlinx.serialization.Serializable
+@Suppress("unused")
 enum class ExerciseMechanics {
     @SerialName("ISOLATION")
     Isolation,
