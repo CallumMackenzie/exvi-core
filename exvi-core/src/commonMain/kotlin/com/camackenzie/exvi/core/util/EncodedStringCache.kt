@@ -13,15 +13,14 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class EncodedStringCache : SelfSerializable {
-
+data class EncodedStringCache(
     @kotlinx.serialization.Transient
     @kotlin.jvm.Transient
-    private var cache: String? = null
-
+    private var cache: String? = null,
     private var string: String = ""
+) : SelfSerializable {
 
-    constructor(s: String) {
+    constructor(s: String) : this() {
         set(s)
     }
 
