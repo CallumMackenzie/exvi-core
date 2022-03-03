@@ -6,6 +6,7 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
+import kotlinx.coroutines.*
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 
@@ -14,22 +15,30 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class ActiveExercise(
-    val exercise: Exercise,
-    val targetSets: ExerciseSet,
-    var activeSets: ExerciseSet
-) :
-    SelfSerializable {
+data class ActiveExercise(
+    val target: ExerciseSet,
+    var active: ExerciseSet,
+    var currentSet: Int = 0
+) : SelfSerializable {
+
+    val exercise: Exercise
+        get() = target.exercise
 
     constructor(ex: ExerciseSet) : this(
-        exercise = ex.exercise,
-        targetSets = ex,
-        activeSets = ExerciseSet(
+        ex,
+        ExerciseSet(
             ex.exercise,
             ex.unit,
             Array(ex.sets.size) { ex.sets[it].deepValueCopy() }
         )
     )
+
+    fun timingCallback(
+        set: Int,
+        coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+        dispatcher: CoroutineDispatcher = Dispatchers.Default,
+        callback: (Int, Time) -> kotlin.Unit
+    ): Job = active.sets[set].timingCallback(coroutineScope, dispatcher, callback)
 
     override fun toJson(): String {
         return Json.encodeToString(this)

@@ -14,68 +14,126 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-enum class Muscle(subMuscles: Array<Muscle>, vararg altNames: String) : SelfSerializable {
-    PECTORALIS_MAJOR("pecs"),
-    TRAPEZIUS("traps"),
-    RHOMBOIDS(),
-    LATISSIMUS_DORSI(
-        "lats",
-        "latissimus"
-    ),
-    ERECTOR_SPINAE("erector"),
-    BICEPS_BRACHII(),
-    BICEPS_BRACHIALIS(), TRICEPS("tricep"), FOREARMS("forearm"),
-    ANTERIOR_HEAD(),
-    LATERAL_HEAD(),
-    POSTERIOR_HEAD(), QUADRICEPS(
-        "quads",
-        "quad"
-    ),
-    ABDUCTORS(),
-    ADDUCTORS(),
-    GLUTES(),
-    IT_BAND(),
-    HIP_FLEXORS(),
-    GASTROCNEMIUS(),
-    SOLEUS(),
-    RECTUS_ABDOMINIS(),
-    TRANSEVERSE_ABDOMINIS(),
-    INTERNAL_OBLIQUES(),
-    EXTERNAL_OBLIQUES(),
-    HAMSTRINGS(
-        arrayOf(
-            ABDUCTORS, ADDUCTORS, IT_BAND
-        )
-    ),
-    BICEPS(arrayOf(BICEPS_BRACHIALIS, BICEPS_BRACHII)), LOWER_BACK(ERECTOR_SPINAE), UPPER_BACK(
-        arrayOf(
-            TRAPEZIUS,
-            RHOMBOIDS
-        )
-    ),
-    NECK(), OBLIQUES(
-        arrayOf(
-            INTERNAL_OBLIQUES, EXTERNAL_OBLIQUES
-        )
-    ),
-    PALMAR_FASCIA("grip"), PLANTAL_FASCIA("feet"), BACK(arrayOf(LOWER_BACK, UPPER_BACK, LATISSIMUS_DORSI)), CHEST(
-        arrayOf(
-            PECTORALIS_MAJOR
-        )
-    ),
-    ARMS(arrayOf(BICEPS, PALMAR_FASCIA, TRICEPS, FOREARMS)), SHOULDERS(
-        arrayOf(
-            ANTERIOR_HEAD,
-            LATERAL_HEAD,
-            POSTERIOR_HEAD
-        )
-    ),
-    LEGS(
-        arrayOf(
-            QUADRICEPS, GLUTES, HAMSTRINGS
-        )
-    ),
-    CALVES(arrayOf(GASTROCNEMIUS, SOLEUS)), ABS(arrayOf(RECTUS_ABDOMINIS, OBLIQUES, TRANSEVERSE_ABDOMINIS));
+enum class Muscle(
+    subMuscles: Array<Muscle>,
+    vararg altNames: String
+) : SelfSerializable {
+    @SerialName("PECTORALIS_MAJOR")
+    PectoralisMajor("pecs"),
+
+    @SerialName("TRAPEZIUS")
+    Trapezius("traps"),
+
+    @SerialName("RHOMBOIDS")
+    Rhomboids(),
+
+    @SerialName("LATISSIMUS_DORSI")
+    LatissimusDorsi("lats", "latissimus"),
+
+    @SerialName("ERECTOR_SPINAE")
+    ErectorSpinae("erector"),
+
+    @SerialName("BICEPS_BRACHII")
+    BicepsBrachii(),
+
+    @SerialName("BICEPS_BRACHIALIS")
+    BicepsBrachialis(),
+
+    @SerialName("TRICEPS")
+    Triceps("tricep"),
+
+    @SerialName("FOREARMS")
+    Forearms("forearm"),
+
+    @SerialName("ANTERIOR_HEAD")
+    AnteriorHead(),
+
+    @SerialName("LATERAL_HEAD")
+    LateralHead(),
+
+    @SerialName("POSTERIOR_HEAD")
+    PosteriorHead(),
+
+    @SerialName("QUADRICEPS")
+    Quadriceps("quads", "quad"),
+
+    @SerialName("ABDUCTORS")
+    Abductors(),
+
+    @SerialName("ADDUCTORS")
+    Adductors(),
+
+    @SerialName("GLUTES")
+    Glutes(),
+
+    @SerialName("IT_BAND")
+    ITBand(),
+
+    @SerialName("HIP_FLEXORS")
+    HipFlexors(),
+
+    @SerialName("GASTROCNEMIUS")
+    Gastrocnemius(),
+
+    @SerialName("SOLEUS")
+    Soleus(),
+
+    @SerialName("RECTUS_ABDOMINIS")
+    RecusAbdominis(),
+
+    @SerialName("TRANSEVERSE_ABDOMINIS")
+    TranseverseAbdominis(),
+
+    @SerialName("INTERNAL_OBLIQUES")
+    InternalObliques(),
+
+    @SerialName("EXTERNAL_OBLIQUES")
+    ExternalObliques(),
+
+    @SerialName("HAMSTRINGS")
+    Hamstrings(Abductors, Adductors, ITBand),
+
+    @SerialName("BICEPS")
+    Biceps(BicepsBrachialis, BicepsBrachii),
+
+    @SerialName("LOWER_BACK")
+    LowerBack(ErectorSpinae),
+
+    @SerialName("UPPER_BACK")
+    UpperBack(Trapezius, Rhomboids),
+
+    @SerialName("NECK")
+    Neck(),
+
+    @SerialName("OBLIQUES")
+    Obliques(InternalObliques, ExternalObliques),
+
+    @SerialName("PALMAR_FASCIA")
+    PalmarFascia("grip"),
+
+    @SerialName("PLANTAR_FASCIA")
+    PlantarFascia("feet"),
+
+    @SerialName("BACK")
+    Back(LowerBack, UpperBack, LatissimusDorsi),
+
+    @SerialName("CHEST")
+    Chest(PectoralisMajor),
+
+    @SerialName("ARMS")
+    Arms(Biceps, PalmarFascia, Triceps, Forearms),
+
+    @SerialName("SHOULDERS")
+    Shoulders(AnteriorHead, LateralHead, PosteriorHead),
+
+    @SerialName("LEGS")
+    Legs(Quadriceps, Glutes, Hamstrings),
+
+    @SerialName("CALVES")
+    Calves(Gastrocnemius, Soleus),
+
+    @SerialName("ABS")
+    Abs(RecusAbdominis, Obliques, TranseverseAbdominis);
 
     private val altNames: Array<String>
     val subMuscles = HashSet<Muscle>()
@@ -91,8 +149,8 @@ enum class Muscle(subMuscles: Array<Muscle>, vararg altNames: String) : SelfSeri
         }
     }
 
-    constructor(sub: Muscle) : this(arrayOf<Muscle>(sub)) {}
-    constructor(vararg altNames: String) : this(arrayOf<Muscle>(), *altNames) {}
+    constructor(vararg altNames: String) : this(emptyArray(), *altNames) {}
+    constructor(vararg muscles: Muscle) : this(arrayOf(*muscles))
     constructor() : this(arrayOf<Muscle>()) {}
 
     val muscleName: String

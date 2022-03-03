@@ -11,5 +11,5 @@ package com.camackenzie.exvi.core.model
  */
 @kotlinx.serialization.Serializable
 enum class GeneticSex {
-    MALE, FEMALE, UNKNOWN
+    Male, Female, Unspecified
 }

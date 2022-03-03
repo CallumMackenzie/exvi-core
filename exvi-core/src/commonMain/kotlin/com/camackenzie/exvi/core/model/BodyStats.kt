@@ -34,7 +34,7 @@ data class BodyStats(
         @kotlin.jvm.JvmStatic
         fun averageMale(): BodyStats {
             return BodyStats(
-                GeneticSex.MALE,
+                GeneticSex.Male,
                 UnitValue(MassUnit.Pound, 190.0),
                 UnitValue(DistanceUnit.Meter, 1.7)
             )
@@ -43,7 +43,7 @@ data class BodyStats(
         @kotlin.jvm.JvmStatic
         fun averageFemale(): BodyStats {
             return BodyStats(
-                GeneticSex.FEMALE,
+                GeneticSex.Female,
                 UnitValue(MassUnit.Pound, 170.0),
                 UnitValue(DistanceUnit.Meter, 1.625)
             )
@@ -52,7 +52,7 @@ data class BodyStats(
         @kotlin.jvm.JvmStatic
         fun average(): BodyStats {
             return BodyStats(
-                GeneticSex.UNKNOWN,
+                GeneticSex.Unspecified,
                 UnitValue(MassUnit.Pound, 180.0),
                 UnitValue(DistanceUnit.Meter, 1.68)
             )

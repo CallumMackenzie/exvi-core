@@ -6,6 +6,7 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.model.EnumUtils.formatName
+import kotlinx.serialization.SerialName
 
 /**
  *
@@ -13,7 +14,32 @@ import com.camackenzie.exvi.core.model.EnumUtils.formatName
  */
 @kotlinx.serialization.Serializable
 enum class ExerciseForceType {
-    PUSH, PULL, DYNAMIC_STRETCHING, STATIC_STRETCHING, COMPRESSION, ISOMETRIC, STATIC, HINGE, OTHER;
+    @SerialName("PUSH")
+    Push,
+
+    @SerialName("PULL")
+    Pull,
+
+    @SerialName("DYNAMIC_STRETCHING")
+    DynamicStretching,
+
+    @SerialName("DYNAMIC_STRETCHING")
+    StaticStretching,
+
+    @SerialName("COMPRESSION")
+    Compression,
+
+    @SerialName("ISOMETRIC")
+    Isometric,
+
+    @SerialName("STATIC")
+    Static,
+
+    @SerialName("HINGE")
+    Hinge,
+
+    @SerialName("OTHER")
+    Other;
 
     override fun toString(): String {
         return formatName(super.toString())

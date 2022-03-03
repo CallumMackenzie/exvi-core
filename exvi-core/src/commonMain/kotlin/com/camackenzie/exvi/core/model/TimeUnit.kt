@@ -1,5 +1,12 @@
 package com.camackenzie.exvi.core.model
 
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
+
 typealias Time = UnitValue<TimeUnit>
 
 @kotlinx.serialization.Serializable
@@ -16,4 +23,13 @@ enum class TimeUnit(private val unit: Double) : Unit {
     companion object {
         fun none(): Time = Time(Second, 0.0)
     }
+}
+
+inline fun Time.toDuration(): Duration = when (unit) {
+    TimeUnit.Millisecond -> value.milliseconds
+    TimeUnit.Second -> value.seconds
+    TimeUnit.Minute -> value.minutes
+    TimeUnit.Hour -> value.hours
+    TimeUnit.Day -> value.days
+    TimeUnit.Week -> value.days * 7
 }

@@ -1,5 +1,7 @@
 package com.camackenzie.exvi.core.model
 
+import kotlinx.coroutines.*
+
 @kotlinx.serialization.Serializable
 data class SingleExerciseSet(
     var reps: Int,
@@ -12,6 +14,18 @@ data class SingleExerciseSet(
         weight.valueCopy(),
         timing.map { it.valueCopy() }.toTypedArray()
     )
+
+    fun timingCallback(
+        coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+        dispatcher: CoroutineDispatcher = Dispatchers.Default,
+        callback: (Int, Time) -> kotlin.Unit,
+    ): Job = coroutineScope.launch(dispatcher) {
+        for (i in timing.indices) {
+            val time = timing[i]
+            delay(time.toDuration())
+            callback(i, time)
+        }
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -10,7 +10,7 @@ package com.camackenzie.exvi.core.model
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class UnitValue<T : Unit>(
+data class UnitValue<T : Unit>(
     private var iUnit: T,
     private var iValue: Double
 ) {
