@@ -2,6 +2,9 @@ val ktorVersion = "1.6.7"
 val kryptoVersion = "2.2.0"
 val coroutineVersion = "1.6.0"
 val jUnitVersion = "4.7"
+val serialVersion = "1.3.2"
+val datetimeVersion = "0.3.2"
+val stdlibVersion = "1.5.21"
 
 plugins {
     kotlin("multiplatform") // version "1.6.10"
@@ -48,9 +51,9 @@ kotlin {
             dependencies {
                 api("com.soywiz.korlibs.krypto:krypto:$kryptoVersion")
                 api("io.ktor:ktor-client-core:$ktorVersion")
-                api("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-                api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
+                api("org.jetbrains.kotlin:kotlin-stdlib:$stdlibVersion")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialVersion")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
             }
         }
@@ -72,24 +75,16 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 api("io.ktor:ktor-client-java:$ktorVersion")
-//                implementation("com.soywiz.korlibs.krypto:krypto-jvm:$kryptoVersion") {
-//                    exclude(group="com.soywiz.korlibs.krypto", module = "krypto-android")
-//                }
             }
         }
         val jsMain by getting {
             dependencies {
                 api("io.ktor:ktor-client-js:$ktorVersion")
-//                implementation("com.soywiz.korlibs.krypto:krypto-js:$kryptoVersion")
             }
         }
         val androidMain by getting {
             dependencies {
                 api("io.ktor:ktor-client-android:$ktorVersion")
-//                implementation("com.soywiz.korlibs.krypto:krypto-android:$kryptoVersion") {
-//                    exclude(group="com.soywiz.korlibs.krypto", module = "krypto-jvm")
-//                }
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
             }
         }
         val androidTest by getting {
