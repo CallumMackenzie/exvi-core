@@ -25,17 +25,15 @@ class WorkoutListRequest(
     constructor(username: String, accessKey: String, type: Type)
             : this(username.cached(), accessKey.cached(), type)
 
+    @kotlinx.serialization.Serializable
     enum class Type {
-        LIST_ALL
+        ListAllTemplates,
+        ListAllActive
     }
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return Companion.uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "WorkoutListRequest"

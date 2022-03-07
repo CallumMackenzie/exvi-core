@@ -16,20 +16,18 @@ import kotlinx.serialization.*
  * @author callum
  */
 @kotlinx.serialization.Serializable
-class AccountAccessKeyResult(val result: EncodedStringCache) : GenericDataResult(uid) {
+data class AccountAccessKeyResult(
+    val result: EncodedStringCache
+) : GenericDataResult(uid) {
 
     val accessKey: String
         get() = this.result.get()
 
     constructor(result: String) : this(result.cached())
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return Companion.uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "AccountAccessKeyResult"

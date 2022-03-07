@@ -8,16 +8,19 @@ import kotlinx.serialization.*
 class DeleteWorkoutsRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
-    val workoutIds: Array<EncodedStringCache>
+    val workoutIds: Array<EncodedStringCache>,
+    val workoutType: WorkoutType
 ) : GenericDataRequest(uid) {
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
+    @kotlinx.serialization.Serializable
+    enum class WorkoutType {
+        Workout,
+        ActiveWorkout
     }
 
-    override fun getUID(): String {
-        return uid
-    }
+    override fun toJson(): String = Json.encodeToString(this)
+
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "DeleteWorkoutsRequest"
