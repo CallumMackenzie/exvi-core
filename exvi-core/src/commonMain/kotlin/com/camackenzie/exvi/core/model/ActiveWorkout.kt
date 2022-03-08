@@ -18,8 +18,9 @@ import kotlinx.serialization.*
 @kotlinx.serialization.Serializable
 data class ActiveWorkout(
     val name: String,
-    val workoutId: EncodedStringCache,
+    val baseWorkoutId: EncodedStringCache,
     val exercises: Array<ActiveExercise>,
+    val activeWorkoutId: EncodedStringCache = Workout.generateId(),
     private var startTimeMillis: Long? = null,
     private var endTimeMillis: Long? = null
 ) : SelfSerializable {
@@ -49,13 +50,9 @@ data class ActiveWorkout(
         endTimeMillis = Clock.System.now().epochSeconds
     }
 
-    fun hasStarted(): Boolean {
-        return startTimeMillis != null
-    }
+    fun hasStarted(): Boolean = startTimeMillis != null
 
-    fun hasEnded(): Boolean {
-        return hasStarted() && endTimeMillis != null
-    }
+    fun hasEnded(): Boolean = hasStarted() && endTimeMillis != null
 
     fun finalElapsedTimeMillis(): Long? =
         if (hasEnded()) endTimeMillis!! - startTimeMillis!!
@@ -65,33 +62,37 @@ data class ActiveWorkout(
         Time(TimeUnit.Millisecond, finalElapsedTimeMillis()!!.toDouble())
     else null
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return uid
-    }
+    override fun getUID(): String = uid
 
+    /**
+     * Auto generated
+     */
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
         other as ActiveWorkout
 
-        if (!exercises.contentEquals(other.exercises)) return false
         if (name != other.name) return false
-        if (workoutId != other.workoutId) return false
+        if (baseWorkoutId != other.baseWorkoutId) return false
+        if (!exercises.contentEquals(other.exercises)) return false
+        if (activeWorkoutId != other.activeWorkoutId) return false
         if (startTimeMillis != other.startTimeMillis) return false
         if (endTimeMillis != other.endTimeMillis) return false
 
         return true
     }
 
+    /**
+     * Auto generated
+     */
     override fun hashCode(): Int {
-        var result = exercises.contentHashCode()
-        result = 31 * result + name.hashCode()
-        result = 31 * result + workoutId.hashCode()
+        var result = name.hashCode()
+        result = 31 * result + baseWorkoutId.hashCode()
+        result = 31 * result + exercises.contentHashCode()
+        result = 31 * result + activeWorkoutId.hashCode()
         result = 31 * result + (startTimeMillis?.hashCode() ?: 0)
         result = 31 * result + (endTimeMillis?.hashCode() ?: 0)
         return result

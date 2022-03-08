@@ -33,10 +33,7 @@ data class Workout(
         exercises: ArrayList<ExerciseSet> = arrayListOf()
     ) :
             this(
-                name, description, exercises, StringBuilder()
-                    .append(generateSalt(16))
-                    .append(hashSHA256(System.now().epochSeconds.toString(16)))
-                    .toString().cached()
+                name, description, exercises, generateId()
             )
 
     constructor(other: Workout) : this(
@@ -107,5 +104,10 @@ data class Workout(
 
     companion object {
         const val uid = "Workout"
+
+        fun generateId(): EncodedStringCache = StringBuilder()
+            .append(generateSalt(16))
+            .append(hashSHA256(System.now().epochSeconds.toString(16)))
+            .toString().cached()
     }
 }
