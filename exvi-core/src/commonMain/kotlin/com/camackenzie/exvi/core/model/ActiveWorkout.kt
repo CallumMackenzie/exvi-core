@@ -6,6 +6,7 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.Identifiable
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.*
@@ -20,10 +21,10 @@ data class ActiveWorkout(
     val name: String,
     val baseWorkoutId: EncodedStringCache,
     val exercises: Array<ActiveExercise>,
-    val activeWorkoutId: EncodedStringCache = Workout.generateId(),
+    val activeWorkoutId: EncodedStringCache = Identifiable.generateId(),
     private var startTimeMillis: Long? = null,
     private var endTimeMillis: Long? = null
-) : SelfSerializable {
+) : SelfSerializable, Identifiable {
 
     val startTime: Time?
         get() = if (hasStarted())
@@ -65,6 +66,8 @@ data class ActiveWorkout(
     override fun toJson(): String = Json.encodeToString(this)
 
     override fun getUID(): String = uid
+
+    override fun getIdentifier(): EncodedStringCache = activeWorkoutId
 
     /**
      * Auto generated

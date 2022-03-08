@@ -8,6 +8,7 @@ package com.camackenzie.exvi.core.model
 import com.camackenzie.exvi.core.util.CryptographyUtils.generateSalt
 import com.camackenzie.exvi.core.util.CryptographyUtils.hashSHA256
 import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.Identifiable
 import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
 import kotlin.collections.ArrayList
@@ -25,24 +26,21 @@ data class Workout(
     var description: String = "",
     val exercises: ArrayList<ExerciseSet> = arrayListOf(),
     val id: EncodedStringCache
-) : SelfSerializable {
+) : SelfSerializable, Identifiable {
 
     constructor(
         name: String = "",
         description: String = "",
         exercises: ArrayList<ExerciseSet> = arrayListOf()
-    ) :
-            this(
-                name, description, exercises, generateId()
-            )
+    ) : this(
+        name, description, exercises, Identifiable.generateId()
+    )
 
     constructor(other: Workout) : this(
         other.name, other.description, other.exercises, other.id
     )
 
-    fun newActiveWorkout(): ActiveWorkout {
-        return ActiveWorkout(this)
-    }
+    fun newActiveWorkout(): ActiveWorkout = ActiveWorkout(this)
 
     fun formatToTable(): String {
         // Retrieve the longest exercise name
@@ -94,20 +92,13 @@ data class Workout(
         return ret.toString()
     }
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return Companion.uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "Workout"
-
-        fun generateId(): EncodedStringCache = StringBuilder()
-            .append(generateSalt(16))
-            .append(hashSHA256(System.now().epochSeconds.toString(16)))
-            .toString().cached()
     }
+
+    override fun getIdentifier(): EncodedStringCache = id
 }
