@@ -18,16 +18,20 @@ data class EncodedStringCache(
     @kotlin.jvm.Transient
     private var cache: String? = null,
     private var string: String = ""
-) : SelfSerializable {
+) : SelfSerializable, Comparable<EncodedStringCache> {
 
     constructor(s: String) : this() {
         set(s)
     }
 
-    fun get(): String {
-        return if (cache != null) cache as String
-        else CryptographyUtils.decodeString(string).also { cache = it }
-    }
+    override fun compareTo(other: EncodedStringCache): Int = this.get().compareTo(other.get())
+
+    override fun equals(other: Any?): Boolean =
+        if (other !is EncodedStringCache) false
+        else other.get() == this.get()
+
+    fun get(): String = if (cache != null) cache as String
+    else CryptographyUtils.decodeString(string).also { cache = it }
 
     fun set(s: String) {
         cache = null
@@ -36,20 +40,12 @@ data class EncodedStringCache(
 
     companion object {
         @kotlin.jvm.JvmStatic
-        fun cached(s: String): EncodedStringCache {
-            return EncodedStringCache(s)
-        }
+        fun cached(s: String): EncodedStringCache = EncodedStringCache(s)
     }
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return "EncodedStringCache"
-    }
+    override fun getUID(): String = "EncodedStringCache"
 }
 
-fun String.cached(): EncodedStringCache {
-    return EncodedStringCache.cached(this)
-}
+fun String.cached(): EncodedStringCache = EncodedStringCache.cached(this)
