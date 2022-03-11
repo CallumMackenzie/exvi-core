@@ -5,6 +5,10 @@
  */
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.SelfSerializable
+import kotlinx.serialization.json.Json
+import kotlin.math.abs
+
 /**
  *
  * @author callum
@@ -25,32 +29,33 @@ data class UnitValue<T : Unit>(
     val value
         get() = iValue
 
-    private fun toOtherValue(unit: T): Double = iValue / iUnit.getBaseCoefficient() * unit.getBaseCoefficient()
+    private fun toOtherValue(unit: T): Double = if (unit == this.unit) iValue else
+        iValue / iUnit.getBaseCoefficient() * unit.getBaseCoefficient()
 
+    @Deprecated("Unnecessary after switch to data class")
     fun valueCopy(): UnitValue<T> = UnitValue(iUnit, iValue)
 
     /**
      * Returns a new UnitValue with this unit converted to the given unit
      * Does not modify this object
      */
-    fun toUnit(unit: T): UnitValue<T> {
-        return if (unit == iUnit) this
-        else UnitValue(unit, toOtherValue(unit))
-    }
+    fun toUnit(unit: T): UnitValue<T> = UnitValue(unit, toOtherValue(unit))
 
     /**
      * Converts this unit value to the other and returns this object
      * Modifies this object
      */
     @Suppress("UNUSED_EXPRESSION")
-    fun asUnit(unit: T): UnitValue<T> {
+    fun asUnit(unit: T): UnitValue<T> =
         if (unit == iUnit) this
         else {
             iValue = toOtherValue(unit)
             iUnit = unit
+            this
         }
-        return this
-    }
+
+    fun inRangeOf(other: UnitValue<T>, range: UnitValue<T>): Boolean =
+        abs(toUnit(other.unit).iValue - other.iValue) >= range.iValue
 
     private inline fun applyToValue(other: UnitValue<T>, apply: (Double) -> Double): UnitValue<T> =
         UnitValue(iUnit, apply(other.toUnit(iUnit).iValue))

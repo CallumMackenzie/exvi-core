@@ -7,6 +7,16 @@ package com.camackenzie.exvi.core.model
 
 typealias Energy = UnitValue<EnergyUnit>
 
+val Number.kiloJoules
+    get() = Energy(EnergyUnit.KiloJoule, toDouble())
+val Number.kiloCalories
+    get() = Energy(EnergyUnit.KiloCalorie, toDouble())
+
+val Energy.kiloJoules
+    get() = toUnit(EnergyUnit.KiloJoule)
+val Energy.kiloCalories
+    get() = toUnit(EnergyUnit.KiloCalorie)
+
 /**
  *
  * @author callum
@@ -20,6 +30,6 @@ enum class EnergyUnit(private val unit: Double) : Unit {
     override fun getBaseCoefficient(): Double = unit
 
     companion object {
-        fun none() : Energy = Energy(KiloJoule, 0.0)
+        fun none(): Energy = Energy(KiloJoule, 0.0)
     }
 }

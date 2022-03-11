@@ -38,24 +38,18 @@ object CryptographyUtils {
     }
 
     @kotlin.jvm.JvmStatic
-    fun encodeStringToBase64(s: String): String {
-        return s.encodeToByteArray().toBase64()
-    }
+    fun encodeStringToBase64(s: String): String = s.encodeToByteArray().toBase64()
 
     @kotlin.jvm.JvmStatic
-    fun decodeStringFromBase64(s: String): String {
-        return Base64.decode(s).decodeToString()
-    }
+    fun decodeStringFromBase64(s: String): String = Base64.decode(s).decodeToString()
 
     @kotlin.jvm.JvmStatic
-    fun applyRotationCipher(s: String, rotation: Int): String {
-        return applyDynamicRotationCipher(s) { _ -> rotation }
-    }
+    fun applyRotationCipher(s: String, rotation: Int): String =
+        applyDynamicRotationCipher(s) { rotation }
 
     @kotlin.jvm.JvmStatic
-    fun revertRotationCipher(s: String, rot: Int): String {
-        return applyRotationCipher(s, -rot)
-    }
+    fun revertRotationCipher(s: String, rot: Int): String =
+        applyRotationCipher(s, -rot)
 
     @kotlin.jvm.JvmStatic
     fun applyDynamicRotationCipher(s: String, fn: (Int) -> Int): String {
@@ -67,9 +61,8 @@ object CryptographyUtils {
     }
 
     @kotlin.jvm.JvmStatic
-    fun revertDynamicRotationCipher(s: String, fn: (Int) -> Int): String {
-        return applyDynamicRotationCipher(s) { i -> -fn(i) }
-    }
+    fun revertDynamicRotationCipher(s: String, fn: (Int) -> Int): String =
+        applyDynamicRotationCipher(s) { i -> -fn(i) }
 
     @kotlin.jvm.JvmStatic
     fun hashSHA256(s: String): String {
@@ -78,14 +71,10 @@ object CryptographyUtils {
     }
 
     @kotlin.jvm.JvmStatic
-    fun generateSalt(nBytes: Int): String {
-        return SecureRandom.nextBytes(nBytes).toBase64()
-    }
+    fun generateSalt(nBytes: Int): String = SecureRandom.nextBytes(nBytes).toBase64()
 
     @kotlin.jvm.JvmStatic
-    fun generateSalt(): String {
-        return generateSalt((SecureRandom.nextDouble() * 10 + 6).toInt() shl 1)
-    }
+    fun generateSalt(): String = generateSalt((SecureRandom.nextDouble() * 10 + 6).toInt() shl 1)
 
     @kotlin.jvm.JvmStatic
     private fun encodeCipher(i: Int, s2: String): Int {
@@ -116,12 +105,8 @@ object CryptographyUtils {
     }
 
     @kotlin.jvm.JvmStatic
-    fun bytesToBase64String(byteArray: ByteArray): String {
-        return byteArray.toBase64()
-    }
+    fun bytesToBase64String(byteArray: ByteArray): String = byteArray.toBase64()
 
     @kotlin.jvm.JvmStatic
-    fun bytesFromBase64String(str: String): ByteArray {
-        return Base64.decode(str)
-    }
+    fun bytesFromBase64String(str: String): ByteArray = Base64.decode(str)
 }

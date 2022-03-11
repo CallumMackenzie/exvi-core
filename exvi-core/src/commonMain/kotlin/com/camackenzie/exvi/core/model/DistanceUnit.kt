@@ -7,6 +7,18 @@ package com.camackenzie.exvi.core.model
 
 typealias Distance = UnitValue<DistanceUnit>
 
+val Number.centimeters get() = Distance(DistanceUnit.Centimeter, toDouble())
+val Number.meters get() = Distance(DistanceUnit.Meter, toDouble())
+val Number.kilometers get() = Distance(DistanceUnit.Kilometer, toDouble())
+val Number.inches get() = Distance(DistanceUnit.Inch, toDouble())
+val Number.feet get() = Distance(DistanceUnit.Foot, toDouble())
+
+val Distance.centimeters get() = toUnit(DistanceUnit.Centimeter)
+val Distance.meters get() = toUnit(DistanceUnit.Meter)
+val Distance.kilometers get() = toUnit(DistanceUnit.Kilometer)
+val Distance.inches get() = toUnit(DistanceUnit.Inch)
+val Distance.feet get() = toUnit(DistanceUnit.Foot)
+
 /**
  *
  * @author callum

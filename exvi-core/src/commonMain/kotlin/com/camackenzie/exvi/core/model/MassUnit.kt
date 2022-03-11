@@ -7,6 +7,17 @@ package com.camackenzie.exvi.core.model
 
 typealias Mass = UnitValue<MassUnit>
 
+val Number.kilograms
+    get() = Mass(MassUnit.Kilogram, toDouble())
+val Number.pounds
+    get() = Mass(MassUnit.Pound, toDouble())
+val Number.grams
+    get() = Mass(MassUnit.Gram, toDouble())
+
+val Mass.kilograms get() = toUnit(MassUnit.Kilogram)
+val Mass.pounds get() = toUnit(MassUnit.Pound)
+val Mass.grams get() = toUnit(MassUnit.Gram)
+
 /**
  *
  * @author callum

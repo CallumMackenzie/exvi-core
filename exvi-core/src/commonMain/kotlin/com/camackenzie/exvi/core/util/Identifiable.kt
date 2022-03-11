@@ -1,7 +1,7 @@
 package com.camackenzie.exvi.core.util
 
 import kotlinx.datetime.Clock
-import kotlin.math.max
+import kotlin.jvm.JvmStatic
 
 interface Identifiable : Comparable<Identifiable> {
     fun getIdentifier(): EncodedStringCache
@@ -11,6 +11,7 @@ interface Identifiable : Comparable<Identifiable> {
     override fun compareTo(other: Identifiable): Int = IdentifiableComparator.compare(this, other)
 
     companion object {
+        @JvmStatic
         fun generateId(): EncodedStringCache = StringBuilder()
             .append(CryptographyUtils.generateSalt(16))
             .append(CryptographyUtils.hashSHA256(Clock.System.now().epochSeconds.toString(16)))
@@ -21,6 +22,7 @@ interface Identifiable : Comparable<Identifiable> {
          * Calls onAOnly for every element in a that is not in b -> onAOnly(a, aIndex)
          * Calls onBOnly for every element in b that is not in a -> onBOnly(b, bIndex)
          */
+        @JvmStatic
         fun checkIntersects(
             a: List<Identifiable>,
             b: List<Identifiable>,
