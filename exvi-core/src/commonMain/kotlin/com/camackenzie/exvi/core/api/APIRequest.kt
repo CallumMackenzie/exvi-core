@@ -86,7 +86,7 @@ class APIRequest<T : SelfSerializable> {
                             append(key, value)
                         }
                     }
-                    body = reqBody.cached()
+                    body = reqBody.cached().toJson()
                 }
                 callback(response, response.receive())
             }
