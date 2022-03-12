@@ -34,7 +34,7 @@ data class EncodedStringCache(
     fun getEncoded(): String = encoded
 
     fun get(): String = if (actual != null) actual as String
-    else CryptographyUtils.decodeString(encoded).also { encoded = it }
+    else CryptographyUtils.decodeString(encoded).also { actual = it }
 
     fun set(s: String) {
         actual = null
