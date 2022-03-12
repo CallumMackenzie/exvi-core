@@ -10,11 +10,7 @@ object NoneResult : GenericDataResult("NoneResult") {
     @kotlinx.serialization.Transient
     const val uid = "NoneResult"
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return uid
-    }
+    override fun getUID(): String = uid
 }

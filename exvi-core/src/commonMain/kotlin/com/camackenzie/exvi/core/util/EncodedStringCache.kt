@@ -17,8 +17,8 @@ import kotlin.jvm.JvmStatic
 data class EncodedStringCache(
     @kotlinx.serialization.Transient
     @kotlin.jvm.Transient
-    private var cache: String? = null,
-    private var string: String = ""
+    private var actual: String? = null,
+    private var encoded: String = ""
 ) : SelfSerializable, Comparable<EncodedStringCache> {
 
     constructor(s: String) : this() {
@@ -31,17 +31,22 @@ data class EncodedStringCache(
         if (other !is EncodedStringCache) false
         else other.get() == this.get()
 
-    fun get(): String = if (cache != null) cache as String
-    else CryptographyUtils.decodeString(string).also { cache = it }
+    fun getEncoded(): String = encoded
+
+    fun get(): String = if (actual != null) actual as String
+    else CryptographyUtils.decodeString(encoded).also { encoded = it }
 
     fun set(s: String) {
-        cache = null
-        string = CryptographyUtils.encodeString(s)
+        actual = null
+        encoded = CryptographyUtils.encodeString(s)
     }
 
     companion object {
         @JvmStatic
-        fun cached(s: String): EncodedStringCache = EncodedStringCache(s)
+        fun cached(string: String): EncodedStringCache = EncodedStringCache(string)
+
+        @JvmStatic
+        fun fromEncoded(encoded: String): EncodedStringCache = EncodedStringCache(encoded = encoded)
     }
 
     override fun toJson(): String = Json.encodeToString(this)

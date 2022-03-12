@@ -15,8 +15,5 @@ import com.soywiz.krypto.encoding.Base64
  */
 @Serializable
 data class CachedKey(val key: String) {
-
-    fun getKeyAsBytes(): ByteArray {
-        return Base64.decode(key)
-    }
+    fun getKeyAsBytes(): ByteArray = Base64.decode(key)
 }

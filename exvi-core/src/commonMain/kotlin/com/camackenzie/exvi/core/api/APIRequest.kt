@@ -78,14 +78,15 @@ class APIRequest<T : SelfSerializable> {
                 expectSuccess = false
             }.use { httpClient ->
                 val reqHeaders = headers
-                val reqBody = body.toJson()
+                val reqBody = body.toJson().cached().getEncoded()
+                println("Request: ${body.toJson()}\nProcessed: $reqBody")
                 val response = httpClient.post<HttpResponse>(endpoint) {
                     headers {
                         for ((key, value) in reqHeaders) {
                             append(key, value)
                         }
                     }
-                    body = reqBody.cached().toJson()
+                    body = reqBody
                 }
                 callback(response, response.receive())
             }
