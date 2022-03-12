@@ -35,26 +35,17 @@ class APIResult<T> {
         return this
     }
 
-    fun failed(): Boolean {
-        return statusCode != 200
-    }
+    fun failed(): Boolean = statusCode != 200
 
-    fun succeeded(): Boolean {
-        return !failed()
-    }
+    fun succeeded(): Boolean = !failed()
 
     companion object {
         @kotlin.jvm.JvmStatic
-        fun <T> jsonResult(statusCode: Int, body: T): APIResult<T> {
-            return APIResult(statusCode, body, HashMap()).withJsonHeader()
-        }
+        fun <T> jsonResult(statusCode: Int, body: T): APIResult<T> =
+            APIResult(statusCode, body, HashMap()).withJsonHeader()
     }
 }
 
-inline fun <reified T> APIResult<String>.decodeBody(): T {
-    return Json.decodeFromString<T>(this.body)
-}
+inline fun <reified T> APIResult<String>.decodeBody(): T = Json.decodeFromString<T>(this.body)
 
-fun APIResult<String>.toJson(): String {
-    return Json.encodeToString<APIResult<String>>(this)
-}
+fun APIResult<String>.toJson(): String = Json.encodeToString(this)

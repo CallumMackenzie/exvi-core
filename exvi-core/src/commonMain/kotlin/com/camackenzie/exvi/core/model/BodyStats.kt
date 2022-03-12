@@ -16,8 +16,8 @@ import kotlinx.serialization.*
 @kotlinx.serialization.Serializable
 data class BodyStats(
     var sex: GeneticSex,
-    var totalMass: UnitValue<MassUnit>,
-    var height: UnitValue<DistanceUnit>
+    var totalMass: Mass,
+    var height: Distance
 ) : SelfSerializable {
 
     override fun toJson(): String {

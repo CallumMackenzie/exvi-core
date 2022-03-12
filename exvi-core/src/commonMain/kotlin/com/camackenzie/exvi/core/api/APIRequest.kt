@@ -5,13 +5,17 @@
  */
 package com.camackenzie.exvi.core.api
 
+import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.SelfSerializable
+import com.camackenzie.exvi.core.util.cached
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.HttpResponse
 import io.ktor.utils.io.core.*
 import kotlinx.coroutines.*
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
 
 /**
  *
@@ -62,7 +66,9 @@ class APIRequest<T : SelfSerializable> {
 
     suspend fun send(callback: (APIResult<String>) -> Unit) {
         return send { response, body ->
-            val parsedResponse: APIResult<String> = APIResult(response?.status?.value ?: 418, body, HashMap())
+            val decodedBody = Json.decodeFromString<EncodedStringCache>(body)
+            val parsedResponse: APIResult<String> =
+                APIResult(response?.status?.value ?: 418, decodedBody.get(), HashMap())
             callback(parsedResponse)
         }
     }
@@ -80,7 +86,7 @@ class APIRequest<T : SelfSerializable> {
                             append(key, value)
                         }
                     }
-                    body = reqBody
+                    body = reqBody.cached()
                 }
                 callback(response, response.receive())
             }

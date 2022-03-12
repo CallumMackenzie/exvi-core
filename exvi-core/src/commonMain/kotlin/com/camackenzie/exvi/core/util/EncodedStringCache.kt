@@ -7,6 +7,7 @@ package com.camackenzie.exvi.core.util
 
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
+import kotlin.jvm.JvmStatic
 
 /**
  *
@@ -39,7 +40,7 @@ data class EncodedStringCache(
     }
 
     companion object {
-        @kotlin.jvm.JvmStatic
+        @JvmStatic
         fun cached(s: String): EncodedStringCache = EncodedStringCache(s)
     }
 
