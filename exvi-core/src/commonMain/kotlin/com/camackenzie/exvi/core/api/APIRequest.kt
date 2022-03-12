@@ -68,7 +68,10 @@ class APIRequest<T : SelfSerializable> {
         return send { response, body ->
             val parsedResponse: APIResult<String> =
                 APIResult(response?.status?.value ?: 418, body, HashMap())
-            callback(parsedResponse)
+            if (parsedResponse.succeeded()) {
+                val decodedBody = Json.decodeFromString<EncodedStringCache>(parsedResponse.body).get()
+                callback(APIResult(parsedResponse, decodedBody))
+            } else callback(parsedResponse)
         }
     }
 
@@ -87,11 +90,11 @@ class APIRequest<T : SelfSerializable> {
                     }
                     body = reqBody.cached().toJson()
                 }
-                val decodedBody = Json.decodeFromString<EncodedStringCache>(response.receive())
-                callback(response, decodedBody.get())
+                callback(response, response.receive())
             }
         } catch (e: Exception) {
-            callback(null, e.message ?: "Could not send request.")
+            println("Request failed: ${e.message}")
+            callback(null, "Could not send request.")
         }
     }
 
