@@ -60,12 +60,10 @@ class APIRequest<T : SelfSerializable> {
         send(callback)
     }
 
-    fun hasEndpoint(): Boolean {
-        return endpoint.isBlank()
-    }
+    fun hasEndpoint(): Boolean = endpoint.isBlank()
 
-    suspend fun send(callback: (APIResult<String>) -> Unit) {
-        return send { response, body ->
+    suspend fun send(callback: (APIResult<String>) -> Unit) =
+        send { response, body ->
             val parsedResponse: APIResult<String> =
                 APIResult(response?.status?.value ?: 418, body, HashMap())
             if (parsedResponse.succeeded()) {
@@ -73,9 +71,8 @@ class APIRequest<T : SelfSerializable> {
                 callback(APIResult(parsedResponse, decodedBody))
             } else callback(parsedResponse)
         }
-    }
 
-    suspend fun send(callback: (HttpResponse?, String) -> Unit) {
+    suspend fun send(callback: (HttpResponse?, String) -> Unit) =
         try {
             HttpClient {
                 expectSuccess = false
@@ -96,7 +93,6 @@ class APIRequest<T : SelfSerializable> {
             println("Request failed: ${e.message}")
             callback(null, "Could not send request.")
         }
-    }
 
     companion object {
         @kotlin.jvm.JvmStatic
