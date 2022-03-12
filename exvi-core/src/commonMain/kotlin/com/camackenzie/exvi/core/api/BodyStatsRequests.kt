@@ -38,3 +38,27 @@ class GetBodyStatsResponse(
         const val uid = "GetBodyStatsResponse"
     }
 }
+
+class SetBodyStatsRequest(
+    val username: EncodedStringCache,
+    val accessKey: EncodedStringCache,
+    val bodyStats: BodyStats
+) : GenericDataRequest(uid) {
+
+    constructor(username: String, accessKey: String, bodyStats: BodyStats)
+            : this(username.cached(), accessKey.cached(), bodyStats)
+
+    constructor(username: String, accessKey: EncodedStringCache, bodyStats: BodyStats)
+            : this(username.cached(), accessKey, bodyStats)
+
+    constructor(username: EncodedStringCache, accessKey: String, bodyStats: BodyStats)
+            : this(username, accessKey.cached(), bodyStats)
+
+    override fun toJson(): String = Json.encodeToString(this)
+
+    override fun getUID(): String = uid
+
+    companion object {
+        const val uid = "SetBodyStatsRequest"
+    }
+}
