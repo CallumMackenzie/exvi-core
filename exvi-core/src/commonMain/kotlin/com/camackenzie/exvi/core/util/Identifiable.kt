@@ -1,6 +1,7 @@
 package com.camackenzie.exvi.core.util
 
 import kotlinx.datetime.Clock
+import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
 
 interface Identifiable : Comparable<Identifiable> {
@@ -23,12 +24,13 @@ interface Identifiable : Comparable<Identifiable> {
          * Calls onBOnly for every element in b that is not in a -> onBOnly(b, bIndex)
          */
         @JvmStatic
+        @JvmOverloads
         fun checkIntersects(
             a: List<Identifiable>,
             b: List<Identifiable>,
-            onIntersect: (Identifiable, Int, Identifiable, Int) -> Unit,
-            onAOnly: (Identifiable, Int) -> Unit,
-            onBOnly: (Identifiable, Int) -> Unit
+            onIntersect: (Identifiable, Int, Identifiable, Int) -> Unit = { _, _, _, _ -> },
+            onAOnly: (Identifiable, Int) -> Unit = { _, _ -> },
+            onBOnly: (Identifiable, Int) -> Unit = { _, _ -> }
         ) {
             val bSorted = b.mapIndexed { index, obj ->
                 IndexPreserver(obj, index)
