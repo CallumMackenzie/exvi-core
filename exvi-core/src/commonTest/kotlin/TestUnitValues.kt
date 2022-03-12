@@ -6,16 +6,16 @@ import kotlin.test.assertTrue
 class TestUnitValues {
 
     @Test
-    fun testMassUnit() {
+    fun testUnitConversion() {
         val mu = 12.kilograms
         mu.asUnit(MassUnit.Pound)
 
         assertEquals(mu.unit, MassUnit.Pound)
-        assertTrue(mu.inRangeOf(12.kilograms, 1.pounds))
+        assertTrue(mu.inRangeOf(12.kilograms, 1.grams))
 
         var m2 = 12.grams
         m2 *= 1000
-        assertTrue(m2.inRangeOf(12.kilograms, 10.grams))
+        assertTrue(m2.inRangeOf(12.kilograms, 1.grams))
     }
 
     @Test

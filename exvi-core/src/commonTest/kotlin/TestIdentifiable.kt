@@ -7,7 +7,9 @@ import kotlin.test.assertTrue
 class TestIdentifiable {
 
     @Test
-    fun testGenerateId() = Identifiable.generateId()
+    fun testGenerateId() {
+        Identifiable.generateId()
+    }
 
     @Test
     fun testRawIdentifiable() {

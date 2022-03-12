@@ -55,7 +55,7 @@ data class UnitValue<T : Unit>(
         }
 
     fun inRangeOf(other: UnitValue<T>, range: UnitValue<T>): Boolean =
-        abs(toUnit(other.unit).iValue - other.iValue) >= range.iValue
+        abs(toUnit(other.unit).iValue - other.iValue) <= range.iValue
 
     private inline fun applyToValue(other: UnitValue<T>, apply: (Double) -> Double): UnitValue<T> =
         UnitValue(iUnit, apply(other.toUnit(iUnit).iValue))

@@ -8,7 +8,9 @@ private const val testStr =
 class TestCryptographyUtils {
 
     @Test
-    fun testEncryptAES() = CryptographyUtils.encryptAES("HELLO!")
+    fun testEncryptAES() {
+        CryptographyUtils.encryptAES("HELLO!")
+    }
 
     @Test
     fun testDecryptAES() {
@@ -32,10 +34,14 @@ class TestCryptographyUtils {
     }
 
     @Test
-    fun testHashSHA256() = CryptographyUtils.hashSHA256(testStr)
+    fun testHashSHA256() {
+        CryptographyUtils.hashSHA256(testStr)
+    }
 
     @Test
-    fun testGenerateSalt() = CryptographyUtils.generateSalt()
+    fun testGenerateSalt() {
+        CryptographyUtils.generateSalt()
+    }
 
     @Test
     fun testEncodeString() {
