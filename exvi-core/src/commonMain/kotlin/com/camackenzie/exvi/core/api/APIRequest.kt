@@ -91,7 +91,7 @@ class APIRequest<T : SelfSerializable> {
                 callback(response, decodedBody.get())
             }
         } catch (e: Exception) {
-            callback(null, "Could not send request")
+            callback(null, e.message ?: "Could not send request.")
         }
     }
 
