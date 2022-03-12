@@ -67,7 +67,7 @@ class APIRequest<T : SelfSerializable> {
             val parsedResponse: APIResult<String> =
                 APIResult(response?.status?.value ?: 418, body, HashMap())
             if (parsedResponse.succeeded()) {
-                val decodedBody = Json.decodeFromString<EncodedStringCache>(parsedResponse.body).get()
+                val decodedBody = EncodedStringCache.fromEncoded(parsedResponse.body).get()
                 callback(APIResult(parsedResponse, decodedBody))
             } else callback(parsedResponse)
         }
