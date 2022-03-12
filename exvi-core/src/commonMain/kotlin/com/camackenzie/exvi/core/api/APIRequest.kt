@@ -66,9 +66,8 @@ class APIRequest<T : SelfSerializable> {
 
     suspend fun send(callback: (APIResult<String>) -> Unit) {
         return send { response, body ->
-            val decodedBody = Json.decodeFromString<EncodedStringCache>(body)
             val parsedResponse: APIResult<String> =
-                APIResult(response?.status?.value ?: 418, decodedBody.get(), HashMap())
+                APIResult(response?.status?.value ?: 418, body, HashMap())
             callback(parsedResponse)
         }
     }
@@ -88,7 +87,8 @@ class APIRequest<T : SelfSerializable> {
                     }
                     body = reqBody.cached().toJson()
                 }
-                callback(response, response.receive())
+                val decodedBody = Json.decodeFromString<EncodedStringCache>(response.receive())
+                callback(response, decodedBody.get())
             }
         } catch (e: Exception) {
             callback(null, "Could not send request")
