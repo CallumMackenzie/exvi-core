@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.EnumUtils
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*

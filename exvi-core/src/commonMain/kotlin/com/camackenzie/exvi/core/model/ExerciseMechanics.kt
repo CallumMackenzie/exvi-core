@@ -5,7 +5,8 @@
  */
 package com.camackenzie.exvi.core.model
 
-import com.camackenzie.exvi.core.model.EnumUtils.formatName
+import com.camackenzie.exvi.core.util.EnumUtils
+import com.camackenzie.exvi.core.util.EnumUtils.formatName
 import kotlinx.serialization.SerialName
 
 /**
