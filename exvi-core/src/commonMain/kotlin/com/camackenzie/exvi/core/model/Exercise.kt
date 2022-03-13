@@ -8,13 +8,13 @@ package com.camackenzie.exvi.core.model
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
-import kotlin.math.abs
 
 /**
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class Exercise(
     var name: String,
     var description: String,
@@ -65,47 +65,27 @@ data class Exercise(
         return false
     }
 
-    fun hasDescription(): Boolean {
-        return description.isNotBlank()
-    }
+    fun hasDescription(): Boolean = description.isNotBlank()
 
-    fun hasVideoLink(): Boolean {
-        return videoLink.isNotBlank()
-    }
+    fun hasVideoLink(): Boolean = videoLink.isNotBlank()
 
-    fun hasTips(): Boolean {
-        return tips.isNotBlank()
-    }
+    fun hasTips(): Boolean = tips.isNotBlank()
 
-    fun hasOverview(): Boolean {
-        return overview.isNotBlank()
-    }
+    fun hasOverview(): Boolean = overview.isNotBlank()
 
-    fun hasEquipment(): Boolean {
-        return equipment.isEmpty()
-    }
+    fun hasEquipment(): Boolean = equipment.isEmpty()
 
-    override fun compareTo(other: Exercise): Int {
-        return name.compareTo(other.name)
-    }
+    override fun compareTo(other: Exercise): Int = name.compareTo(other.name)
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return uid
-    }
+    override fun getUID(): String = uid
 
-    override fun equals(other: Any?): Boolean {
-        return if (other is Exercise) {
-            this.name == other.name
-        } else false
-    }
+    override fun equals(other: Any?): Boolean = if (other is Exercise) {
+        this.name == other.name
+    } else false
 
-    override fun hashCode(): Int {
-        return name.hashCode()
-    }
+    override fun hashCode(): Int = name.hashCode()
 
     companion object {
         const val uid = "Exercise"

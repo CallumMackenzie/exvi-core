@@ -12,9 +12,9 @@ package com.camackenzie.exvi.core.model
 @kotlinx.serialization.Serializable
 data class ExerciseEquipment(val name: String) {
 
-    override fun equals(other: Any?): Boolean {
-        return if (other is ExerciseEquipment) {
-            name.equals(other.name, ignoreCase = true)
-        } else false
-    }
+    override fun equals(other: Any?): Boolean = if (other is ExerciseEquipment) {
+        name.equals(other.name, ignoreCase = true)
+    } else false
+    
+    override fun hashCode(): Int = name.hashCode()
 }

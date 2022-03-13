@@ -14,25 +14,26 @@ import kotlin.math.abs
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double) : SelfSerializable {
 
-    override fun equals(other: Any?): Boolean {
-        return if (other is MuscleWorkData) equals(other, 0.1)
-        else false
-    }
+    override fun equals(other: Any?): Boolean = if (other is MuscleWorkData)
+        equals(other, 0.1)
+    else false
 
-    fun equals(other: MuscleWorkData, coefficientTolerance: Double): Boolean {
-        return other.muscle.isInvolvedIn(this.muscle) &&
+    fun equals(other: MuscleWorkData, coefficientTolerance: Double): Boolean =
+        other.muscle.isInvolvedIn(this.muscle) &&
                 abs(other.workCoefficient - this.workCoefficient) < coefficientTolerance
-    }
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return uid
+    override fun getUID(): String = uid
+    
+    override fun hashCode(): Int {
+        var result = muscle.hashCode()
+        result = 31 * result + workCoefficient.hashCode()
+        return result
     }
 
     companion object {

@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.Unit
 
+@Suppress("unused")
 interface WorkoutManager {
     fun getWorkouts(
         coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
@@ -38,5 +39,4 @@ interface WorkoutManager {
         onSuccess: () -> Unit = {},
         onComplete: () -> Unit = {}
     ): Job
-
 }

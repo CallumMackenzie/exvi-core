@@ -13,20 +13,17 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class BodyStats(
     var sex: GeneticSex,
     var totalMass: Mass,
     var height: Distance
 ) : SelfSerializable {
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "BodyStats"

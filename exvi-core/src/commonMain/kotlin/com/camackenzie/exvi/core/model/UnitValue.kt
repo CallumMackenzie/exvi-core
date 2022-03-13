@@ -5,8 +5,6 @@
  */
 package com.camackenzie.exvi.core.model
 
-import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.serialization.json.Json
 import kotlin.math.abs
 
 /**
@@ -46,13 +44,12 @@ data class UnitValue<T : Unit>(
      * Modifies this object
      */
     @Suppress("UNUSED_EXPRESSION")
-    fun asUnit(unit: T): UnitValue<T> =
-        if (unit == iUnit) this
-        else {
-            iValue = toOtherValue(unit)
-            iUnit = unit
-            this
-        }
+    fun asUnit(unit: T): UnitValue<T> = if (unit == iUnit) this
+    else {
+        iValue = toOtherValue(unit)
+        iUnit = unit
+        this
+    }
 
     fun inRangeOf(other: UnitValue<T>, range: UnitValue<T>): Boolean =
         abs(toUnit(other.unit).iValue - other.iValue) <= range.iValue
@@ -83,15 +80,13 @@ data class UnitValue<T : Unit>(
     operator fun unaryPlus(): UnitValue<T> = UnitValue(iUnit, +iValue)
 
     @Suppress("UNCHECKED_CAST")
-    override fun equals(other: Any?): Boolean {
-        return if (other is UnitValue<*>) {
-            if (this.iUnit == other.iUnit)
-                this.iValue == other.iValue
-            else if (this.iUnit::class == other.iUnit::class)
-                this.toUnit(other.iUnit as T) == other
-            else false
-        } else false
-    }
+    override fun equals(other: Any?): Boolean = if (other is UnitValue<*>) {
+        if (this.iUnit == other.iUnit)
+            this.iValue == other.iValue
+        else if (this.iUnit::class == other.iUnit::class)
+            this.toUnit(other.iUnit as T) == other
+        else false
+    } else false
 
     override fun toString(): String = "$iValue ${iUnit.toString().lowercase()}s"
     override fun hashCode(): Int {

@@ -42,14 +42,10 @@ enum class ExerciseForceType {
     @SerialName("OTHER")
     Other;
 
-    override fun toString(): String {
-        return formatName(super.toString())
-    }
+    override fun toString(): String = formatName(super.toString())
 
     companion object {
         @kotlin.jvm.JvmStatic
-        fun fromString(s: String): ExerciseForceType? {
-            return EnumUtils.enumFromString<ExerciseForceType>(s)
-        }
+        fun fromString(s: String): ExerciseForceType? = EnumUtils.enumFromString<ExerciseForceType>(s)
     }
 }

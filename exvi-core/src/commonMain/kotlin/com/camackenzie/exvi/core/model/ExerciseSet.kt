@@ -13,7 +13,8 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class ExerciseSet(
     val exercise: Exercise,
     var unit: String,
@@ -43,30 +44,20 @@ data class ExerciseSet(
         return result
     }
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "ExerciseSet"
 
         @kotlin.jvm.JvmStatic
-        fun repSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet {
-            return ExerciseSet(ex, "rep", sets)
-        }
+        fun repSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "rep", sets)
 
         @kotlin.jvm.JvmStatic
-        fun secondSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet {
-            return ExerciseSet(ex, "second", sets)
-        }
+        fun secondSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "second", sets)
 
         @kotlin.jvm.JvmStatic
-        fun minuteSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet {
-            return ExerciseSet(ex, "minute", sets)
-        }
+        fun minuteSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "minute", sets)
     }
 }

@@ -13,9 +13,10 @@ import kotlin.jvm.JvmStatic
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class EncodedStringCache(
-    @kotlinx.serialization.Transient
+    @Transient
     @kotlin.jvm.Transient
     private var actual: String? = null,
     private var encoded: String = ""
@@ -52,6 +53,13 @@ data class EncodedStringCache(
     override fun toJson(): String = Json.encodeToString(this)
 
     override fun getUID(): String = "EncodedStringCache"
+
+    override fun hashCode(): Int {
+        var result = actual?.hashCode() ?: 0
+        result = 31 * result + encoded.hashCode()
+        return result
+    }
 }
 
 fun String.cached(): EncodedStringCache = EncodedStringCache.cached(this)
+fun CharSequence.cached(): EncodedStringCache = EncodedStringCache.cached(this.toString())

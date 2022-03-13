@@ -8,11 +8,10 @@ data class SingleExerciseSet(
     var weight: Mass = MassUnit.none(),
     var timing: Array<Time> = emptyArray()
 ) {
-
     fun deepValueCopy(): SingleExerciseSet = SingleExerciseSet(
         reps,
-        weight.valueCopy(),
-        timing.map { it.valueCopy() }.toTypedArray()
+        weight.copy(),
+        timing.map { it.copy() }.toTypedArray()
     )
 
     fun timingCallback(

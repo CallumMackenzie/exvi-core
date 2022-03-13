@@ -14,7 +14,8 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class ActiveExercise(
     val target: ExerciseSet,
     var active: ExerciseSet,
@@ -40,13 +41,9 @@ data class ActiveExercise(
         callback: (Int, Time) -> kotlin.Unit
     ): Job = active.sets[set].timingCallback(coroutineScope, dispatcher, callback)
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "ActiveExercise"

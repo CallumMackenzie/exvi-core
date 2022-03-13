@@ -24,14 +24,10 @@ enum class ExerciseExperienceLevel {
     @SerialName("ADVANCED")
     Advanced;
 
-    override fun toString(): String {
-        return formatName(super.toString())
-    }
+    override fun toString(): String = formatName(super.toString())
 
     companion object {
         @kotlin.jvm.JvmStatic
-        fun fromString(s: String): ExerciseExperienceLevel? {
-            return EnumUtils.enumFromString<ExerciseExperienceLevel>(s)
-        }
+        fun fromString(s: String): ExerciseExperienceLevel? = EnumUtils.enumFromString<ExerciseExperienceLevel>(s)
     }
 }

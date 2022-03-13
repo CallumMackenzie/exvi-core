@@ -5,22 +5,19 @@
  */
 package com.camackenzie.exvi.core.model
 
-import com.camackenzie.exvi.core.util.CryptographyUtils.generateSalt
-import com.camackenzie.exvi.core.util.CryptographyUtils.hashSHA256
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.Identifiable
 import com.camackenzie.exvi.core.util.SelfSerializable
-import com.camackenzie.exvi.core.util.cached
 import kotlin.collections.ArrayList
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
-import kotlinx.datetime.Clock.System
 
 /**
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class Workout(
     var name: String = "",
     var description: String = "",
@@ -32,13 +29,9 @@ data class Workout(
         name: String = "",
         description: String = "",
         exercises: ArrayList<ExerciseSet> = arrayListOf()
-    ) : this(
-        name, description, exercises, Identifiable.generateId()
-    )
+    ) : this(name, description, exercises, Identifiable.generateId())
 
-    constructor(other: Workout) : this(
-        other.name, other.description, other.exercises, other.id
-    )
+    constructor(other: Workout) : this(other.name, other.description, other.exercises, other.id)
 
     fun newActiveWorkout(): ActiveWorkout = ActiveWorkout(this)
 
