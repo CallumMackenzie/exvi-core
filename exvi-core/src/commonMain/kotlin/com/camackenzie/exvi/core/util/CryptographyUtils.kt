@@ -9,49 +9,50 @@ import com.soywiz.krypto.sha256
 import com.soywiz.krypto.encoding.toBase64
 import com.soywiz.krypto.SecureRandom
 import com.soywiz.krypto.AES
+import com.soywiz.krypto.HMAC.Companion.hmacSHA256
 import com.soywiz.krypto.Padding
 import com.soywiz.krypto.encoding.Base64
-import com.soywiz.krypto.encoding.base64
-import io.ktor.util.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
+import kotlin.jvm.JvmStatic
 
 /**
  *
  * @author callum
  */
+@Suppress("unused")
 object CryptographyUtils {
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun encryptAES(s: String): EncryptionResult {
         val bytes = s.encodeToByteArray()
-        val key = CachedKey(SecureRandom.nextBytes(32).toBase64())
+        val key = CachedKey.generateKey()
         val encrypted = AES.encryptAes128Cbc(bytes, key.getKeyAsBytes(), Padding.ZeroPadding)
         return EncryptionResult(encrypted.toBase64(), key)
     }
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun decryptAES(er: EncryptionResult): String {
         val encrypted = Base64.decode(er.encrypted)
         val decrypted = AES.decryptAes128Cbc(encrypted, er.key.getKeyAsBytes(), Padding.ZeroPadding)
         return decrypted.decodeToString()
     }
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun encodeStringToBase64(s: String): String = s.encodeToByteArray().toBase64()
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun decodeStringFromBase64(s: String): String = Base64.decode(s).decodeToString()
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun applyRotationCipher(s: String, rotation: Int): String =
         applyDynamicRotationCipher(s) { rotation }
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun revertRotationCipher(s: String, rot: Int): String =
         applyRotationCipher(s, -rot)
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun applyDynamicRotationCipher(s: String, fn: (Int) -> Int): String {
         val ret = StringBuilder()
         for (i in s.indices) {
@@ -60,44 +61,62 @@ object CryptographyUtils {
         return ret.toString()
     }
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun revertDynamicRotationCipher(s: String, fn: (Int) -> Int): String =
         applyDynamicRotationCipher(s) { i -> -fn(i) }
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun hashSHA256(s: String): String {
         val bytes = s.encodeToByteArray()
         return bytes.sha256().base64
     }
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun generateSalt(nBytes: Int): String = SecureRandom.nextBytes(nBytes).toBase64()
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun generateSalt(): String = generateSalt((SecureRandom.nextDouble() * 10 + 6).toInt() shl 1)
 
-    @kotlin.jvm.JvmStatic
-    private fun encodeCipher(i: Int, s2: String): Int {
-        return (i / s2.length.toDouble() * 10).toInt()
+    @JvmStatic
+    private fun encodeCipher(i: Int, s2: String): Int = (i / s2.length.toDouble() * 10).toInt()
+
+    @JvmStatic
+    fun tryDecode(value: String): String? = try {
+        decodeString(value)
+    } catch (e: Throwable) {
+        null
     }
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
+    fun decodeOr(value: String, default: String): String = tryDecode(value) ?: default
+
+    @JvmStatic
+    fun decodeOrValue(value: String): String = decodeOr(value, value)
+
+    private const val ExviEncodedPrefix = "EXVI.ENCODED"
+
+    @JvmStatic
     fun encodeString(s: String): String {
-        val er: EncryptionResult = encryptAES(s)
-        val s0 = Json.encodeToString(er)
-        return encodeStringToBase64(s0)
+        val s0 = "$ExviEncodedPrefix$s"
+        val s1: EncryptionResult = encryptAES(s0)
+        val s2 = generateSalt(3) + Json.encodeToString(s1) + generateSalt(3)
+        return encodeStringToBase64(s2)
     }
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun decodeString(s: String): String {
-        val s0 = decodeStringFromBase64(s)
-        val er: EncryptionResult = Json.decodeFromString(s0)
-        return decryptAES(er)
+        val s4 = decodeStringFromBase64(s)
+        val s3 = s4.substring(4, s4.length - 4)
+        val s2: EncryptionResult = Json.decodeFromString(s3)
+        val s1 = decryptAES(s2)
+        return if (s1.startsWith(ExviEncodedPrefix))
+            s1.substring(ExviEncodedPrefix.length)
+        else throw Exception("String does not start with encoded prefix")
     }
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun bytesToBase64String(byteArray: ByteArray): String = byteArray.toBase64()
 
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun bytesFromBase64String(str: String): ByteArray = Base64.decode(str)
 }

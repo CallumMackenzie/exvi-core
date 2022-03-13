@@ -35,11 +35,11 @@ data class EncodedStringCache(
     fun getEncoded(): String = encoded
 
     fun get(): String = if (actual != null) actual as String
-    else CryptographyUtils.decodeString(encoded).also { actual = it }
+    else decode(encoded).also { actual = it }
 
     fun set(s: String) {
         actual = null
-        encoded = CryptographyUtils.encodeString(s)
+        encoded = encode(s)
     }
 
     companion object {
@@ -48,6 +48,12 @@ data class EncodedStringCache(
 
         @JvmStatic
         fun fromEncoded(encoded: String): EncodedStringCache = EncodedStringCache(encoded = encoded)
+
+        @JvmStatic
+        fun decode(encoded: String): String = CryptographyUtils.decodeString(encoded)
+
+        @JvmStatic
+        fun encode(value: String): String = CryptographyUtils.encodeString(value)
     }
 
     override fun toJson(): String = Json.encodeToString(this)

@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core.api
 
+import com.camackenzie.exvi.core.util.CryptographyUtils
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
@@ -64,11 +65,12 @@ class APIRequest<T : SelfSerializable> {
     suspend fun send(callback: (APIResult<String>) -> Unit) =
         send { response, body ->
             val parsedResponse: APIResult<String> =
-                APIResult(response?.status?.value ?: 418, body, HashMap())
-            if (parsedResponse.succeeded()) {
-                val decodedBody = EncodedStringCache.fromEncoded(parsedResponse.body).get()
-                callback(APIResult(parsedResponse, decodedBody))
-            } else callback(parsedResponse)
+                APIResult(
+                    response?.status?.value ?: 418,
+                    CryptographyUtils.decodeOrValue(body),
+                    HashMap()
+                )
+            callback(parsedResponse)
         }
 
     suspend fun send(callback: (HttpResponse?, String) -> Unit) =

@@ -58,4 +58,15 @@ class TestCryptographyUtils {
         assertEquals(base64, original)
     }
 
+    @Test
+    fun testErrorEncoding() {
+        val out = CryptographyUtils.decodeOr(testStr, "hello")
+        assertEquals(out, "hello")
+
+        val out2 = CryptographyUtils.decodeOrValue(testStr)
+        assertEquals(out2, testStr)
+
+        val out3 = CryptographyUtils.decodeOr(CryptographyUtils.encodeString(testStr), "N")
+        assertEquals(out3, testStr)
+    }
 }
