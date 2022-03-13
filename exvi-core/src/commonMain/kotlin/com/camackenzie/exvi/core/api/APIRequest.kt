@@ -14,14 +14,13 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.HttpResponse
 import io.ktor.utils.io.core.*
 import kotlinx.coroutines.*
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
 
 /**
  *
  * @author callum
  */
 @kotlinx.serialization.Serializable
+@Suppress("unused")
 class APIRequest<T : SelfSerializable> {
     val body: T
 
@@ -79,7 +78,6 @@ class APIRequest<T : SelfSerializable> {
             }.use { httpClient ->
                 val reqHeaders = headers
                 val reqBody = body.toJson().cached().getEncoded()
-                println("Request: ${body.toJson()}\nProcessed: $reqBody")
                 val response = httpClient.post<HttpResponse>(endpoint) {
                     headers {
                         for ((key, value) in reqHeaders) {
