@@ -9,7 +9,6 @@ import com.soywiz.krypto.sha256
 import com.soywiz.krypto.encoding.toBase64
 import com.soywiz.krypto.SecureRandom
 import com.soywiz.krypto.AES
-import com.soywiz.krypto.HMAC.Companion.hmacSHA256
 import com.soywiz.krypto.Padding
 import com.soywiz.krypto.encoding.Base64
 import kotlinx.serialization.*
