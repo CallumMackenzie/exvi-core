@@ -7,7 +7,6 @@ package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.EnumUtils
 import com.camackenzie.exvi.core.util.EnumUtils.formatName
-import kotlinx.serialization.SerialName
 
 /**
  *
@@ -16,22 +15,11 @@ import kotlinx.serialization.SerialName
 @kotlinx.serialization.Serializable
 @Suppress("unused")
 enum class ExerciseType {
-    @SerialName("STRENGTH")
     Strength,
-
-    @SerialName("WARMUP")
     Warmup,
-
-    @SerialName("COOLDOWN")
     Cooldown,
-
-    @SerialName("PLYOMETRIC")
     Plyometric,
-
-    @SerialName("CONDITIONING")
     Conditioning,
-
-    @SerialName("POWER_LIFTING")
     PowerLifting;
 
     override fun toString(): String = formatName(super.toString())

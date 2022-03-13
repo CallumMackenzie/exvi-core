@@ -30,7 +30,6 @@ object EnumUtils {
     }
 
     @kotlin.jvm.JvmStatic
-    fun formatName(superStr: String): String {
-        return superStr.lowercase().replace("_".toRegex(), " ")
-    }
+    fun formatName(superStr: String): String =
+        superStr.lowercase().replace("_".toRegex(), " ")
 }
