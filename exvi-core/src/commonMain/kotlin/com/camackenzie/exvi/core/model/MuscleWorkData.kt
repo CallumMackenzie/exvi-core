@@ -14,8 +14,8 @@ import kotlin.math.abs
  *
  * @author callum
  */
-@Serializable
 @Suppress("unused")
+@Serializable
 data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double) : SelfSerializable {
 
     override fun equals(other: Any?): Boolean = if (other is MuscleWorkData)

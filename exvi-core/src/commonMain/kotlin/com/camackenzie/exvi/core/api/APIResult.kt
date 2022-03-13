@@ -48,6 +48,6 @@ class APIResult<T> {
 }
 
 @Suppress("unused")
-inline fun <reified T> APIResult<String>.decodeBody(): T = Json.decodeFromString<T>(this.body)
+inline fun <reified T> APIResult<String>.decodeBody(): T = Json.decodeFromString(this.body)
 
 fun APIResult<String>.toJson(): String = Json.encodeToString(this)
