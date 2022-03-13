@@ -86,16 +86,16 @@ object CryptographyUtils {
         val er: EncryptionResult = encryptAES(s)
         val s0 = Json.encodeToString(er)
         val s1 = applyDynamicRotationCipher(s0) { i -> i % 6 }
-        val s2 = encodeStringToBase64(s1)
-        val s3 = applyDynamicRotationCipher(s2) { i -> encodeCipher(i, s2) }
-        return applyRotationCipher(s3, 1)
+        val s2 = applyDynamicRotationCipher(s1) { i -> encodeCipher(i, s1) }
+        val s3 = applyRotationCipher(s2, 1)
+        return encodeStringToBase64(s3)
     }
 
     @kotlin.jvm.JvmStatic
     fun decodeString(s: String): String {
-        val s3 = revertRotationCipher(s, 1)
-        val s2 = revertDynamicRotationCipher(s3) { i -> encodeCipher(i, s3) }
-        val s1: String = decodeStringFromBase64(s2)
+        val s3 = decodeStringFromBase64(s)
+        val s2 = revertRotationCipher(s3, 1)
+        val s1 = revertDynamicRotationCipher(s2) { i -> encodeCipher(i, s2) }
         val s0 = revertDynamicRotationCipher(s1) { i -> i % 6 }
         val er: EncryptionResult = Json.decodeFromString(s0)
         return decryptAES(er)
