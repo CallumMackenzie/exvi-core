@@ -12,42 +12,39 @@ class TestEncodedStringCache {
 
     @Test
     fun testEncodeDecode() {
-        val og = "SDHJNSadhjsad"
-        val esc = og.cached()
-        assertEquals(og, esc.get())
+        val esc = testStr.cached()
+        assertEquals(testStr, esc.get())
     }
 
     @Test
     fun testFromEncoded() {
-        val og = "@(*#&283dkasnmdoASNDSNJDAND"
-        val esc = og.cached()
-        val esc2 = EncodedStringCache.fromEncoded(esc.getEncoded())
+        val esc = testStr.cached()
+        val encoded = esc.getEncoded()
+        val esc2 = EncodedStringCache.fromEncoded(encoded)
         assertEquals(esc, esc2)
-        assertEquals(og, esc.get(), esc2.get())
+        assertEquals(testStr, esc.get(), esc2.get())
     }
 
     @Test
     fun testSerializeDeserialize() {
-        val og = "@*(#jIODJsndJNDJSANDjaND"
-        val esc = og.cached()
+        val esc = testStr.cached()
         val json = esc.toJson()
         val esc2 = Json.decodeFromString<EncodedStringCache>(json)
         assertEquals(esc, esc2)
-        assertEquals(og, esc.get(), esc2.get())
+        assertEquals(testStr, esc.get(), esc2.get())
     }
 
     @Test
     fun testEquality() {
-        val og = "293192DKJOSMOADMSMDo9290IUD()@#"
-        val esc = og.cached()
-        val esc2 = og.cached()
+        val esc = testStr.cached()
+        val esc2 = testStr.cached()
         assertEquals(esc, esc2)
-        assertEquals(og, esc.get(), esc2.get())
+        assertEquals(testStr, esc.get(), esc2.get())
     }
 
     @Test
     fun testSet() {
-        val og = "@(@()dmkOSMdMDOAMDSD"
+        val og = testStr
         val new = "@*())MD)(MWDKOSNMDANODSNDIDSNIDJHIAD"
         val esc = og.cached()
         assertEquals(og, esc.get())

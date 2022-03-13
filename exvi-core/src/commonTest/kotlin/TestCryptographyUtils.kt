@@ -2,7 +2,7 @@ import com.camackenzie.exvi.core.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-private const val testStr =
+const val testStr =
     "1234567890-=`qwertyuiop[]\\asdfghjkl;'zxcvbnm,./QWERTYUIOPASDFGHJKL:\"ZXCVBNM<>?!@#$%^&*()_+"
 
 class TestCryptographyUtils {
