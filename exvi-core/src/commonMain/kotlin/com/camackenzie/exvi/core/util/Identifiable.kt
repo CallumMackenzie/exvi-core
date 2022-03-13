@@ -25,7 +25,23 @@ interface Identifiable : Comparable<Identifiable> {
          */
         @JvmStatic
         @JvmOverloads
+        @Deprecated(
+            "Bad naming scheme", ReplaceWith(
+                "intersectIndexed(a, b, onIntersect, onAOnly, onBOnly)",
+                "com.camackenzie.exvi.core.util.Identifiable.Companion.intersectIndexed"
+            )
+        )
         fun checkIntersects(
+            a: List<Identifiable>,
+            b: List<Identifiable>,
+            onIntersect: (Identifiable, Int, Identifiable, Int) -> Unit = { _, _, _, _ -> },
+            onAOnly: (Identifiable, Int) -> Unit = { _, _ -> },
+            onBOnly: (Identifiable, Int) -> Unit = { _, _ -> }
+        ) = intersectIndexed(a, b, onIntersect, onAOnly, onBOnly)
+
+        @JvmStatic
+        @JvmOverloads
+        fun intersectIndexed(
             a: List<Identifiable>,
             b: List<Identifiable>,
             onIntersect: (Identifiable, Int, Identifiable, Int) -> Unit = { _, _, _, _ -> },
