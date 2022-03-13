@@ -16,8 +16,9 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
-class VerificationRequest(
+@Serializable
+@Suppress("unused")
+data class VerificationRequest(
     val username: EncodedStringCache,
     val email: EncodedStringCache,
     val phone: EncodedStringCache
@@ -29,13 +30,9 @@ class VerificationRequest(
         phone: String
     ) : this(username.cached(), email.cached(), phone.cached())
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return Companion.uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "VerificationRequest"

@@ -6,6 +6,8 @@ import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
+@Suppress("unused")
+@Serializable
 class GetBodyStatsRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache
@@ -26,6 +28,8 @@ class GetBodyStatsRequest(
     }
 }
 
+@Suppress("unused")
+@Serializable
 class GetBodyStatsResponse(
     val bodyStats: BodyStats
 ) : GenericDataResult(uid) {
@@ -39,6 +43,8 @@ class GetBodyStatsResponse(
     }
 }
 
+@Suppress("unused")
+@Serializable
 class SetBodyStatsRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,

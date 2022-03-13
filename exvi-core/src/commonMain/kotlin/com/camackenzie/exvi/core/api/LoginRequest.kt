@@ -15,23 +15,19 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
-class LoginRequest : SelfSerializable {
-    val username: EncodedStringCache
+@Serializable
+@Suppress("unused")
+data class LoginRequest(
+    val username: EncodedStringCache,
     val passwordHash: EncodedStringCache
+) : SelfSerializable {
 
-    constructor(username: String, passwordHash: String) {
-        this.username = username.cached()
-        this.passwordHash = passwordHash.cached()
-    }
+    constructor(username: String, passwordHash: String)
+            : this(username.cached(), passwordHash.cached())
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return Companion.uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "LoginRequest"

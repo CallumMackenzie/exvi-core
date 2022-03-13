@@ -6,7 +6,6 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.EncodedStringCache
-import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
@@ -15,7 +14,8 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 class WorkoutListRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
@@ -25,7 +25,7 @@ class WorkoutListRequest(
     constructor(username: String, accessKey: String, type: Type)
             : this(username.cached(), accessKey.cached(), type)
 
-    @kotlinx.serialization.Serializable
+    @Serializable
     enum class Type {
         ListAllTemplates,
         ListAllActive

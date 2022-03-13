@@ -4,7 +4,8 @@ import com.camackenzie.exvi.core.util.EncodedStringCache
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 class DeleteWorkoutsRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
@@ -12,7 +13,7 @@ class DeleteWorkoutsRequest(
     val workoutType: WorkoutType
 ) : GenericDataRequest(uid) {
 
-    @kotlinx.serialization.Serializable
+    @Serializable
     enum class WorkoutType {
         Workout,
         ActiveWorkout

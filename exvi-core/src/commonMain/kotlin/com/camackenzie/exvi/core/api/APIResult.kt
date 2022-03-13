@@ -13,6 +13,7 @@ import kotlinx.serialization.json.*
  * @author callum
  */
 @Serializable
+@Suppress("unused")
 class APIResult<T> {
     var body: T
     var statusCode: Int
@@ -46,6 +47,7 @@ class APIResult<T> {
     }
 }
 
+@Suppress("unused")
 inline fun <reified T> APIResult<String>.decodeBody(): T = Json.decodeFromString<T>(this.body)
 
 fun APIResult<String>.toJson(): String = Json.encodeToString(this)

@@ -8,7 +8,6 @@ package com.camackenzie.exvi.core.api
 import com.camackenzie.exvi.core.model.ActiveWorkout
 import com.camackenzie.exvi.core.model.Workout
 import com.camackenzie.exvi.core.util.EncodedStringCache
-import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
@@ -18,6 +17,7 @@ import kotlinx.serialization.json.*
  * @author callum
  */
 @Serializable
+@Suppress("unused")
 class WorkoutPutRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
@@ -39,7 +39,8 @@ class WorkoutPutRequest(
     }
 }
 
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 class ActiveWorkoutPutRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,

@@ -15,7 +15,8 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 class AccountCreationRequest : SelfSerializable {
     val username: EncodedStringCache
     val verificationCode: EncodedStringCache
@@ -31,13 +32,9 @@ class AccountCreationRequest : SelfSerializable {
         this.password = password.cached()
     }
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return Companion.uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "AccountCreationRequest"

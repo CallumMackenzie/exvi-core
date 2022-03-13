@@ -14,6 +14,7 @@ import com.camackenzie.exvi.core.util.cached
  * @author callum
  */
 @kotlinx.serialization.Serializable
+@Suppress("unused")
 abstract class GenericDataRequest(
     val requester: EncodedStringCache
 ) : SelfSerializable {
@@ -25,6 +26,7 @@ abstract class GenericDataRequest(
  * @author callum
  */
 @kotlinx.serialization.Serializable
+@Suppress("unused")
 abstract class GenericDataResult(
     val responder: EncodedStringCache
 ) : SelfSerializable {

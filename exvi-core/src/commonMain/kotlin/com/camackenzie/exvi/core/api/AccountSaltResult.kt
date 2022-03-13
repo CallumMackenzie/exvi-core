@@ -14,7 +14,8 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 class AccountSaltResult(val result: EncodedStringCache) : GenericDataResult(uid) {
 
     val salt: String
@@ -22,13 +23,9 @@ class AccountSaltResult(val result: EncodedStringCache) : GenericDataResult(uid)
 
     constructor(result: String) : this(result.cached())
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun getUID(): String {
-        return Companion.uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "AccountSaltResult"

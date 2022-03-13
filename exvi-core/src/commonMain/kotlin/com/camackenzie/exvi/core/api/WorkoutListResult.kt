@@ -7,7 +7,6 @@ package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.model.ActiveWorkout
 import com.camackenzie.exvi.core.model.Workout
-import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 
@@ -15,7 +14,8 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class WorkoutListResult(val workouts: Array<Workout>) : GenericDataResult(uid) {
 
     override fun toJson(): String = Json.encodeToString(this)
@@ -40,7 +40,8 @@ data class WorkoutListResult(val workouts: Array<Workout>) : GenericDataResult(u
     }
 }
 
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class ActiveWorkoutListResult(val workouts: Array<ActiveWorkout>) : GenericDataResult(uid) {
 
     override fun toJson(): String = Json.encodeToString(this)

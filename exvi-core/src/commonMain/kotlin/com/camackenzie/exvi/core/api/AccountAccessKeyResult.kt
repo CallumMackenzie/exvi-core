@@ -15,7 +15,8 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class AccountAccessKeyResult(
     val result: EncodedStringCache
 ) : GenericDataResult(uid) {

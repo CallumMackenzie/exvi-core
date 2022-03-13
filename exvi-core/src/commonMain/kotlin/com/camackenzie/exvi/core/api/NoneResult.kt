@@ -3,11 +3,12 @@ package com.camackenzie.exvi.core.api
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 object NoneResult : GenericDataResult("NoneResult") {
 
     @kotlin.jvm.Transient
-    @kotlinx.serialization.Transient
+    @Transient
     const val uid = "NoneResult"
 
     override fun toJson(): String = Json.encodeToString(this)

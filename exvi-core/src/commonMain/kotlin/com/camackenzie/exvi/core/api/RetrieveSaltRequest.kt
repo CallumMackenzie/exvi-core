@@ -15,27 +15,17 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
-class RetrieveSaltRequest : SelfSerializable {
+@Serializable
+@Suppress("unused")
+data class RetrieveSaltRequest(
     val username: EncodedStringCache
+) : SelfSerializable {
 
-    constructor(username: String) {
-        this.username = username.cached()
-    }
+    constructor(username: String) : this(username.cached())
 
-    override fun toJson(): String {
-        return Json.encodeToString(this)
-    }
+    override fun toJson(): String = Json.encodeToString(this)
 
-    override fun equals(other: Any?): Boolean {
-        return if (other is RetrieveSaltRequest) {
-            other.username == username
-        } else false
-    }
-
-    override fun getUID(): String {
-        return Companion.uid
-    }
+    override fun getUID(): String = uid
 
     companion object {
         const val uid = "RetrieveSaltRequest"
