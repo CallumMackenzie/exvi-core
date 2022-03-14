@@ -41,7 +41,7 @@ interface Identifiable : Comparable<Identifiable> {
 
         @JvmStatic
         @JvmOverloads
-        inline fun <reified T : Identifiable> intersectIndexed(
+        fun <T : Identifiable> intersectIndexed(
             a: List<T>,
             b: List<T>,
             onIntersect: (T, Int, T, Int) -> Unit = { _, _, _, _ -> },
