@@ -39,4 +39,31 @@ interface WorkoutManager {
         onSuccess: () -> Unit = {},
         onComplete: () -> Unit = {}
     ): Job
+
+    fun getActiveWorkouts(
+        coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+        dispatcher: CoroutineDispatcher = Dispatchers.Default,
+        onFail: (APIResult<String>) -> Unit = {},
+        onSuccess: (Array<ActiveWorkout>) -> Unit = {},
+        onComplete: () -> Unit = {}
+    ): Job
+
+    fun putActiveWorkouts(
+        workoutsToAdd: Array<ActiveWorkout>,
+        coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+        dispatcher: CoroutineDispatcher = Dispatchers.Default,
+        onFail: (APIResult<String>) -> Unit = {},
+        onSuccess: () -> Unit = {},
+        onComplete: () -> Unit = {}
+    ): Job
+
+    fun deleteActiveWorkouts(
+        toDelete: Array<String>,
+        coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+        dispatcher: CoroutineDispatcher = Dispatchers.Default,
+        onFail: (APIResult<String>) -> Unit = {},
+        onSuccess: () -> Unit = {},
+        onComplete: () -> Unit = {}
+    ): Job
+
 }
