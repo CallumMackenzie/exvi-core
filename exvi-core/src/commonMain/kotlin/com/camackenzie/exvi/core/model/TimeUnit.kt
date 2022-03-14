@@ -1,5 +1,6 @@
 package com.camackenzie.exvi.core.model
 
+import kotlinx.datetime.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -49,6 +50,9 @@ enum class TimeUnit(private val unit: Double) : Unit {
         fun none(): Time = Time(Second, 0.0)
     }
 }
+
+@Suppress("unused")
+fun Time.now(): Time = Time(TimeUnit.Millisecond, Clock.System.now().toEpochMilliseconds().toDouble())
 
 inline fun Time.toDuration(): Duration = when (unit) {
     TimeUnit.Millisecond -> value.milliseconds
