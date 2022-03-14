@@ -1,4 +1,7 @@
 import com.camackenzie.exvi.core.model.*
+import kotlinx.datetime.Clock
+import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -33,6 +36,14 @@ class TestUnitValues {
         2.days
         2.years
         2.minutes
+    }
+
+    @Test
+    fun testTime() {
+        val now = TimeUnit.now()
+        val nowClock = Clock.System.now().toEpochMilliseconds()
+        val nowSeconds = now.toUnit(TimeUnit.Millisecond).value
+        assertTrue(abs(nowClock - nowSeconds) <= 100, "Times did not match")
     }
 
 }

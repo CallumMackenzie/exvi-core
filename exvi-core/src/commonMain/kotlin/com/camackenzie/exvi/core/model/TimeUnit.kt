@@ -47,7 +47,7 @@ enum class TimeUnit(private val unit: Double) : Unit {
     override fun getBaseCoefficient(): Double = unit
 
     companion object {
-        fun Time.now(): Time = Time(Millisecond, Clock.System.now().toEpochMilliseconds().toDouble())
+        fun now(): Time = Time(Millisecond, Clock.System.now().toEpochMilliseconds().toDouble())
 
         fun none(): Time = Time(Second, 0.0)
     }
