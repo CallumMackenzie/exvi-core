@@ -41,12 +41,12 @@ interface Identifiable : Comparable<Identifiable> {
 
         @JvmStatic
         @JvmOverloads
-        fun intersectIndexed(
-            a: List<Identifiable>,
-            b: List<Identifiable>,
-            onIntersect: (Identifiable, Int, Identifiable, Int) -> Unit = { _, _, _, _ -> },
-            onAOnly: (Identifiable, Int) -> Unit = { _, _ -> },
-            onBOnly: (Identifiable, Int) -> Unit = { _, _ -> }
+        inline fun <reified T : Identifiable> intersectIndexed(
+            a: List<T>,
+            b: List<T>,
+            onIntersect: (T, Int, T, Int) -> Unit = { _, _, _, _ -> },
+            onAOnly: (T, Int) -> Unit = { _, _ -> },
+            onBOnly: (T, Int) -> Unit = { _, _ -> }
         ) {
             val bSorted = b.mapIndexed { index, obj ->
                 IndexPreserver(obj, index)
