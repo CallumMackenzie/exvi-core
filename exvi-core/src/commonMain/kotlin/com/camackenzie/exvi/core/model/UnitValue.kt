@@ -6,6 +6,7 @@
 package com.camackenzie.exvi.core.model
 
 import kotlin.math.abs
+import kotlin.math.floor
 
 /**
  *
@@ -32,6 +33,22 @@ data class UnitValue<T : Unit>(
 
     @Deprecated("Unnecessary after switch to data class")
     fun valueCopy(): UnitValue<T> = UnitValue(iUnit, iValue)
+
+    fun floor(): UnitValue<T> = UnitValue(unit, floor(value))
+
+    fun floorSelf(): UnitValue<T> {
+        iValue = floor(iValue)
+        return this
+    }
+
+    fun ceil(): UnitValue<T> = UnitValue(unit, floor(value))
+
+    fun ceilSelf(): UnitValue<T> {
+        iValue = floor(iValue)
+        return this
+    }
+
+    fun pairWithUnit(): Pair<T, UnitValue<T>> = Pair(unit, this)
 
     /**
      * Returns a new UnitValue with this unit converted to the given unit
@@ -88,7 +105,7 @@ data class UnitValue<T : Unit>(
         else false
     } else false
 
-    override fun toString(): String = "$iValue ${iUnit.toString().lowercase()}s"
+    override fun toString(): String = "$iValue ${iUnit.toString().lowercase()}${if (iValue != 1.0) "s" else ""}"
     override fun hashCode(): Int {
         var result = iUnit.hashCode()
         result = 31 * result + iValue.hashCode()
