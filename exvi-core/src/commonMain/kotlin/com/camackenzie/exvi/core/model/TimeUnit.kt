@@ -65,6 +65,7 @@ inline fun Time.toDuration(): Duration = when (unit) {
     TimeUnit.Year -> value.days * 364.5
 }
 
+// TODO: Fix this
 fun Time.mapToFormats(
     formatTo: Set<TimeUnit> = TimeUnit.values().toSet()
 ): Map<TimeUnit, Time> {
