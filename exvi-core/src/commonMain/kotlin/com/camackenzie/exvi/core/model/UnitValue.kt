@@ -28,6 +28,10 @@ data class UnitValue<T : Unit>(
     val value
         get() = iValue
 
+    constructor(iUnit: T, iValue: Int) : this(iUnit, iValue.toDouble())
+
+    constructor(iUnit: T, iValue: Float): this(iUnit, iValue.toDouble())
+
     private fun toOtherValue(unit: T): Double = if (unit == this.unit) iValue else
         iValue / iUnit.getBaseCoefficient() * unit.getBaseCoefficient()
 

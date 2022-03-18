@@ -45,7 +45,31 @@ class TestUnitValues {
         val nowSeconds = now.toUnit(TimeUnit.Millisecond).value
         assertTrue(abs(nowClock - nowSeconds) <= 100, "Times did not match")
 
-        println(now.formatToDate())
+        println(now.formatToElapsedTime())
     }
 
+    @Test
+    fun test_MS_S_Convert() = assertTrue {
+        Time(TimeUnit.Millisecond, 1000).inRangeOf(Time(TimeUnit.Second, 1), Time(TimeUnit.Millisecond, 1.0))
+    }
+
+    @Test
+    fun test_S_M_Convert() = assertTrue {
+        Time(TimeUnit.Second, 60).inRangeOf(Time(TimeUnit.Minute, 1), Time(TimeUnit.Millisecond, 1.0))
+    }
+
+    @Test
+    fun test_M_H_Convert() = assertTrue {
+        Time(TimeUnit.Minute, 60).inRangeOf(Time(TimeUnit.Hour, 1), Time(TimeUnit.Millisecond, 1.0))
+    }
+
+    @Test
+    fun test_H_D_Convert() = assertTrue {
+        Time(TimeUnit.Hour, 24).inRangeOf(Time(TimeUnit.Day, 1), Time(TimeUnit.Millisecond, 1.0))
+    }
+
+    @Test
+    fun test_D_W_Convert() = assertTrue {
+        Time(TimeUnit.Day, 7).inRangeOf(Time(TimeUnit.Week, 1), Time(TimeUnit.Millisecond, 1.0))
+    }
 }
