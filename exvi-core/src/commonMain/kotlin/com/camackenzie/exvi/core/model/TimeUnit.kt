@@ -1,7 +1,6 @@
 package com.camackenzie.exvi.core.model
 
 import kotlinx.datetime.Clock
-import kotlin.math.floor
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -43,19 +42,21 @@ enum class TimeUnit(private val unit: Double) : Unit {
     Hour(Minute.unit / 60.0),
     Day(Hour.unit / 24.0),
     Week(Day.unit / 7.0),
-    Year(Day.unit / 364.5);
+    Year(Day.unit / 365.24219);
 
     override fun getBaseCoefficient(): Double = unit
 
     companion object {
         fun now(): Time = Time(Millisecond, Clock.System.now().toEpochMilliseconds().toDouble())
-
         fun none(): Time = Time(Second, 0.0)
-
         fun sortedValues(): Array<TimeUnit> = values().sortedWith { a, b -> a.unit.compareTo(b.unit) }.toTypedArray()
+        fun currentYear(): Int = 1970 + now().asUnit(Year).floorSelf().value.toInt()
+        fun fromDuration(duration: Duration): Time = Time(
+            Millisecond,
+            duration.inWholeMilliseconds.toDouble()
+        )
     }
 }
-
 
 inline fun Time.toDuration(): Duration = when (unit) {
     TimeUnit.Millisecond -> value.milliseconds
@@ -64,14 +65,13 @@ inline fun Time.toDuration(): Duration = when (unit) {
     TimeUnit.Hour -> value.hours
     TimeUnit.Day -> value.days
     TimeUnit.Week -> value.days * 7
-    TimeUnit.Year -> value.days * 364.5
+    TimeUnit.Year -> value.days * 365.24219
 }
 
 fun Time.mapToFormats(
     formatTo: Set<TimeUnit> = TimeUnit.values().toSet()
 ): Map<TimeUnit, Time> {
     fun floorDiff(value: Time): Time = value - value.floor()
-
     val ret = HashMap<TimeUnit, Time>()
     var last = this.years
     ret[TimeUnit.Year] = last
@@ -81,7 +81,7 @@ fun Time.mapToFormats(
         last = converted
     }
     ret.forEach { it.value.floorSelf() }
-    return ret
+    return ret.filter { formatTo.contains(it.key) }
 }
 
 fun Time.timesToString(
@@ -96,7 +96,19 @@ fun Time.timesToString(
     return ret.toString().trim()
 }
 
+@Suppress("unused")
 fun Time.formatToElapsedTime(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): String =
     timesToString(formatTo) { time, str ->
-        str.append(" ").append("${time.value.toInt()} ${time.unit.toString().lowercase()}s")
+        if (time.value.toInt() != 0)
+            str.append(" ").append("${time.value.toInt()} ${time.unit.toString().lowercase()}s")
+    }
+
+@Suppress("unused")
+fun Time.formatToDate(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): String =
+    timesToString(formatTo) { time, str ->
+        val tVal = time.value.toInt()
+        when (time.unit) {
+            TimeUnit.Year -> str.append("${1970 + tVal} ")
+            else -> if (tVal != 0) str.append("$time ")
+        }
     }

@@ -44,8 +44,6 @@ class TestUnitValues {
         val nowClock = Clock.System.now().toEpochMilliseconds()
         val nowSeconds = now.toUnit(TimeUnit.Millisecond).value
         assertTrue(abs(nowClock - nowSeconds) <= 100, "Times did not match")
-
-        println(now.formatToElapsedTime())
     }
 
     @Test
