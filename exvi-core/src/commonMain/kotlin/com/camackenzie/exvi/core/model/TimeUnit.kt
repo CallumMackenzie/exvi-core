@@ -1,6 +1,7 @@
 package com.camackenzie.exvi.core.model
 
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -112,3 +113,7 @@ fun Time.formatToDate(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): Stri
             else -> if (tVal != 0) str.append("$time ")
         }
     }
+
+@Suppress("unused")
+fun Time.toInstant(): Instant =
+    Instant.fromEpochMilliseconds(this.toUnit(TimeUnit.Millisecond).value.toLong())
