@@ -44,6 +44,8 @@ class TestUnitValues {
         val nowClock = Clock.System.now().toEpochMilliseconds()
         val nowSeconds = now.toUnit(TimeUnit.Millisecond).value
         assertTrue(abs(nowClock - nowSeconds) <= 100, "Times did not match")
+        val currentYear = 1970 + (nowClock / (365.25 * 24 * 3600 * 1000)).toInt()
+        assertEquals(now.getYearUnixEpoch(), currentYear)
     }
 
     @Test

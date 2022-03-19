@@ -97,6 +97,8 @@ fun Time.timesToString(
     return ret.toString().trim()
 }
 
+fun Time.getYearUnixEpoch(): Int = 1970 + this.years.floorSelf().value.toInt()
+
 @Suppress("unused")
 fun Time.formatToElapsedTime(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): String =
     timesToString(formatTo) { time, str ->
