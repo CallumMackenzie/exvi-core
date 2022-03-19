@@ -16,7 +16,8 @@ import kotlinx.serialization.*
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+@Suppress("unused")
 data class ActiveWorkout(
     val name: String,
     val baseWorkoutId: EncodedStringCache,
