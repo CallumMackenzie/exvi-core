@@ -45,11 +45,11 @@ data class ActiveWorkout(
     )
 
     fun start() {
-        startTimeMillis = Clock.System.now().epochSeconds
+        startTimeMillis = Clock.System.now().toEpochMilliseconds()
     }
 
     fun end() {
-        endTimeMillis = Clock.System.now().epochSeconds
+        endTimeMillis = Clock.System.now().toEpochMilliseconds()
     }
 
     fun hasStarted(): Boolean = startTimeMillis != null
