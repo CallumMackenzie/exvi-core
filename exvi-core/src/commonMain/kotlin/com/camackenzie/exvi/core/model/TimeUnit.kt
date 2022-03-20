@@ -1,7 +1,6 @@
 package com.camackenzie.exvi.core.model
 
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlinx.datetime.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -98,6 +97,10 @@ fun Time.timesToString(
 }
 
 fun Time.getYearUnixEpoch(): Int = 1970 + this.years.floorSelf().value.toInt()
+
+@Suppress("unused")
+fun Time.toLocalDate(): LocalDate =
+    toInstant().toLocalDateTime(TimeZone.currentSystemDefault()).date
 
 @Suppress("unused")
 fun Time.formatToElapsedTime(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): String =
