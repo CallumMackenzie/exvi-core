@@ -30,7 +30,11 @@ data class ActiveExercise(
         ExerciseSet(
             ex.exercise,
             ex.unit,
-            Array(ex.sets.size) { ex.sets[it].deepValueCopy() }
+            Array(ex.sets.size) {
+                val ns = ex.sets[it].deepValueCopy()
+                ns.reps = 0
+                ns
+            }
         )
     )
 
