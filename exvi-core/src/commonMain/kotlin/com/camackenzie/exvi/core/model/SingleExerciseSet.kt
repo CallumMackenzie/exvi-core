@@ -2,17 +2,12 @@ package com.camackenzie.exvi.core.model
 
 import kotlinx.coroutines.*
 
-@kotlinx.serialization.Serializable
-data class SingleExerciseSet(
-    var reps: Int,
-    var weight: Mass = MassUnit.none(),
-    var timing: Array<Time> = emptyArray()
-) {
-    fun deepValueCopy(): SingleExerciseSet = SingleExerciseSet(
-        reps,
-        weight.copy(),
-        timing.map { it.copy() }.toTypedArray()
-    )
+interface SingleExerciseSet {
+    var reps: Int
+    var weight: Mass
+    var timing: Array<Time>
+
+    fun deepValueCopy(): SingleExerciseSet
 
     fun timingCallback(
         coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
@@ -25,6 +20,28 @@ data class SingleExerciseSet(
             callback(i, time)
         }
     }
+
+    companion object {
+        @kotlin.jvm.JvmStatic
+        operator fun invoke(
+            reps: Int,
+            weight: Mass = MassUnit.none(),
+            timing: Array<Time> = emptyArray()
+        ) = ActualSingleExerciseSet(reps, weight, timing)
+    }
+}
+
+@kotlinx.serialization.Serializable
+data class ActualSingleExerciseSet(
+    override var reps: Int,
+    override var weight: Mass = MassUnit.none(),
+    override var timing: Array<Time> = emptyArray()
+) : SingleExerciseSet {
+    override fun deepValueCopy(): SingleExerciseSet = ActualSingleExerciseSet(
+        reps,
+        weight.copy(),
+        timing.map { it.copy() }.toTypedArray()
+    )
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

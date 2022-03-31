@@ -9,17 +9,41 @@ import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 
+interface ExerciseSet : SelfSerializable {
+    val exercise: Exercise
+    var unit: String
+    var sets: Array<SingleExerciseSet>
+
+    companion object {
+        @kotlin.jvm.JvmStatic
+        operator fun invoke(
+            exercise: Exercise,
+            unit: String,
+            sets: Array<SingleExerciseSet>
+        ): ExerciseSet = ActualExerciseSet(exercise, unit, sets)
+
+        @kotlin.jvm.JvmStatic
+        fun repSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "rep", sets)
+
+        @kotlin.jvm.JvmStatic
+        fun secondSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "second", sets)
+
+        @kotlin.jvm.JvmStatic
+        fun minuteSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "minute", sets)
+    }
+}
+
 /**
  *
  * @author callum
  */
 @Serializable
 @Suppress("unused")
-data class ExerciseSet(
-    val exercise: Exercise,
-    var unit: String,
-    var sets: Array<SingleExerciseSet>
-) : SelfSerializable {
+data class ActualExerciseSet(
+    override val exercise: Exercise,
+    override var unit: String,
+    override var sets: Array<SingleExerciseSet>
+) : ExerciseSet {
 
     constructor(exercise: Exercise, unit: String, sets: Array<Int>)
             : this(exercise, unit, sets.map { SingleExerciseSet(it) }.toTypedArray())
@@ -49,15 +73,6 @@ data class ExerciseSet(
     override fun getUID(): String = uid
 
     companion object {
-        const val uid = "ExerciseSet"
-
-        @kotlin.jvm.JvmStatic
-        fun repSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "rep", sets)
-
-        @kotlin.jvm.JvmStatic
-        fun secondSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "second", sets)
-
-        @kotlin.jvm.JvmStatic
-        fun minuteSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "minute", sets)
+        const val uid = "ActualExerciseSet"
     }
 }

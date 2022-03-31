@@ -9,25 +9,19 @@ import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 
-/**
- *
- * @author callum
- */
-@Serializable
 @Suppress("unused")
-data class Exercise(
-    var name: String,
-    var description: String,
-    var videoLink: String,
-    var tips: String,
-    var overview: String,
-    var musclesWorked: Array<MuscleWorkData>,
-    var exerciseTypes: HashSet<ExerciseType>,
-    var experienceLevel: ExerciseExperienceLevel,
-    var mechanics: ExerciseMechanics,
-    var forceType: ExerciseForceType,
+interface Exercise : Comparable<Exercise>, SelfSerializable {
+    var name: String
+    var description: String
+    var videoLink: String
+    var tips: String
+    var overview: String
+    var musclesWorked: Array<MuscleWorkData>
+    var exerciseTypes: HashSet<ExerciseType>
+    var experienceLevel: ExerciseExperienceLevel
+    var mechanics: ExerciseMechanics
+    var forceType: ExerciseForceType
     var equipment: HashSet<ExerciseEquipment>
-) : Comparable<Exercise>, SelfSerializable {
 
     fun worksMuscle(m: Muscle): Boolean {
         for ((muscle) in musclesWorked) {
@@ -77,6 +71,55 @@ data class Exercise(
 
     override fun compareTo(other: Exercise): Int = name.compareTo(other.name)
 
+    companion object {
+        @kotlin.jvm.JvmStatic
+        operator fun invoke(
+            name: String,
+            description: String,
+            videoLink: String,
+            tips: String,
+            overview: String,
+            musclesWorked: Array<MuscleWorkData>,
+            exerciseTypes: HashSet<ExerciseType>,
+            experienceLevel: ExerciseExperienceLevel,
+            mechanics: ExerciseMechanics,
+            forceType: ExerciseForceType,
+            equipment: HashSet<ExerciseEquipment>
+        ) = ActualExercise(
+            name,
+            description,
+            videoLink,
+            tips,
+            overview,
+            musclesWorked,
+            exerciseTypes,
+            experienceLevel,
+            mechanics,
+            forceType,
+            equipment,
+        )
+    }
+}
+
+/**
+ *
+ * @author callum
+ */
+@Serializable
+@Suppress("unused")
+data class ActualExercise(
+    override var name: String,
+    override var description: String,
+    override var videoLink: String,
+    override var tips: String,
+    override var overview: String,
+    override var musclesWorked: Array<MuscleWorkData>,
+    override var exerciseTypes: HashSet<ExerciseType>,
+    override var experienceLevel: ExerciseExperienceLevel,
+    override var mechanics: ExerciseMechanics,
+    override var forceType: ExerciseForceType,
+    override var equipment: HashSet<ExerciseEquipment>
+) : Exercise {
     override fun toJson(): String = Json.encodeToString(this)
 
     override fun getUID(): String = uid
@@ -88,6 +131,6 @@ data class Exercise(
     override fun hashCode(): Int = name.hashCode()
 
     companion object {
-        const val uid = "Exercise"
+        const val uid = "ActualExercise"
     }
 }
