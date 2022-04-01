@@ -8,9 +8,10 @@ interface SelfSerializable {
     fun toJson(): String
     fun getUID(): String
 
-    val identifiedMap: Map<String, String>
-        get() = mapOf(getUID() to toJson())
-
-    val identifiedMapJson
-        get() = Json.encodeToString(identifiedMap)
+    fun toIdentifiedJson(): String = Json.encodeToString(
+        mapOf(
+            "uid" to getUID(),
+            "value" to toJson()
+        )
+    )
 }

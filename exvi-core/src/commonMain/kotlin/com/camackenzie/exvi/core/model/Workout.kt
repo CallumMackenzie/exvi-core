@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) Callum Mackenzie 2022.
  */
 package com.camackenzie.exvi.core.model
 
@@ -11,35 +9,24 @@ import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlin.collections.ArrayList
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
+import kotlin.jvm.JvmStatic
 
-/**
- *
- * @author callum
- */
-@Serializable
 @Suppress("unused")
-data class Workout(
-    var name: String = "",
-    var description: String = "",
-    val exercises: ArrayList<ExerciseSet> = arrayListOf(),
+interface Workout : SelfSerializable, Identifiable {
+    var name: String
+    var description: String
+    val exercises: ArrayList<ExerciseSet>
     val id: EncodedStringCache
-) : SelfSerializable, Identifiable {
 
-    constructor(
-        name: String = "",
-        description: String = "",
-        exercises: ArrayList<ExerciseSet> = arrayListOf()
-    ) : this(name, description, exercises, Identifiable.generateId())
+    fun newActiveWorkout(): ActiveWorkout
 
-    constructor(other: Workout) : this(other.name, other.description, other.exercises, other.id)
-
-    fun newActiveWorkout(): ActiveWorkout = ActiveWorkout(this)
+    override fun getIdentifier(): EncodedStringCache = id
 
     fun formatToTable(): String {
         // Retrieve the longest exercise name
         var longestExerciseName = 0
-        for ((exercise1) in exercises) {
-            val exerciseName = exercise1.name
+        for (exercise in exercises) {
+            val exerciseName = exercise.exercise.name
             if (exerciseName.length > longestExerciseName) {
                 longestExerciseName = exerciseName.length
             }
@@ -85,13 +72,51 @@ data class Workout(
         return ret.toString()
     }
 
-    override fun toJson(): String = Json.encodeToString(this)
+    companion object {
+        /**
+         * Constructs a new ActualWorkout
+         */
+        @JvmStatic
+        operator fun invoke(
+            name: String = "",
+            description: String = "",
+            exercises: ArrayList<ExerciseSet> = arrayListOf(),
+            id: EncodedStringCache
+        ) = ActualWorkout(name, description, exercises, id)
 
+        /**
+         * Constructs a new ActualWorkout
+         */
+        @JvmStatic
+        operator fun invoke(
+            name: String = "",
+            description: String = "",
+            exercises: ArrayList<ExerciseSet> = arrayListOf()
+        ) = invoke(name, description, exercises, Identifiable.generateId())
+
+        /**
+         * Constructs a new ActualWorkout
+         */
+        @JvmStatic
+        operator fun invoke(
+            other: Workout
+        ) = invoke(other.name, other.description, other.exercises, other.id)
+    }
+}
+
+@Serializable
+@Suppress("unused")
+data class ActualWorkout(
+    override var name: String = "",
+    override var description: String = "",
+    override val exercises: ArrayList<ExerciseSet> = arrayListOf(),
+    override val id: EncodedStringCache
+) : Workout {
+    override fun newActiveWorkout(): ActiveWorkout = ActiveWorkout(this)
+    override fun toJson(): String = Json.encodeToString(this)
     override fun getUID(): String = uid
 
     companion object {
-        const val uid = "Workout"
+        const val uid = "ActualWorkout"
     }
-
-    override fun getIdentifier(): EncodedStringCache = id
 }

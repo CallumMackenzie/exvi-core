@@ -8,6 +8,7 @@ package com.camackenzie.exvi.core.util
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 import kotlin.jvm.JvmStatic
+import kotlin.reflect.KProperty
 
 /**
  *
@@ -33,6 +34,9 @@ data class EncodedStringCache(
         else other.get() == this.get()
 
     fun getEncoded(): String = encoded
+
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): String = get()
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) = set(value)
 
     fun get(): String = if (actual != null) actual as String
     else decode(encoded).also { actual = it }

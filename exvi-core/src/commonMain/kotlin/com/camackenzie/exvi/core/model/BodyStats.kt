@@ -1,59 +1,67 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) Callum Mackenzie 2022.
  */
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
+import kotlin.jvm.JvmStatic
 
-/**
- *
- * @author callum
- */
+@Suppress("unused")
+interface BodyStats : SelfSerializable {
+    var sex: GeneticSex
+    var totalMass: Mass
+    var height: Distance
+
+    companion object {
+        /**
+         * Constructs a new ActualBodyStats object
+         */
+        @JvmStatic
+        operator fun invoke(
+            sex: GeneticSex,
+            totalMass: Mass,
+            height: Distance
+        ): BodyStats = ActualBodyStats(sex, totalMass, height)
+    }
+}
+
 @Serializable
 @Suppress("unused")
-data class BodyStats(
-    var sex: GeneticSex,
-    var totalMass: Mass,
-    var height: Distance
-) : SelfSerializable {
+data class ActualBodyStats(
+    override var sex: GeneticSex,
+    override var totalMass: Mass,
+    override var height: Distance
+) : BodyStats {
 
     override fun toJson(): String = Json.encodeToString(this)
 
     override fun getUID(): String = uid
 
     companion object {
-        const val uid = "BodyStats"
+        const val uid = "ActualBodyStats"
 
-        @kotlin.jvm.JvmStatic
-        fun averageMale(): BodyStats {
-            return BodyStats(
-                GeneticSex.Male,
-                UnitValue(MassUnit.Pound, 190.0),
-                UnitValue(DistanceUnit.Meter, 1.7)
-            )
-        }
+        @JvmStatic
+        fun averageMale() = BodyStats(
+            GeneticSex.Male,
+            UnitValue(MassUnit.Pound, 190.0),
+            UnitValue(DistanceUnit.Meter, 1.7)
+        )
 
-        @kotlin.jvm.JvmStatic
-        fun averageFemale(): BodyStats {
-            return BodyStats(
-                GeneticSex.Female,
-                UnitValue(MassUnit.Pound, 170.0),
-                UnitValue(DistanceUnit.Meter, 1.625)
-            )
-        }
+        @JvmStatic
+        fun averageFemale() = BodyStats(
+            GeneticSex.Female,
+            UnitValue(MassUnit.Pound, 170.0),
+            UnitValue(DistanceUnit.Meter, 1.625)
+        )
 
-        @kotlin.jvm.JvmStatic
-        fun average(): BodyStats {
-            return BodyStats(
-                GeneticSex.Unspecified,
-                UnitValue(MassUnit.Pound, 180.0),
-                UnitValue(DistanceUnit.Meter, 1.68)
-            )
-        }
+        @JvmStatic
+        fun average() = BodyStats(
+            GeneticSex.Unspecified,
+            UnitValue(MassUnit.Pound, 180.0),
+            UnitValue(DistanceUnit.Meter, 1.68)
+        )
     }
 
 }

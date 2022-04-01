@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) Callum Mackenzie 2022.
  */
 package com.camackenzie.exvi.core.model
 
@@ -13,8 +11,8 @@ package com.camackenzie.exvi.core.model
 data class ExerciseEquipment(val name: String) {
 
     override fun equals(other: Any?): Boolean = if (other is ExerciseEquipment) {
-        name.equals(other.name, ignoreCase = true)
+        name.trim().equals(other.name.trim(), ignoreCase = true)
     } else false
-    
+
     override fun hashCode(): Int = name.hashCode()
 }

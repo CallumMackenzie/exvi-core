@@ -17,6 +17,7 @@ import kotlin.jvm.JvmStatic
  * @author callum
  */
 @Serializable
+@Suppress("unused")
 data class CachedKey(val key: String) {
     fun getKeyAsBytes(): ByteArray = Base64.decode(key)
 

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Callum Mackenzie 2022.
+ */
+
 package com.camackenzie.exvi.core.model
 
 import kotlinx.datetime.*

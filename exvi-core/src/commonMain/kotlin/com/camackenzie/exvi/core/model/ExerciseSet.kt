@@ -1,42 +1,62 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) Callum Mackenzie 2022.
  */
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
+import kotlin.jvm.JvmStatic
 
+@Suppress("unused")
 interface ExerciseSet : SelfSerializable {
+    operator fun component1(): Exercise = exercise
+    operator fun component2(): String = unit
+    operator fun component3(): Array<SingleExerciseSet> = sets
+
     val exercise: Exercise
     var unit: String
     var sets: Array<SingleExerciseSet>
 
     companion object {
-        @kotlin.jvm.JvmStatic
+        /**
+         * Constructs a new ActualExerciseSet object
+         */
+        @JvmStatic
         operator fun invoke(
             exercise: Exercise,
             unit: String,
             sets: Array<SingleExerciseSet>
         ): ExerciseSet = ActualExerciseSet(exercise, unit, sets)
 
-        @kotlin.jvm.JvmStatic
+        /**
+         * Constructs a new ActualExerciseSet object
+         */
+        @JvmStatic
+        operator fun invoke(
+            exercise: Exercise, unit: String, sets: Array<Int>
+        ) = invoke(exercise, unit, sets.map { SingleExerciseSet(it) }.toTypedArray())
+
+        /**
+         * Constructs a new ActualExerciseSet object
+         */
+        @JvmStatic
         fun repSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "rep", sets)
 
-        @kotlin.jvm.JvmStatic
+        /**
+         * Constructs a new ActualExerciseSet object
+         */
+        @JvmStatic
         fun secondSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "second", sets)
 
-        @kotlin.jvm.JvmStatic
+        /**
+         * Constructs a new ActualExerciseSet object
+         */
+        @JvmStatic
         fun minuteSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "minute", sets)
     }
 }
 
-/**
- *
- * @author callum
- */
 @Serializable
 @Suppress("unused")
 data class ActualExerciseSet(
@@ -44,9 +64,6 @@ data class ActualExerciseSet(
     override var unit: String,
     override var sets: Array<SingleExerciseSet>
 ) : ExerciseSet {
-
-    constructor(exercise: Exercise, unit: String, sets: Array<Int>)
-            : this(exercise, unit, sets.map { SingleExerciseSet(it) }.toTypedArray())
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

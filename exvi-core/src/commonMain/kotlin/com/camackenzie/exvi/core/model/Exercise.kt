@@ -1,13 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) Callum Mackenzie 2022.
  */
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
+import kotlin.jvm.JvmStatic
 
 @Suppress("unused")
 interface Exercise : Comparable<Exercise>, SelfSerializable {
@@ -72,7 +71,10 @@ interface Exercise : Comparable<Exercise>, SelfSerializable {
     override fun compareTo(other: Exercise): Int = name.compareTo(other.name)
 
     companion object {
-        @kotlin.jvm.JvmStatic
+        /**
+         * Constructs a new ActualExercise object
+         */
+        @JvmStatic
         operator fun invoke(
             name: String,
             description: String,
@@ -85,7 +87,7 @@ interface Exercise : Comparable<Exercise>, SelfSerializable {
             mechanics: ExerciseMechanics,
             forceType: ExerciseForceType,
             equipment: HashSet<ExerciseEquipment>
-        ) = ActualExercise(
+        ): Exercise = ActualExercise(
             name,
             description,
             videoLink,

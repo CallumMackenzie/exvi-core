@@ -1,8 +1,15 @@
+/*
+ * Copyright (c) Callum Mackenzie 2022.
+ */
+
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.coroutines.*
+import kotlinx.serialization.json.*
+import kotlinx.serialization.*
 
-interface SingleExerciseSet {
+interface SingleExerciseSet : SelfSerializable {
     var reps: Int
     var weight: Mass
     var timing: Array<Time>
@@ -22,6 +29,9 @@ interface SingleExerciseSet {
     }
 
     companion object {
+        /**
+         * Constructs a new ActualSingleExerciseSet object
+         */
         @kotlin.jvm.JvmStatic
         operator fun invoke(
             reps: Int,
@@ -31,7 +41,7 @@ interface SingleExerciseSet {
     }
 }
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class ActualSingleExerciseSet(
     override var reps: Int,
     override var weight: Mass = MassUnit.none(),
@@ -42,6 +52,10 @@ data class ActualSingleExerciseSet(
         weight.copy(),
         timing.map { it.copy() }.toTypedArray()
     )
+
+    override fun toJson(): String = Json.encodeToString(this)
+
+    override fun getUID(): String = uid
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -58,5 +72,9 @@ data class ActualSingleExerciseSet(
         result = 31 * result + weight.hashCode()
         result = 31 * result + timing.contentHashCode()
         return result
+    }
+
+    companion object {
+        const val uid = "ActualSingleExerciseSet"
     }
 }

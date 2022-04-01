@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) Callum Mackenzie 2022.
  */
 package com.camackenzie.exvi.core.model
 
@@ -11,21 +9,16 @@ import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
+import kotlin.jvm.JvmStatic
 
-/**
- *
- * @author callum
- */
-@Serializable
 @Suppress("unused")
-data class ActiveWorkout(
-    val name: String,
-    val baseWorkoutId: EncodedStringCache,
-    val exercises: Array<ActiveExercise>,
-    val activeWorkoutId: EncodedStringCache = Identifiable.generateId(),
-    private var startTimeMillis: Long? = null,
-    private var endTimeMillis: Long? = null
-) : SelfSerializable, Identifiable {
+interface ActiveWorkout : SelfSerializable, Identifiable {
+    val name: String
+    val baseWorkoutId: EncodedStringCache
+    val exercises: Array<ActiveExercise>
+    val activeWorkoutId: EncodedStringCache
+    var startTimeMillis: Long?
+    var endTimeMillis: Long?
 
     val startTime: Time?
         get() = if (hasStarted())
@@ -35,14 +28,6 @@ data class ActiveWorkout(
         get() = if (hasEnded())
             Time(TimeUnit.Millisecond, startTimeMillis!!.toDouble())
         else null
-
-    constructor(workout: Workout) : this(
-        workout.name,
-        workout.id.copy(),
-        workout.exercises.map { exercise ->
-            ActiveExercise(exercise)
-        }.toTypedArray()
-    )
 
     fun start() {
         startTimeMillis = Clock.System.now().toEpochMilliseconds()
@@ -64,11 +49,51 @@ data class ActiveWorkout(
         Time(TimeUnit.Millisecond, finalElapsedTimeMillis()!!.toDouble())
     else null
 
+    override fun getIdentifier(): EncodedStringCache = activeWorkoutId
+
+    companion object {
+        /**
+         * Constructs a new ActualActiveWorkout object
+         */
+        @JvmStatic
+        operator fun invoke(
+            name: String,
+            baseWorkoutId: EncodedStringCache,
+            exercises: Array<ActiveExercise>,
+            activeWorkoutId: EncodedStringCache = Identifiable.generateId(),
+            startTimeMillis: Long? = null,
+            endTimeMillis: Long? = null,
+        ): ActiveWorkout =
+            ActualActiveWorkout(name, baseWorkoutId, exercises, activeWorkoutId, startTimeMillis, endTimeMillis)
+
+        /**
+         * Constructs a new ActualActiveWorkout object
+         */
+        @JvmStatic
+        operator fun invoke(workout: Workout): ActiveWorkout = invoke(
+            workout.name,
+            workout.id.copy(),
+            workout.exercises.map { exercise ->
+                ActiveExercise(exercise)
+            }.toTypedArray()
+        )
+    }
+}
+
+@Serializable
+@Suppress("unused")
+data class ActualActiveWorkout(
+    override val name: String,
+    override val baseWorkoutId: EncodedStringCache,
+    override val exercises: Array<ActiveExercise>,
+    override val activeWorkoutId: EncodedStringCache = Identifiable.generateId(),
+    override var startTimeMillis: Long? = null,
+    override var endTimeMillis: Long? = null
+) : ActiveWorkout {
+
     override fun toJson(): String = Json.encodeToString(this)
 
     override fun getUID(): String = uid
-
-    override fun getIdentifier(): EncodedStringCache = activeWorkoutId
 
     /**
      * Auto generated
@@ -103,6 +128,6 @@ data class ActiveWorkout(
     }
 
     companion object {
-        const val uid = "ActiveWorkout"
+        const val uid = "ActualActiveWorkout"
     }
 }

@@ -39,6 +39,9 @@ interface Identifiable : Comparable<Identifiable> {
             onBOnly: (Identifiable, Int) -> Unit = { _, _ -> }
         ) = intersectIndexed(a, b, onIntersect, onAOnly, onBOnly)
 
+        /**
+         * See documentation for method checkIntersects
+         */
         @JvmStatic
         @JvmOverloads
         fun <T : Identifiable> intersectIndexed(
@@ -48,6 +51,7 @@ interface Identifiable : Comparable<Identifiable> {
             onAOnly: (T, Int) -> Unit = { _, _ -> },
             onBOnly: (T, Int) -> Unit = { _, _ -> }
         ) {
+            // Get b array sorted with index preserved from the original array
             val bSorted = b.mapIndexed { index, obj ->
                 IndexPreserver(obj, index)
             }.sorted()
