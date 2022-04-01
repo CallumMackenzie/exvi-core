@@ -1,6 +1,6 @@
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.model.BodyStats
+import com.camackenzie.exvi.core.model.ActualBodyStats
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.*
@@ -14,9 +14,7 @@ class GetBodyStatsRequest(
 ) : GenericDataRequest(uid) {
 
     constructor(username: String, accessKey: String) : this(username.cached(), accessKey.cached())
-
     constructor(username: String, accessKey: EncodedStringCache) : this(username.cached(), accessKey)
-
     constructor(username: EncodedStringCache, accessKey: String) : this(username, accessKey.cached())
 
     override fun toJson(): String = Json.encodeToString(this)
@@ -31,11 +29,10 @@ class GetBodyStatsRequest(
 @Suppress("unused")
 @Serializable
 class GetBodyStatsResponse(
-    val bodyStats: BodyStats
+    val bodyStats: ActualBodyStats
 ) : GenericDataResult(uid) {
 
     override fun toJson(): String = Json.encodeToString(this)
-
     override fun getUID(): String = uid
 
     companion object {
@@ -48,20 +45,19 @@ class GetBodyStatsResponse(
 class SetBodyStatsRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
-    val bodyStats: BodyStats
+    val bodyStats: ActualBodyStats
 ) : GenericDataRequest(uid) {
 
-    constructor(username: String, accessKey: String, bodyStats: BodyStats)
+    constructor(username: String, accessKey: String, bodyStats: ActualBodyStats)
             : this(username.cached(), accessKey.cached(), bodyStats)
 
-    constructor(username: String, accessKey: EncodedStringCache, bodyStats: BodyStats)
+    constructor(username: String, accessKey: EncodedStringCache, bodyStats: ActualBodyStats)
             : this(username.cached(), accessKey, bodyStats)
 
-    constructor(username: EncodedStringCache, accessKey: String, bodyStats: BodyStats)
+    constructor(username: EncodedStringCache, accessKey: String, bodyStats: ActualBodyStats)
             : this(username, accessKey.cached(), bodyStats)
 
     override fun toJson(): String = Json.encodeToString(this)
-
     override fun getUID(): String = uid
 
     companion object {

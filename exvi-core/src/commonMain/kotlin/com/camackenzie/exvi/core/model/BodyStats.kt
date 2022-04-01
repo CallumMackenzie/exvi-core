@@ -23,7 +23,7 @@ interface BodyStats : SelfSerializable {
             sex: GeneticSex,
             totalMass: Mass,
             height: Distance
-        ): BodyStats = ActualBodyStats(sex, totalMass, height)
+        ) = ActualBodyStats(sex, totalMass, height)
     }
 }
 
@@ -36,7 +36,6 @@ data class ActualBodyStats(
 ) : BodyStats {
 
     override fun toJson(): String = Json.encodeToString(this)
-
     override fun getUID(): String = uid
 
     companion object {

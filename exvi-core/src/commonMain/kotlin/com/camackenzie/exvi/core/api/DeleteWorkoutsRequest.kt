@@ -20,7 +20,6 @@ class DeleteWorkoutsRequest(
     }
 
     override fun toJson(): String = Json.encodeToString(this)
-
     override fun getUID(): String = uid
 
     companion object {

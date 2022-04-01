@@ -87,7 +87,7 @@ interface Exercise : Comparable<Exercise>, SelfSerializable {
             mechanics: ExerciseMechanics,
             forceType: ExerciseForceType,
             equipment: HashSet<ExerciseEquipment>
-        ): Exercise = ActualExercise(
+        ) = ActualExercise(
             name,
             description,
             videoLink,
@@ -123,7 +123,6 @@ data class ActualExercise(
     override var equipment: HashSet<ExerciseEquipment>
 ) : Exercise {
     override fun toJson(): String = Json.encodeToString(this)
-
     override fun getUID(): String = uid
 
     override fun equals(other: Any?): Boolean = if (other is Exercise) {

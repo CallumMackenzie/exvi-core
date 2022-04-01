@@ -34,13 +34,13 @@ interface ActiveExercise : SelfSerializable {
             target: ExerciseSet,
             active: ExerciseSet = target,
             currentSet: Int = 0
-        ): ActiveExercise = ActualActiveExercise(target, active, currentSet)
+        ): ActualActiveExercise = ActualActiveExercise(target, active, currentSet)
 
         /**
          * Constructs a new ActualActiveExercise object
          */
         @JvmStatic
-        operator fun invoke(ex: ExerciseSet): ActiveExercise = invoke(ex,
+        operator fun invoke(ex: ExerciseSet): ActualActiveExercise = invoke(ex,
             ExerciseSet(
                 ex.exercise,
                 ex.unit,

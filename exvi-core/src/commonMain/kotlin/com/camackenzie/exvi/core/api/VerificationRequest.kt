@@ -31,7 +31,6 @@ data class VerificationRequest(
     ) : this(username.cached(), email.cached(), phone.cached())
 
     override fun toJson(): String = Json.encodeToString(this)
-
     override fun getUID(): String = uid
 
     companion object {
