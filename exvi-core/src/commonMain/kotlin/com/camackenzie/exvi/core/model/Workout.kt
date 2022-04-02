@@ -15,7 +15,7 @@ import kotlin.jvm.JvmStatic
 interface Workout : SelfSerializable, Identifiable {
     var name: String
     var description: String
-    val exercises: ArrayList<ExerciseSet>
+    val exercises: MutableList<ExerciseSet>
     val id: EncodedStringCache
 
     fun newActiveWorkout(): ActiveWorkout
@@ -80,9 +80,9 @@ interface Workout : SelfSerializable, Identifiable {
         operator fun invoke(
             name: String = "",
             description: String = "",
-            exercises: ArrayList<ExerciseSet> = arrayListOf(),
+            exercises: List<ExerciseSet> = arrayListOf(),
             id: EncodedStringCache
-        ) = ActualWorkout(name, description, exercises, id)
+        ) = ActualWorkout(name, description, ArrayList(exercises), id)
 
         /**
          * Constructs a new ActualWorkout
@@ -91,7 +91,7 @@ interface Workout : SelfSerializable, Identifiable {
         operator fun invoke(
             name: String = "",
             description: String = "",
-            exercises: ArrayList<ExerciseSet> = arrayListOf()
+            exercises: List<ExerciseSet> = arrayListOf()
         ) = invoke(name, description, exercises, Identifiable.generateId())
 
         /**
