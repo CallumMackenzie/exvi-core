@@ -11,6 +11,8 @@ import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 import kotlin.jvm.JvmStatic
 
+fun Workout.toActual() = Workout(this)
+
 @Suppress("unused")
 interface Workout : SelfSerializable, Identifiable {
     var name: String
