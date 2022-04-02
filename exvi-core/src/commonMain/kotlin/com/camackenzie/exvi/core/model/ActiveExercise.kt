@@ -18,6 +18,8 @@ interface ActiveExercise : SelfSerializable {
     val exercise: Exercise
         get() = target.exercise
 
+    fun toActual() = ActualActiveExercise(target, active.toActual(), currentSet)
+
     fun timingCallback(
         set: Int,
         coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
