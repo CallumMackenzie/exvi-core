@@ -24,7 +24,6 @@ data class RetrieveSaltRequest(
     constructor(username: String) : this(username.cached())
 
     override fun toJson(): String = Json.encodeToString(this)
-
     override fun getUID(): String = uid
 
     companion object {

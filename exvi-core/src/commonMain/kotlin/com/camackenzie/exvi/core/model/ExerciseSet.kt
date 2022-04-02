@@ -27,7 +27,7 @@ interface ExerciseSet : SelfSerializable {
             exercise: Exercise,
             unit: String,
             sets: Array<SingleExerciseSet>
-        ): ExerciseSet = ActualExerciseSet(exercise, unit, sets)
+        ) = ActualExerciseSet(exercise, unit, sets)
 
         /**
          * Constructs a new ActualExerciseSet object
@@ -41,19 +41,19 @@ interface ExerciseSet : SelfSerializable {
          * Constructs a new ActualExerciseSet object
          */
         @JvmStatic
-        fun repSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "rep", sets)
+        fun repSets(ex: Exercise, sets: Array<SingleExerciseSet>) = ExerciseSet(ex, "rep", sets)
 
         /**
          * Constructs a new ActualExerciseSet object
          */
         @JvmStatic
-        fun secondSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "second", sets)
+        fun secondSets(ex: Exercise, sets: Array<SingleExerciseSet>) = ExerciseSet(ex, "second", sets)
 
         /**
          * Constructs a new ActualExerciseSet object
          */
         @JvmStatic
-        fun minuteSets(ex: Exercise, sets: Array<SingleExerciseSet>): ExerciseSet = ExerciseSet(ex, "minute", sets)
+        fun minuteSets(ex: Exercise, sets: Array<SingleExerciseSet>) = ExerciseSet(ex, "minute", sets)
     }
 }
 

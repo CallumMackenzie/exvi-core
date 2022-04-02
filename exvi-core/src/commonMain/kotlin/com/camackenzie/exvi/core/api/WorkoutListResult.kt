@@ -5,8 +5,8 @@
  */
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.model.ActiveWorkout
-import com.camackenzie.exvi.core.model.Workout
+import com.camackenzie.exvi.core.model.ActualActiveWorkout
+import com.camackenzie.exvi.core.model.ActualWorkout
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 
@@ -16,15 +16,12 @@ import kotlinx.serialization.*
  */
 @Serializable
 @Suppress("unused")
-data class WorkoutListResult(val workouts: Array<Workout>) : GenericDataResult(uid) {
+data class WorkoutListResult(val workouts: Array<ActualWorkout>) : GenericDataResult(uid) {
 
     override fun toJson(): String = Json.encodeToString(this)
-
     override fun getUID(): String = uid
 
-    /**
-     * Auto-generated
-     */
+    // Auto generated
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
@@ -33,6 +30,7 @@ data class WorkoutListResult(val workouts: Array<Workout>) : GenericDataResult(u
         return true
     }
 
+    // Auto generated
     override fun hashCode(): Int = workouts.contentHashCode()
 
     companion object {
@@ -42,15 +40,12 @@ data class WorkoutListResult(val workouts: Array<Workout>) : GenericDataResult(u
 
 @Serializable
 @Suppress("unused")
-data class ActiveWorkoutListResult(val workouts: Array<ActiveWorkout>) : GenericDataResult(uid) {
+data class ActiveWorkoutListResult(val workouts: Array<ActualActiveWorkout>) : GenericDataResult(uid) {
 
     override fun toJson(): String = Json.encodeToString(this)
-
     override fun getUID(): String = uid
 
-    /**
-     * Auto-generated
-     */
+    // Auto-generated
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
@@ -59,6 +54,7 @@ data class ActiveWorkoutListResult(val workouts: Array<ActiveWorkout>) : Generic
         return true
     }
 
+    // Auto generated
     override fun hashCode(): Int = workouts.contentHashCode()
 
     companion object {

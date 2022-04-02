@@ -63,14 +63,13 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
             activeWorkoutId: EncodedStringCache = Identifiable.generateId(),
             startTimeMillis: Long? = null,
             endTimeMillis: Long? = null,
-        ): ActiveWorkout =
-            ActualActiveWorkout(name, baseWorkoutId, exercises, activeWorkoutId, startTimeMillis, endTimeMillis)
+        ) = ActualActiveWorkout(name, baseWorkoutId, exercises, activeWorkoutId, startTimeMillis, endTimeMillis)
 
         /**
          * Constructs a new ActualActiveWorkout object
          */
         @JvmStatic
-        operator fun invoke(workout: Workout): ActiveWorkout = invoke(
+        operator fun invoke(workout: Workout) = invoke(
             workout.name,
             workout.id.copy(),
             workout.exercises.map { exercise ->

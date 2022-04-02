@@ -1,3 +1,5 @@
+import com.camackenzie.exvi.core.api.WorkoutListRequest
+import com.camackenzie.exvi.core.api.WorkoutPutRequest
 import com.camackenzie.exvi.core.model.*
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
@@ -31,6 +33,28 @@ class TestSerialization {
         assertEquals(exercise.experienceLevel, deserialized.experienceLevel)
         assertEquals(deserialized.equipment.size, 1)
         assertEquals(deserialized.experienceLevel, exercise.experienceLevel)
+    }
+
+    @Test
+    fun testSerializeWorkoutListRequest() {
+        val req1 = WorkoutListRequest("Username", "key", WorkoutListRequest.Type.ListAllActive)
+        val req1Serialized = req1.toJson()
+        val req1Des = Json.decodeFromString<WorkoutListRequest>(req1Serialized)
+        assertEquals(req1Des.username, req1.username)
+        assertEquals(req1Des.accessKey, req1.accessKey)
+        assertEquals(req1Des.type, req1.type)
+    }
+
+    @Test
+    fun testSerializeWorkoutPutRequest() {
+        val req1 = WorkoutPutRequest("username", "key", arrayOf(
+            Workout("Test")
+        ))
+        val req1Serialized = req1.toJson()
+        val req1Des = Json.decodeFromString<WorkoutPutRequest>(req1Serialized)
+        assertEquals(req1Des.username, req1.username)
+        assertEquals(req1Des.accessKey, req1.accessKey)
+        assertEquals(req1Des.workouts[0].name, req1.workouts[0].name)
     }
 
 }
