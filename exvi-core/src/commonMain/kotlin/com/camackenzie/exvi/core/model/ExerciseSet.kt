@@ -12,15 +12,15 @@ import kotlin.jvm.JvmStatic
 interface ExerciseSet : SelfSerializable {
     operator fun component1(): Exercise = exercise
     operator fun component2(): String = unit
-    operator fun component3(): Array<SingleExerciseSet> = sets
+    operator fun component3(): MutableList<SingleExerciseSet> = sets
 
     val exercise: Exercise
     var unit: String
-    var sets: Array<SingleExerciseSet>
+    val sets: MutableList<SingleExerciseSet>
 
-    fun toActual() = ActualExerciseSet(exercise, unit, sets.map {
+    fun toActual() = ActualExerciseSet(exercise, unit, ArrayList(sets.map {
         it.toActual()
-    }.toTypedArray())
+    }))
 
     companion object {
         /**
@@ -30,34 +30,34 @@ interface ExerciseSet : SelfSerializable {
         operator fun invoke(
             exercise: Exercise,
             unit: String,
-            sets: Array<SingleExerciseSet>
-        ) = ActualExerciseSet(exercise, unit, sets)
+            sets: List<SingleExerciseSet>
+        ) = ActualExerciseSet(exercise, unit, ArrayList(sets))
 
         /**
          * Constructs a new ActualExerciseSet object
          */
         @JvmStatic
         operator fun invoke(
-            exercise: Exercise, unit: String, sets: Array<Int>
-        ) = invoke(exercise, unit, sets.map { SingleExerciseSet(it) }.toTypedArray())
+            exercise: Exercise, unit: String, sets: List<Int>
+        ) = invoke(exercise, unit, sets.map { SingleExerciseSet(it) }.toList())
 
         /**
          * Constructs a new ActualExerciseSet object
          */
         @JvmStatic
-        fun repSets(ex: Exercise, sets: Array<SingleExerciseSet>) = ExerciseSet(ex, "rep", sets)
+        fun repSets(ex: Exercise, sets: List<SingleExerciseSet>) = ExerciseSet(ex, "rep", sets)
 
         /**
          * Constructs a new ActualExerciseSet object
          */
         @JvmStatic
-        fun secondSets(ex: Exercise, sets: Array<SingleExerciseSet>) = ExerciseSet(ex, "second", sets)
+        fun secondSets(ex: Exercise, sets: List<SingleExerciseSet>) = ExerciseSet(ex, "second", sets)
 
         /**
          * Constructs a new ActualExerciseSet object
          */
         @JvmStatic
-        fun minuteSets(ex: Exercise, sets: Array<SingleExerciseSet>) = ExerciseSet(ex, "minute", sets)
+        fun minuteSets(ex: Exercise, sets: List<SingleExerciseSet>) = ExerciseSet(ex, "minute", sets)
     }
 }
 
@@ -66,7 +66,7 @@ interface ExerciseSet : SelfSerializable {
 data class ActualExerciseSet(
     override val exercise: Exercise,
     override var unit: String,
-    override var sets: Array<SingleExerciseSet>
+    override val sets: ArrayList<SingleExerciseSet>
 ) : ExerciseSet {
 
     override fun equals(other: Any?): Boolean {
@@ -77,7 +77,6 @@ data class ActualExerciseSet(
 
         if (exercise != other.exercise) return false
         if (unit != other.unit) return false
-        if (!sets.contentEquals(other.sets)) return false
 
         return true
     }
@@ -85,12 +84,10 @@ data class ActualExerciseSet(
     override fun hashCode(): Int {
         var result = exercise.hashCode()
         result = 31 * result + unit.hashCode()
-        result = 31 * result + sets.contentHashCode()
         return result
     }
 
     override fun toJson(): String = Json.encodeToString(this)
-
     override fun getUID(): String = uid
 
     companion object {
