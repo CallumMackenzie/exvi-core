@@ -9,12 +9,6 @@ import kotlinx.coroutines.*
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 
-fun SingleExerciseSet.toActual() = ActualSingleExerciseSet(
-    reps, weight.copy(), timing.map {
-        it.copy()
-    }.toTypedArray()
-)
-
 interface SingleExerciseSet : SelfSerializable {
     var reps: Int
     var weight: Mass
@@ -33,6 +27,12 @@ interface SingleExerciseSet : SelfSerializable {
             callback(i, time)
         }
     }
+
+    fun toActual() = ActualSingleExerciseSet(
+        reps, weight.copy(), timing.map {
+            it.copy()
+        }.toTypedArray()
+    )
 
     companion object {
         /**

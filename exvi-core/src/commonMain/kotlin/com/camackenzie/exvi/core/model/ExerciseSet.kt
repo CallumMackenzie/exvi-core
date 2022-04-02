@@ -8,10 +8,6 @@ import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 import kotlin.jvm.JvmStatic
 
-fun ExerciseSet.toActual() = ActualExerciseSet(exercise, unit, sets.map {
-    it.toActual()
-}.toTypedArray())
-
 @Suppress("unused")
 interface ExerciseSet : SelfSerializable {
     operator fun component1(): Exercise = exercise
@@ -21,6 +17,10 @@ interface ExerciseSet : SelfSerializable {
     val exercise: Exercise
     var unit: String
     var sets: Array<SingleExerciseSet>
+
+    fun toActual() = ActualExerciseSet(exercise, unit, sets.map {
+        it.toActual()
+    }.toTypedArray())
 
     companion object {
         /**

@@ -8,13 +8,13 @@ import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 import kotlin.jvm.JvmStatic
 
-fun BodyStats.toActual() = ActualBodyStats(sex, totalMass, height)
-
 @Suppress("unused")
 interface BodyStats : SelfSerializable {
     var sex: GeneticSex
     var totalMass: Mass
     var height: Distance
+
+    fun toActual() = ActualBodyStats(sex, totalMass, height)
 
     companion object {
         /**
