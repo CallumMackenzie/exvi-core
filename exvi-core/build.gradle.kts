@@ -39,14 +39,6 @@ kotlin {
             }
         }
     }
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS \"$hostOs\" is not supported in Kotlin/Native.")
-    }
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -62,16 +54,6 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-            }
-        }
-        val nativeMain by getting {
-            dependencies {
-                api("io.ktor:ktor-client-curl:$ktorVersion")
-//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt") {
-//                    version {
-//                        strictly("1.6.0-native-mt")
-//                    }
-//                }
             }
         }
         val jvmMain by getting {
