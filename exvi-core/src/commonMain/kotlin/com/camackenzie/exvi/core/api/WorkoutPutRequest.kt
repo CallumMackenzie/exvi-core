@@ -44,10 +44,10 @@ class WorkoutPutRequest(
 class ActiveWorkoutPutRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
-    val workouts: Array<ActualWorkout>
+    val workouts: Array<ActualActiveWorkout>
 ) : GenericDataRequest(uid) {
 
-    constructor(username: String, accessKey: String, workouts: Array<ActualWorkout>) : this(
+    constructor(username: String, accessKey: String, workouts: Array<ActualActiveWorkout>) : this(
         username.cached(),
         accessKey.cached(),
         workouts
