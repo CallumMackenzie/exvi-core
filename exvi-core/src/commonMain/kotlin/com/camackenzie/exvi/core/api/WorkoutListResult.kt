@@ -7,6 +7,7 @@ package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.model.ActualActiveWorkout
 import com.camackenzie.exvi.core.model.ActualWorkout
+import com.camackenzie.exvi.core.model.ExviSerializer
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 
@@ -18,7 +19,7 @@ import kotlinx.serialization.*
 @Suppress("unused")
 data class WorkoutListResult(val workouts: Array<ActualWorkout>) : GenericDataResult(uid) {
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     // Auto generated
@@ -42,7 +43,7 @@ data class WorkoutListResult(val workouts: Array<ActualWorkout>) : GenericDataRe
 @Suppress("unused")
 data class ActiveWorkoutListResult(val workouts: Array<ActualActiveWorkout>) : GenericDataResult(uid) {
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     // Auto-generated

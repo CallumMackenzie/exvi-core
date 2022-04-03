@@ -102,7 +102,7 @@ enum class Muscle(
 
     override fun getUID(): String = uid
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
 
     companion object {
         const val uid = "Muscle"

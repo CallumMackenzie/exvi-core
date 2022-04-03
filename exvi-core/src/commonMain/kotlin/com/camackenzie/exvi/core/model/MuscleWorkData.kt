@@ -25,7 +25,7 @@ data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double) : Sel
         other.muscle.isInvolvedIn(this.muscle) &&
                 abs(other.workCoefficient - this.workCoefficient) < coefficientTolerance
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
 
     override fun getUID(): String = uid
     

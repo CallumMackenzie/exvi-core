@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core.util
 
+import com.camackenzie.exvi.core.model.ExviSerializer
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 import kotlin.jvm.JvmStatic
@@ -60,8 +61,7 @@ data class EncodedStringCache(
         fun encode(value: String): String = CryptographyUtils.encodeString(value)
     }
 
-    override fun toJson(): String = Json.encodeToString(this)
-
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = "EncodedStringCache"
 
     override fun hashCode(): Int {

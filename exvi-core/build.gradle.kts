@@ -7,7 +7,7 @@ val datetimeVersion = "0.3.2"
 val stdlibVersion = "1.5.21"
 
 plugins {
-    kotlin("multiplatform") // version "1.6.10"
+    kotlin("multiplatform")
     kotlin("plugin.serialization") version "1.6.10"
     id("com.android.library")
     id("maven-publish")

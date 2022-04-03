@@ -37,7 +37,7 @@ data class ActualBodyStats(
     override var height: Distance
 ) : BodyStats {
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     companion object {

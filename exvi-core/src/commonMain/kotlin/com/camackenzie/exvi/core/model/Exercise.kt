@@ -103,10 +103,6 @@ interface Exercise : Comparable<Exercise>, SelfSerializable {
     }
 }
 
-/**
- *
- * @author callum
- */
 @Serializable
 @Suppress("unused")
 data class ActualExercise(
@@ -122,7 +118,7 @@ data class ActualExercise(
     override var forceType: ExerciseForceType,
     override var equipment: HashSet<ExerciseEquipment>
 ) : Exercise {
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     override fun equals(other: Any?): Boolean = if (other is Exercise) {

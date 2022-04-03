@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core.api
 
+import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.json.*
@@ -26,8 +27,7 @@ data class AccountAccessKeyResult(
 
     constructor(result: String) : this(result.cached())
 
-    override fun toJson(): String = Json.encodeToString(this)
-
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     companion object {

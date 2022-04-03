@@ -80,21 +80,11 @@ interface Workout : SelfSerializable, Identifiable {
          */
         @JvmStatic
         operator fun invoke(
-            name: String = "",
+            name: String = "New Workout",
             description: String = "",
             exercises: List<ExerciseSet> = arrayListOf(),
-            id: EncodedStringCache
+            id: EncodedStringCache = Identifiable.generateId()
         ) = ActualWorkout(name, description, ArrayList(exercises), id)
-
-        /**
-         * Constructs a new ActualWorkout
-         */
-        @JvmStatic
-        operator fun invoke(
-            name: String = "",
-            description: String = "",
-            exercises: List<ExerciseSet> = arrayListOf()
-        ) = invoke(name, description, exercises, Identifiable.generateId())
 
         /**
          * Constructs a new ActualWorkout
@@ -115,7 +105,7 @@ data class ActualWorkout(
     override val id: EncodedStringCache
 ) : Workout {
     override fun newActiveWorkout(): ActiveWorkout = ActiveWorkout(this)
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     companion object {

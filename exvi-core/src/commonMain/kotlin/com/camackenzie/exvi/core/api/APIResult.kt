@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core.api
 
+import com.camackenzie.exvi.core.model.ExviSerializer
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
@@ -48,6 +49,6 @@ class APIResult<T> {
 }
 
 @Suppress("unused")
-inline fun <reified T> APIResult<String>.decodeBody(): T = Json.decodeFromString(this.body)
+inline fun <reified T> APIResult<String>.decodeBody(): T = ExviSerializer.fromJson(this.body)
 
-fun APIResult<String>.toJson(): String = Json.encodeToString(this)
+fun APIResult<String>.toJson(): String = ExviSerializer.toJson(this)

@@ -5,14 +5,13 @@
  */
 package com.camackenzie.exvi.core.util
 
+import com.camackenzie.exvi.core.model.ExviSerializer
 import com.soywiz.krypto.sha256
 import com.soywiz.krypto.encoding.toBase64
 import com.soywiz.krypto.SecureRandom
 import com.soywiz.krypto.AES
 import com.soywiz.krypto.Padding
 import com.soywiz.krypto.encoding.Base64
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
 import kotlin.jvm.JvmStatic
 
 /**
@@ -98,7 +97,7 @@ object CryptographyUtils {
     fun encodeString(s: String): String {
         val s0 = "$ExviEncodedPrefix$s"
         val s1: EncryptionResult = encryptAES(s0)
-        val s2 = generateSalt(3) + Json.encodeToString(s1) + generateSalt(3)
+        val s2 = generateSalt(3) + ExviSerializer.toJson(s1) + generateSalt(3)
         return encodeStringToBase64(s2)
     }
 
@@ -106,7 +105,7 @@ object CryptographyUtils {
     fun decodeString(s: String): String {
         val s4 = decodeStringFromBase64(s)
         val s3 = s4.substring(4, s4.length - 4)
-        val s2: EncryptionResult = Json.decodeFromString(s3)
+        val s2: EncryptionResult = ExviSerializer.fromJson(s3)
         val s1 = decryptAES(s2)
         return if (s1.startsWith(ExviEncodedPrefix))
             s1.substring(ExviEncodedPrefix.length)

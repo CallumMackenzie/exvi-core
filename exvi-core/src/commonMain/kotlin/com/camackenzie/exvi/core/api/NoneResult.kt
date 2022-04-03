@@ -1,5 +1,6 @@
 package com.camackenzie.exvi.core.api
 
+import com.camackenzie.exvi.core.model.ExviSerializer
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
@@ -11,7 +12,7 @@ object NoneResult : GenericDataResult("NoneResult") {
     @Transient
     const val uid = "NoneResult"
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
 
     override fun getUID(): String = uid
 }

@@ -59,7 +59,7 @@ data class ActualSingleExerciseSet(
         timing.map { it.copy() }.toTypedArray()
     )
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
 
     override fun getUID(): String = uid
 

@@ -1,6 +1,7 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.model.ActualBodyStats
+import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.*
@@ -17,8 +18,7 @@ class GetBodyStatsRequest(
     constructor(username: String, accessKey: EncodedStringCache) : this(username.cached(), accessKey)
     constructor(username: EncodedStringCache, accessKey: String) : this(username, accessKey.cached())
 
-    override fun toJson(): String = Json.encodeToString(this)
-
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     companion object {
@@ -32,7 +32,7 @@ class GetBodyStatsResponse(
     val bodyStats: ActualBodyStats
 ) : GenericDataResult(uid) {
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     companion object {
@@ -57,7 +57,7 @@ class SetBodyStatsRequest(
     constructor(username: EncodedStringCache, accessKey: String, bodyStats: ActualBodyStats)
             : this(username, accessKey.cached(), bodyStats)
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     companion object {

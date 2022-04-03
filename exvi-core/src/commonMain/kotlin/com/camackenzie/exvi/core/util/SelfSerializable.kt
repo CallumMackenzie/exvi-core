@@ -1,14 +1,13 @@
 package com.camackenzie.exvi.core.util
 
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
+import com.camackenzie.exvi.core.model.ExviSerializer
 
 @Suppress("unused")
 interface SelfSerializable {
     fun toJson(): String
     fun getUID(): String
 
-    fun toIdentifiedJson(): String = Json.encodeToString(
+    fun toIdentifiedJson(): String = ExviSerializer.toJson(
         mapOf(
             "uid" to getUID(),
             "value" to toJson()

@@ -90,7 +90,7 @@ data class ActualActiveWorkout(
     override var endTimeMillis: Long? = null
 ) : ActiveWorkout {
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
 
     override fun getUID(): String = uid
 

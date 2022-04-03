@@ -1,3 +1,4 @@
+import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.*
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
@@ -29,7 +30,7 @@ class TestEncodedStringCache {
     fun testSerializeDeserialize() {
         val esc = testStr.cached()
         val json = esc.toJson()
-        val esc2 = Json.decodeFromString<EncodedStringCache>(json)
+        val esc2 = ExviSerializer.fromJson<EncodedStringCache>(json)
         assertEquals(esc, esc2)
         assertEquals(testStr, esc.get(), esc2.get())
     }

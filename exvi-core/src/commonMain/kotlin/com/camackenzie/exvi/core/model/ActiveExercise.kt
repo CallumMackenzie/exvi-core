@@ -46,7 +46,7 @@ interface ActiveExercise : SelfSerializable {
             ExerciseSet(
                 ex.exercise,
                 ex.unit,
-                Array(ex.sets.size) {
+                List(ex.sets.size) {
                     val ns = ex.sets[it].deepValueCopy()
                     ns.reps = 0
                     ns
@@ -62,7 +62,7 @@ data class ActualActiveExercise(
     override var active: ExerciseSet,
     override var currentSet: Int = 0
 ) : ActiveExercise {
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     companion object {

@@ -38,7 +38,7 @@ interface ExerciseSet : SelfSerializable {
          */
         @JvmStatic
         operator fun invoke(
-            exercise: Exercise, unit: String, sets: List<Int>
+            exercise: Exercise, unit: String, sets: Array<Int>
         ) = invoke(exercise, unit, sets.map { SingleExerciseSet(it) }.toList())
 
         /**
@@ -87,7 +87,7 @@ data class ActualExerciseSet(
         return result
     }
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     companion object {

@@ -1,5 +1,6 @@
 package com.camackenzie.exvi.core.api
 
+import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
@@ -19,7 +20,7 @@ class DeleteWorkoutsRequest(
         ActiveWorkout
     }
 
-    override fun toJson(): String = Json.encodeToString(this)
+    override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
     companion object {
