@@ -6,6 +6,7 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.util.CryptographyUtils
+import com.camackenzie.exvi.core.util.ExviLogger
 import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
 import io.ktor.client.*
@@ -90,7 +91,9 @@ class APIRequest<T : SelfSerializable> {
                 callback(response, response.receive())
             }
         } catch (e: Exception) {
-            println("Request failed: ${e.message}\nStack trace:\n${e.stackTraceToString()}")
+            ExviLogger.e(e, tag = "CORE") {
+                "Request failed: ${e.message}\nStack trace:\n${e.stackTraceToString()}"
+            }
             callback(null, "Could not send request.")
         }
 

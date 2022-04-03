@@ -5,6 +5,7 @@ val jUnitVersion = "4.7"
 val serialVersion = "1.3.2"
 val datetimeVersion = "0.3.2"
 val stdlibVersion = "1.5.21"
+val napierVersion = "2.4.0"
 
 plugins {
     kotlin("multiplatform")
@@ -55,6 +56,7 @@ kotlin {
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialVersion")
                 api("org.jetbrains.kotlinx:kotlinx-datetime:$datetimeVersion")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
+                api("io.github.aakira:napier:$napierVersion")
             }
         }
         val commonTest by getting {

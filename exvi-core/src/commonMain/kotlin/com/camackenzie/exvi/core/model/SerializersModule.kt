@@ -4,6 +4,7 @@
 
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.util.ExviLogger
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import kotlinx.serialization.modules.*
@@ -36,6 +37,21 @@ object ExviSerializer {
         isLenient = true
     }
 
-    inline fun <reified T> toJson(value: T): String = serializer.encodeToString(value)
-    inline fun <reified T> fromJson(json: String): T = serializer.decodeFromString(json)
+    inline fun <reified T> toJson(value: T): String = try {
+        serializer.encodeToString(value)
+    } catch (ex: SerializationException) {
+        ExviLogger.e(ex, tag = "CORE") {
+            "PRIMARY SERIALIZATION FAILURE: Falling back to secondary serialization technique"
+        }
+        Json.encodeToString(value)
+    }
+
+    inline fun <reified T> fromJson(json: String): T = try {
+        serializer.decodeFromString(json)
+    } catch (ex: SerializationException) {
+        ExviLogger.e(ex, tag = "CORE") {
+            "PRIMARY DESERIALIZATION FAILURE: Falling back to secondary deserialization technique"
+        }
+        Json.decodeFromString(json)
+    }
 }
