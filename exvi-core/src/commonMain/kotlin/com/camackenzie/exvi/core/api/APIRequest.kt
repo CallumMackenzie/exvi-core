@@ -91,10 +91,8 @@ class APIRequest<T : SelfSerializable> {
                 callback(response, response.receive())
             }
         } catch (e: Exception) {
-            ExviLogger.e(e, tag = "CORE") {
-                "Request failed: ${e.message}\nStack trace:\n${e.stackTraceToString()}"
-            }
-            callback(null, "Could not send request.")
+            ExviLogger.e(e, tag = "CORE") { "Request failed" }
+            callback(null, "Request error.")
         }
 
     companion object {
