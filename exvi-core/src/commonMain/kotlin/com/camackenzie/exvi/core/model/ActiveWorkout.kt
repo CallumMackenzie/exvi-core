@@ -51,6 +51,10 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
 
     override fun getIdentifier(): EncodedStringCache = activeWorkoutId
 
+    fun toActual() = ActualActiveWorkout(name, baseWorkoutId.copy(), exercises.map {
+        it.toActual()
+    }.toTypedArray(), activeWorkoutId.copy(), startTimeMillis, endTimeMillis)
+
     companion object {
         /**
          * Constructs a new ActualActiveWorkout object
@@ -91,7 +95,6 @@ data class ActualActiveWorkout(
 ) : ActiveWorkout {
 
     override fun toJson(): String = ExviSerializer.toJson(this)
-
     override fun getUID(): String = uid
 
     /**
