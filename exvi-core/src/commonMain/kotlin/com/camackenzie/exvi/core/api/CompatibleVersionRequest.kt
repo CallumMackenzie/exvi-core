@@ -10,7 +10,9 @@ import kotlinx.serialization.*
 
 @Serializable
 @Suppress("unused")
-class CompatibleVersionRequest : GenericDataRequest(uid) {
+class CompatibleVersionRequest(
+    val version: Int
+) : GenericDataRequest(uid) {
     override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 

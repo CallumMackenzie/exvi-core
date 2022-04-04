@@ -15,22 +15,25 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.HttpResponse
 import io.ktor.utils.io.core.*
 import kotlinx.coroutines.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlin.jvm.JvmStatic
 
 /**
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
 @Suppress("unused")
 class APIRequest<T : SelfSerializable> {
     val body: T
 
     @kotlin.jvm.Transient
-    @kotlinx.serialization.Transient
+    @Transient
     var headers: HashMap<String, String> = HashMap()
 
     @kotlin.jvm.Transient
-    @kotlinx.serialization.Transient
+    @Transient
     var endpoint: String = ""
 
     constructor(endpoint: String, body: T, headers: HashMap<String, String> = HashMap()) {
@@ -96,7 +99,7 @@ class APIRequest<T : SelfSerializable> {
         }
 
     companion object {
-        @kotlin.jvm.JvmStatic
+        @JvmStatic
         suspend fun <T : SelfSerializable> request(
             endpoint: String,
             body: T,
@@ -104,7 +107,7 @@ class APIRequest<T : SelfSerializable> {
             callback: (APIResult<String>) -> Unit
         ) = APIRequest(endpoint, body, headers).send(callback)
 
-        @kotlin.jvm.JvmStatic
+        @JvmStatic
         fun <T : SelfSerializable> requestAsync(
             endpoint: String,
             body: T,
@@ -115,7 +118,7 @@ class APIRequest<T : SelfSerializable> {
         ): Job = APIRequest(endpoint, body, headers)
             .sendAsync(coroutineScope, coroutineDispatcher, callback)
 
-        @kotlin.jvm.JvmStatic
+        @JvmStatic
         fun jsonHeaders(): HashMap<String, String> {
             val ret: HashMap<String, String> = HashMap()
             ret["content-type"] = "application/json"
