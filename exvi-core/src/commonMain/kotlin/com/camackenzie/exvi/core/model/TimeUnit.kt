@@ -140,7 +140,7 @@ fun Time.toLocalDate(): LocalDate =
 fun Time.formatToElapsedTime(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): String =
     timesToString(formatTo) { time, str ->
         if (time.value.toInt() != 0)
-            str.append(" ").append("${time.value.toInt()} ${time.unit.abbreviationString}")
+            str.append(" ").append("${time.value.toInt()}${time.unit.abbreviationString}")
     }
 
 @Suppress("unused")
