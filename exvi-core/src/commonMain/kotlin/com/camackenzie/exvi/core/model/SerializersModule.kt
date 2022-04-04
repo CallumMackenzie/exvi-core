@@ -34,7 +34,12 @@ object ExviSerializer {
                 subclass(ActualExercise::class)
             }
         }
-        isLenient = true
+    }
+
+    operator fun plusAssign(other: SerializersModule) {
+        serializer = Json {
+            serializersModule = serializer.serializersModule + other
+        }
     }
 
     inline fun <reified T> toJson(value: T): String = try {
