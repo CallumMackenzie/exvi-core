@@ -11,8 +11,6 @@ import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 import kotlin.jvm.JvmStatic
 
-fun Workout.toActual() = Workout(this)
-
 @Suppress("unused")
 interface Workout : SelfSerializable, Identifiable {
     var name: String
@@ -23,6 +21,8 @@ interface Workout : SelfSerializable, Identifiable {
     fun newActiveWorkout(): ActiveWorkout
 
     override fun getIdentifier(): EncodedStringCache = id
+
+    fun toActual() = Workout(this)
 
     fun formatToTable(): String {
         // Retrieve the longest exercise name
@@ -84,7 +84,9 @@ interface Workout : SelfSerializable, Identifiable {
             description: String = "",
             exercises: List<ExerciseSet> = arrayListOf(),
             id: EncodedStringCache = Identifiable.generateId()
-        ) = ActualWorkout(name, description, ArrayList(exercises), id)
+        ) = ActualWorkout(name, description, ArrayList(exercises.map {
+            it.toActual()
+        }), id)
 
         /**
          * Constructs a new ActualWorkout
