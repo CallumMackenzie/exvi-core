@@ -5,6 +5,7 @@
 package com.camackenzie.exvi.core.model
 
 import kotlinx.datetime.*
+import kotlin.jvm.JvmField
 import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
 import kotlin.time.Duration
@@ -42,25 +43,45 @@ val Time.years get() = toUnit(TimeUnit.Year)
 @kotlinx.serialization.Serializable
 @Suppress("unused")
 enum class TimeUnit(private val unit: Double) : Unit {
-    Second(1.0),
-    Millisecond(Second.unit * 1000.0),
-    Minute(Second.unit / 60.0),
-    Hour(Minute.unit / 60.0),
-    Day(Hour.unit / 24.0),
-    Week(Day.unit / 7.0),
-    Year(Day.unit / 365.24219);
+    Second(1.0) {
+        override val abbreviationString: String = "s"
+    },
+    Millisecond(Second.unit * 1000.0) {
+        override val abbreviationString: String = "ms"
+    },
+    Minute(Second.unit / 60.0) {
+        override val abbreviationString: String = "m"
+    },
+    Hour(Minute.unit / 60.0) {
+        override val abbreviationString: String = "h"
+    },
+    Day(Hour.unit / 24.0) {
+        override val abbreviationString: String = "d"
+    },
+    Week(Day.unit / 7.0) {
+        override val abbreviationString: String = "w"
+    },
+    Year(Day.unit / 365.24219) {
+        override val abbreviationString: String = "y"
+    };
+
+    abstract val abbreviationString: String
 
     override fun getBaseCoefficient(): Double = unit
 
     companion object {
         @JvmStatic
         fun now(): Time = Time(Millisecond, Clock.System.now().toEpochMilliseconds().toDouble())
+
         @JvmStatic
         fun none(): Time = Time(Second, 0.0)
+
         @JvmStatic
         fun sortedValues(): Array<TimeUnit> = values().sortedWith { a, b -> a.unit.compareTo(b.unit) }.toTypedArray()
+
         @JvmStatic
         fun currentYear(): Int = 1970 + now().asUnit(Year).floorSelf().value.toInt()
+
         @JvmStatic
         fun fromDuration(duration: Duration): Time = Time(
             Millisecond,
@@ -119,7 +140,7 @@ fun Time.toLocalDate(): LocalDate =
 fun Time.formatToElapsedTime(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): String =
     timesToString(formatTo) { time, str ->
         if (time.value.toInt() != 0)
-            str.append(" ").append("${time.value.toInt()} ${time.unit.toString().lowercase()}s")
+            str.append(" ").append("${time.value.toInt()} ${time.unit.abbreviationString}")
     }
 
 @Suppress("unused")
