@@ -5,6 +5,8 @@
 package com.camackenzie.exvi.core.model
 
 import kotlinx.datetime.*
+import kotlin.jvm.JvmOverloads
+import kotlin.jvm.JvmStatic
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -51,10 +53,15 @@ enum class TimeUnit(private val unit: Double) : Unit {
     override fun getBaseCoefficient(): Double = unit
 
     companion object {
+        @JvmStatic
         fun now(): Time = Time(Millisecond, Clock.System.now().toEpochMilliseconds().toDouble())
+        @JvmStatic
         fun none(): Time = Time(Second, 0.0)
+        @JvmStatic
         fun sortedValues(): Array<TimeUnit> = values().sortedWith { a, b -> a.unit.compareTo(b.unit) }.toTypedArray()
+        @JvmStatic
         fun currentYear(): Int = 1970 + now().asUnit(Year).floorSelf().value.toInt()
+        @JvmStatic
         fun fromDuration(duration: Duration): Time = Time(
             Millisecond,
             duration.inWholeMilliseconds.toDouble()
@@ -72,6 +79,7 @@ inline fun Time.toDuration(): Duration = when (unit) {
     TimeUnit.Year -> value.days * 365.24219
 }
 
+@JvmOverloads
 fun Time.mapToFormats(
     formatTo: Set<TimeUnit> = TimeUnit.values().toSet()
 ): Map<TimeUnit, Time> {
@@ -107,6 +115,7 @@ fun Time.toLocalDate(): LocalDate =
     toInstant().toLocalDateTime(TimeZone.currentSystemDefault()).date
 
 @Suppress("unused")
+@JvmOverloads
 fun Time.formatToElapsedTime(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): String =
     timesToString(formatTo) { time, str ->
         if (time.value.toInt() != 0)
@@ -114,6 +123,7 @@ fun Time.formatToElapsedTime(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()
     }
 
 @Suppress("unused")
+@JvmOverloads
 fun Time.formatToDate(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): String =
     timesToString(formatTo) { time, str ->
         val tVal = time.value.toInt()
