@@ -12,13 +12,13 @@ import kotlin.math.floor
  * @author callum
  */
 
-interface Unit {
+interface ValueUnit {
     fun getBaseCoefficient(): Double
 }
 
 @kotlinx.serialization.Serializable
 @Suppress("unused")
-data class UnitValue<T : Unit>(
+data class UnitValue<T : ValueUnit>(
     private var iUnit: T,
     private var iValue: Double
 ) {

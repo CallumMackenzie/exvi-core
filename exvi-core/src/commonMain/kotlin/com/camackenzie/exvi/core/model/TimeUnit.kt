@@ -5,7 +5,6 @@
 package com.camackenzie.exvi.core.model
 
 import kotlinx.datetime.*
-import kotlin.jvm.JvmField
 import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
 import kotlin.time.Duration
@@ -42,7 +41,7 @@ val Time.years get() = toUnit(TimeUnit.Year)
 
 @kotlinx.serialization.Serializable
 @Suppress("unused")
-enum class TimeUnit(private val unit: Double) : Unit {
+enum class TimeUnit(private val unit: Double) : ValueUnit {
     Second(1.0) {
         override val abbreviationString: String = "s"
     },

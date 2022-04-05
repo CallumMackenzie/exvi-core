@@ -21,7 +21,7 @@ val Energy.kiloCalories
  */
 @kotlinx.serialization.Serializable
 @Suppress("unused")
-enum class EnergyUnit(private val unit: Double) : Unit {
+enum class EnergyUnit(private val unit: Double) : ValueUnit {
     KiloJoule(1.0),
     KiloCalorie(0.239006);
 

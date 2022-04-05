@@ -22,7 +22,7 @@ val Mass.grams get() = toUnit(MassUnit.Gram)
  * @author callum
  */
 @kotlinx.serialization.Serializable
-enum class MassUnit(private val unit: Double) : Unit {
+enum class MassUnit(private val unit: Double) : ValueUnit {
     Kilogram(1.0),
     Pound(2.20462),
     Gram(1000.0);

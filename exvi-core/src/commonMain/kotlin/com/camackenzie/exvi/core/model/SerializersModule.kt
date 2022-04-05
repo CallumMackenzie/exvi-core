@@ -13,6 +13,12 @@ import kotlin.native.concurrent.ThreadLocal
 @ThreadLocal
 object ExviSerializer {
 
+    private val defaultJsonConfig: JsonBuilder.() -> Unit = {
+        isLenient = true
+        coerceInputValues = true
+        ignoreUnknownKeys = true
+    }
+
     var serializer = Json {
         serializersModule = Json.serializersModule + SerializersModule {
             polymorphic(ActiveExercise::class) {
@@ -33,13 +39,33 @@ object ExviSerializer {
             polymorphic(Exercise::class) {
                 subclass(ActualExercise::class)
             }
+            defaultJsonConfig()
         }
     }
 
     operator fun plusAssign(other: SerializersModule) {
         serializer = Json {
             serializersModule = serializer.serializersModule + other
+            defaultJsonConfig()
         }
+    }
+
+    fun <T> toJson(serializer: SerializationStrategy<T>, value: T): String = try {
+        ExviSerializer.serializer.encodeToString(serializer, value)
+    } catch (ex: SerializationException) {
+        ExviLogger.e(ex, tag = "CORE") {
+            "PRIMARY SERIALIZATION FAILURE: Falling back to secondary serialization technique"
+        }
+        Json.encodeToString(serializer, value)
+    }
+
+    fun <T> fromJson(deserializer: DeserializationStrategy<T>, json: String): T = try {
+        ExviSerializer.serializer.decodeFromString(deserializer, json)
+    } catch (ex: SerializationException) {
+        ExviLogger.e(ex, tag = "CORE") {
+            "PRIMARY SERIALIZATION FAILURE: Falling back to secondary serialization technique"
+        }
+        Json.decodeFromString(deserializer, json)
     }
 
     inline fun <reified T> toJson(value: T): String = try {

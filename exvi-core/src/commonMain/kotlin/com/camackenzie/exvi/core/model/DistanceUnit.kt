@@ -23,7 +23,7 @@ val Distance.feet get() = toUnit(DistanceUnit.Foot)
  */
 @kotlinx.serialization.Serializable
 @Suppress("unused")
-enum class DistanceUnit(private val unit: Double) : Unit {
+enum class DistanceUnit(private val unit: Double) : ValueUnit {
     Centimeter(1.0),
     Meter(Centimeter.unit / 100.0),
     Kilometer(Meter.unit / 1000.0),
