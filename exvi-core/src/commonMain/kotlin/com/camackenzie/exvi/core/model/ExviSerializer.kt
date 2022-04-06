@@ -4,6 +4,7 @@
 
 package com.camackenzie.exvi.core.model
 
+import com.camackenzie.exvi.core.api.*
 import com.camackenzie.exvi.core.util.ExviLogger
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
@@ -38,6 +39,20 @@ object ExviSerializer {
             }
             polymorphic(Exercise::class) {
                 subclass(ActualExercise::class)
+            }
+            polymorphic(GenericDataRequest::class) {
+                subclass(WorkoutPutRequest::class)
+                subclass(WorkoutListRequest::class)
+                subclass(ActiveWorkoutPutRequest::class)
+                subclass(DeleteWorkoutsRequest::class)
+                subclass(GetBodyStatsRequest::class)
+                subclass(SetBodyStatsRequest::class)
+                subclass(CompatibleVersionRequest::class)
+            }
+            polymorphic(GenericDataResult::class) {
+                subclass(NoneResult::class)
+                subclass(WorkoutListResult::class)
+                subclass(ActiveWorkoutListResult::class)
             }
             defaultJsonConfig()
         }
