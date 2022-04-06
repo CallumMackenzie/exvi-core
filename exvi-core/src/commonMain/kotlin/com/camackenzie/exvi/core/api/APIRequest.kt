@@ -17,6 +17,7 @@ import io.ktor.utils.io.core.*
 import kotlinx.coroutines.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import kotlin.jvm.JvmOverloads
 import kotlin.jvm.JvmStatic
 
 /**
@@ -36,12 +37,14 @@ class APIRequest<T : SelfSerializable> {
     @Transient
     var endpoint: String = ""
 
+    @JvmOverloads
     constructor(endpoint: String, body: T, headers: HashMap<String, String> = HashMap()) {
         this.endpoint = endpoint
         this.body = body
         this.headers = headers
     }
 
+    @JvmOverloads
     constructor(body: T, headers: HashMap<String, String> = HashMap()) : this("", body, headers)
 
     constructor(other: APIRequest<*>, newBody: T) {
@@ -70,7 +73,7 @@ class APIRequest<T : SelfSerializable> {
             val parsedResponse: APIResult<String> =
                 APIResult(
                     response?.status?.value ?: 418,
-                    CryptographyUtils.decodeOrValue(body),
+                    APIResult.decodeBody(body),
                     HashMap()
                 )
             callback(parsedResponse)

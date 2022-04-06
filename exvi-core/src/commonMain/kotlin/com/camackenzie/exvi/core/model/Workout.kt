@@ -98,13 +98,20 @@ interface Workout : SelfSerializable, Identifiable {
     }
 }
 
+// For representing lone arrays in serialization
+@Serializable
+data class WorkoutArray(
+    val array: Array<Workout>
+)
+
+
 @Serializable
 @Suppress("unused")
 data class ActualWorkout(
     override var name: String = "",
     override var description: String = "",
     override val exercises: ArrayList<ExerciseSet> = arrayListOf(),
-    override val id: EncodedStringCache
+    override val id: EncodedStringCache = Identifiable.generateId()
 ) : Workout {
     override fun newActiveWorkout(): ActiveWorkout = ActiveWorkout(this)
     override fun toJson(): String = ExviSerializer.toJson(this)
