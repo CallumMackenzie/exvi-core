@@ -6,8 +6,10 @@
 package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.model.ExviSerializer
+import com.camackenzie.exvi.core.util.CryptographyUtils
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
+import kotlin.jvm.JvmStatic
 
 /**
  *
@@ -42,9 +44,12 @@ class APIResult<T> {
     fun succeeded(): Boolean = !failed()
 
     companion object {
-        @kotlin.jvm.JvmStatic
+        @JvmStatic
         fun <T> jsonResult(statusCode: Int, body: T): APIResult<T> =
             APIResult(statusCode, body, HashMap()).withJsonHeader()
+
+        @JvmStatic
+        fun decodeBody(body: String) = CryptographyUtils.decodeOrValue(body)
     }
 }
 
@@ -52,3 +57,6 @@ class APIResult<T> {
 inline fun <reified T> APIResult<String>.decodeBody(): T = ExviSerializer.fromJson(this.body)
 
 fun APIResult<String>.toJson(): String = ExviSerializer.toJson(this)
+fun APIResult<String>.decode() {
+    body = APIResult.decodeBody(body)
+}

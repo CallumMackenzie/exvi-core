@@ -70,7 +70,7 @@ class APIRequest<T : SelfSerializable> {
             val parsedResponse: APIResult<String> =
                 APIResult(
                     response?.status?.value ?: 418,
-                    CryptographyUtils.decodeOrValue(body),
+                    APIResult.decodeBody(body),
                     HashMap()
                 )
             callback(parsedResponse)
