@@ -83,6 +83,12 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
     }
 }
 
+// For representing lone arrays in serialization
+@Serializable
+data class ActiveWorkoutArray(
+    val array: Array<ActiveWorkout>
+)
+
 @Serializable
 @Suppress("unused")
 data class ActualActiveWorkout(

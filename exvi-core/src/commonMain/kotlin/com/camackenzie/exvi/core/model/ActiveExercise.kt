@@ -55,6 +55,12 @@ interface ActiveExercise : SelfSerializable {
     }
 }
 
+// For representing lone arrays in serialization
+@Serializable
+data class ActiveExerciseArray(
+    val array: Array<ActiveExercise>
+)
+
 @Serializable
 @Suppress("unused")
 data class ActualActiveExercise(
