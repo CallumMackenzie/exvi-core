@@ -20,7 +20,7 @@ import kotlinx.serialization.*
 @Suppress("unused")
 data class RetrieveSaltRequest(
     val username: EncodedStringCache
-) : SelfSerializable {
+) : GenericDataRequest(uid) {
 
     constructor(username: String) : this(username.cached())
 

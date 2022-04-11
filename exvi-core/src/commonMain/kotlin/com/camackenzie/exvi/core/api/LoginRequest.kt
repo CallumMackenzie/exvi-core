@@ -21,7 +21,7 @@ import kotlinx.serialization.*
 data class LoginRequest(
     val username: EncodedStringCache,
     val passwordHash: EncodedStringCache
-) : SelfSerializable {
+) : GenericDataRequest(uid) {
 
     constructor(username: String, passwordHash: String)
             : this(username.cached(), passwordHash.cached())

@@ -23,7 +23,7 @@ data class VerificationRequest(
     val username: EncodedStringCache,
     val email: EncodedStringCache,
     val phone: EncodedStringCache
-) : SelfSerializable {
+) : GenericDataRequest(uid) {
 
     constructor(
         username: String,

@@ -48,11 +48,19 @@ object ExviSerializer {
                 subclass(GetBodyStatsRequest::class)
                 subclass(SetBodyStatsRequest::class)
                 subclass(CompatibleVersionRequest::class)
+                subclass(AccountCreationRequest::class)
+                subclass(LoginRequest::class)
+                subclass(RetrieveSaltRequest::class)
+                subclass(GenericDataRequest::class)
             }
             polymorphic(GenericDataResult::class) {
                 subclass(NoneResult::class)
                 subclass(WorkoutListResult::class)
                 subclass(ActiveWorkoutListResult::class)
+                subclass(BooleanResult::class)
+                subclass(GetBodyStatsResponse::class)
+                subclass(AccountSaltResult::class)
+                subclass(AccountAccessKeyResult::class)
             }
             defaultJsonConfig()
         }
@@ -75,7 +83,7 @@ object ExviSerializer {
     }
 
     fun <T> fromJson(deserializer: DeserializationStrategy<T>, json: String): T = try {
-        ExviSerializer.serializer.decodeFromString(deserializer, json)
+        serializer.decodeFromString(deserializer, json)
     } catch (ex: SerializationException) {
         ExviLogger.e(ex, tag = "CORE") {
             "PRIMARY SERIALIZATION FAILURE: Falling back to secondary serialization technique"
