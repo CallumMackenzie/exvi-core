@@ -1,5 +1,4 @@
-import com.camackenzie.exvi.core.api.WorkoutListRequest
-import com.camackenzie.exvi.core.api.WorkoutPutRequest
+import com.camackenzie.exvi.core.api.*
 import com.camackenzie.exvi.core.model.*
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
@@ -118,5 +117,34 @@ class TestSerialization {
         assertEquals(req1Des.accessKey, req1.accessKey)
         assertEquals(req1Des.workouts[0].name, req1.workouts[0].name)
     }
+
+    private inline fun <reified T : GenericDataRequest> testRequestSerialization(req: T) {
+        val s = ExviSerializer.toJson(req)
+        val des = ExviSerializer.fromJson<GenericDataRequest>(s)
+        assertTrue { des is T }
+    }
+
+    @Test
+    fun testPolymorphicSerializeLoginRequest() = testRequestSerialization(LoginRequest("", ""))
+
+    @Test
+    fun testPolymorphicSerializeWorkoutPutRequest() = testRequestSerialization(WorkoutPutRequest("", "", emptyArray()))
+
+    @Test
+    fun testPolymorphicSerializeWorkoutListRequest() =
+        testRequestSerialization(WorkoutListRequest("", "", WorkoutListRequest.Type.ListAllActive))
+
+    @Test
+    fun testPolymorphicSerializeActiveWorkoutPutRequest() =
+        testRequestSerialization(ActiveWorkoutPutRequest("", "", emptyArray()))
+
+    @Test
+    fun testPolymorphicSerializeDeleteWorkoutsRequest() =
+        testRequestSerialization(DeleteWorkoutsRequest("", "", emptyArray(), DeleteWorkoutsRequest.WorkoutType.Workout))
+
+    @Test
+    fun testPolymorphicSerializeGetBodyStatsRequest() = testRequestSerialization(GetBodyStatsRequest("", ""))
+
+    // TODO: Add more polymorphic serialization request tests & result tests
 
 }

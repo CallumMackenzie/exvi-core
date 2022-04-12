@@ -11,6 +11,8 @@ import kotlinx.serialization.json.*
 import kotlinx.serialization.modules.*
 import kotlin.native.concurrent.ThreadLocal
 
+// FIXME: This class can't be initialized
+
 @ThreadLocal
 object ExviSerializer {
 
@@ -41,26 +43,25 @@ object ExviSerializer {
                 subclass(ActualExercise::class)
             }
             polymorphic(GenericDataRequest::class) {
-                subclass(WorkoutPutRequest::class)
-                subclass(WorkoutListRequest::class)
-                subclass(ActiveWorkoutPutRequest::class)
-                subclass(DeleteWorkoutsRequest::class)
+//                subclass(WorkoutPutRequest::class)
+//                subclass(WorkoutListRequest::class)
+//                subclass(ActiveWorkoutPutRequest::class)
+//                subclass(DeleteWorkoutsRequest::class)
                 subclass(GetBodyStatsRequest::class)
-                subclass(SetBodyStatsRequest::class)
-                subclass(CompatibleVersionRequest::class)
-                subclass(AccountCreationRequest::class)
-                subclass(LoginRequest::class)
-                subclass(RetrieveSaltRequest::class)
-                subclass(GenericDataRequest::class)
+//                subclass(SetBodyStatsRequest::class)
+//                subclass(CompatibleVersionRequest::class)
+//                subclass(AccountCreationRequest::class)
+//                subclass(LoginRequest::class)
+//                subclass(RetrieveSaltRequest::class)
             }
             polymorphic(GenericDataResult::class) {
-                subclass(NoneResult::class)
-                subclass(WorkoutListResult::class)
-                subclass(ActiveWorkoutListResult::class)
-                subclass(BooleanResult::class)
-                subclass(GetBodyStatsResponse::class)
-                subclass(AccountSaltResult::class)
-                subclass(AccountAccessKeyResult::class)
+//                subclass(NoneResult::class)
+//                subclass(WorkoutListResult::class)
+//                subclass(ActiveWorkoutListResult::class)
+//                subclass(BooleanResult::class)
+//                subclass(GetBodyStatsResponse::class)
+//                subclass(AccountSaltResult::class)
+//                subclass(AccountAccessKeyResult::class)
             }
             defaultJsonConfig()
         }
@@ -83,7 +84,7 @@ object ExviSerializer {
     }
 
     fun <T> fromJson(deserializer: DeserializationStrategy<T>, json: String): T = try {
-        serializer.decodeFromString(deserializer, json)
+        ExviSerializer.serializer.decodeFromString(deserializer, json)
     } catch (ex: SerializationException) {
         ExviLogger.e(ex, tag = "CORE") {
             "PRIMARY SERIALIZATION FAILURE: Falling back to secondary serialization technique"
@@ -92,7 +93,7 @@ object ExviSerializer {
     }
 
     inline fun <reified T> toJson(value: T): String = try {
-        serializer.encodeToString(value)
+        ExviSerializer.serializer.encodeToString(value)
     } catch (ex: SerializationException) {
         ExviLogger.e(ex, tag = "CORE") {
             "PRIMARY SERIALIZATION FAILURE: Falling back to secondary serialization technique"
@@ -101,7 +102,7 @@ object ExviSerializer {
     }
 
     inline fun <reified T> fromJson(json: String): T = try {
-        serializer.decodeFromString(json)
+        ExviSerializer.serializer.decodeFromString(json)
     } catch (ex: SerializationException) {
         ExviLogger.e(ex, tag = "CORE") {
             "PRIMARY DESERIALIZATION FAILURE: Falling back to secondary deserialization technique"
