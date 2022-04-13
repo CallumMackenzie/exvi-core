@@ -30,7 +30,8 @@ jobs:
           arguments: jvmTest
           
       - name: Archive Test Results
+        if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: test-report
+          name: test-results
           path: exvi-core/exvi-core/exvi-core/build/reports/tests/*
