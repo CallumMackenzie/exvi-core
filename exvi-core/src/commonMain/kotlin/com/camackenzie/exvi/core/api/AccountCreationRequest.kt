@@ -18,20 +18,17 @@ import kotlinx.serialization.*
  */
 @Serializable
 @Suppress("unused")
-class AccountCreationRequest : SelfSerializable {
-    val username: EncodedStringCache
-    val verificationCode: EncodedStringCache
+class AccountCreationRequest(
+    val username: EncodedStringCache,
+    val verificationCode: EncodedStringCache,
     val password: EncodedStringCache
+) : GenericDataRequest(uid) {
 
     constructor(
         username: String,
         verificationCode: String,
         password: String
-    ) {
-        this.username = username.cached()
-        this.verificationCode = verificationCode.cached()
-        this.password = password.cached()
-    }
+    ) : this(username.cached(), verificationCode.cached(), password.cached())
 
     override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid

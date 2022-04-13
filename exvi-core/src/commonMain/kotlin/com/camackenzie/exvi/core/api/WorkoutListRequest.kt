@@ -10,6 +10,7 @@ import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
+import kotlin.jvm.JvmStatic
 
 /**
  *

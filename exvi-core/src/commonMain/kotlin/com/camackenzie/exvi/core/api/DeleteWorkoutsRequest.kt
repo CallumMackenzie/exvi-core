@@ -2,6 +2,7 @@ package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 
@@ -13,6 +14,11 @@ class DeleteWorkoutsRequest(
     val workoutIds: Array<EncodedStringCache>,
     val workoutType: WorkoutType
 ) : GenericDataRequest(uid) {
+
+    constructor(
+        username: String, accessKey: String, workoutIds: Array<EncodedStringCache>,
+        workoutType: WorkoutType
+    ) : this(username.cached(), accessKey.cached(), workoutIds, workoutType)
 
     @Serializable
     enum class WorkoutType {

@@ -13,6 +13,5 @@ object NoneResult : GenericDataResult("NoneResult") {
     const val uid = "NoneResult"
 
     override fun toJson(): String = ExviSerializer.toJson(this)
-
     override fun getUID(): String = uid
 }

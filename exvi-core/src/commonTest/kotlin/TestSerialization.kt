@@ -1,17 +1,33 @@
-import com.camackenzie.exvi.core.api.WorkoutListRequest
-import com.camackenzie.exvi.core.api.WorkoutPutRequest
+import com.camackenzie.exvi.core.api.*
 import com.camackenzie.exvi.core.model.*
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import com.camackenzie.exvi.core.util.ExviLogger
+import io.github.aakira.napier.Antilog
+import io.github.aakira.napier.LogLevel
+import kotlin.test.*
 
 /*
  * Copyright (c) Callum Mackenzie 2022.
  */
 
 class TestSerialization {
+
+    @BeforeTest
+    fun initialize() {
+        ExviLogger.base(object : Antilog() {
+            override fun performLog(priority: LogLevel, tag: String?, throwable: Throwable?, message: String?) {
+                println("[$priority]${if (tag != null) " - $tag" else ""}: ${message ?: ""} ${
+                    if (throwable != null) "\n\t" else ""
+                }${
+                    throwable?.stackTraceToString()?.lines()?.reduce { a, b -> "$a\n\t\t$b" } ?: ""
+                }")
+            }
+        })
+    }
+
+    @AfterTest
+    fun finish() {
+        ExviLogger.takeLogarithm()
+    }
 
     private val exercises = listOf(
         Exercise(
@@ -38,7 +54,7 @@ class TestSerialization {
                 listOf(SingleExerciseSet(1))
             )
         )
-        val serialized = active.toJson()
+        val serialized = ExviSerializer.toJson(active)
         val des = ExviSerializer.fromJson<ActualActiveExercise>(serialized)
         assertEquals(active.target.exercise.name, des.target.exercise.name)
         assertEquals(active.exercise.experienceLevel, des.exercise.experienceLevel)
@@ -118,5 +134,34 @@ class TestSerialization {
         assertEquals(req1Des.accessKey, req1.accessKey)
         assertEquals(req1Des.workouts[0].name, req1.workouts[0].name)
     }
+
+    private inline fun <reified T : GenericDataRequest> testRequestSerialization(req: T) {
+        val s = ExviSerializer.toJson(req)
+        val des = ExviSerializer.fromJson<GenericDataRequest>(s)
+        assertTrue { des is T }
+    }
+
+    @Test
+    fun testPolymorphicSerializeLoginRequest() = testRequestSerialization(LoginRequest("", ""))
+
+    @Test
+    fun testPolymorphicSerializeWorkoutPutRequest() = testRequestSerialization(WorkoutPutRequest("", "", emptyArray()))
+
+    @Test
+    fun testPolymorphicSerializeWorkoutListRequest() =
+        testRequestSerialization(WorkoutListRequest("", "", WorkoutListRequest.Type.ListAllActive))
+
+    @Test
+    fun testPolymorphicSerializeActiveWorkoutPutRequest() =
+        testRequestSerialization(ActiveWorkoutPutRequest("", "", emptyArray()))
+
+    @Test
+    fun testPolymorphicSerializeDeleteWorkoutsRequest() =
+        testRequestSerialization(DeleteWorkoutsRequest("", "", emptyArray(), DeleteWorkoutsRequest.WorkoutType.Workout))
+
+    @Test
+    fun testPolymorphicSerializeGetBodyStatsRequest() = testRequestSerialization(GetBodyStatsRequest("", ""))
+
+    // TODO: Add more polymorphic serialization request tests & result tests
 
 }
