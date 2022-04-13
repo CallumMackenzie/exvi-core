@@ -1,16 +1,33 @@
 import com.camackenzie.exvi.core.api.*
 import com.camackenzie.exvi.core.model.*
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import com.camackenzie.exvi.core.util.ExviLogger
+import io.github.aakira.napier.Antilog
+import io.github.aakira.napier.LogLevel
+import kotlin.test.*
 
 /*
  * Copyright (c) Callum Mackenzie 2022.
  */
 
 class TestSerialization {
+
+    @BeforeTest
+    fun initialize() {
+        ExviLogger.base(object : Antilog() {
+            override fun performLog(priority: LogLevel, tag: String?, throwable: Throwable?, message: String?) {
+                println("[$priority]${if (tag != null) " - $tag" else ""}: ${message ?: ""} ${
+                    if (throwable != null) "\n\t" else ""
+                }${
+                    throwable?.stackTraceToString()?.lines()?.reduce { a, b -> "$a\n\t\t$b" } ?: ""
+                }")
+            }
+        })
+    }
+
+    @AfterTest
+    fun finish() {
+        ExviLogger.takeLogarithm()
+    }
 
     private val exercises = listOf(
         Exercise(
@@ -37,7 +54,7 @@ class TestSerialization {
                 listOf(SingleExerciseSet(1))
             )
         )
-        val serialized = active.toJson()
+        val serialized = ExviSerializer.toJson(active)
         val des = ExviSerializer.fromJson<ActualActiveExercise>(serialized)
         assertEquals(active.target.exercise.name, des.target.exercise.name)
         assertEquals(active.exercise.experienceLevel, des.exercise.experienceLevel)

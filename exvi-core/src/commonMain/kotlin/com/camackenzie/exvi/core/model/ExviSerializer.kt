@@ -5,6 +5,7 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.api.*
+import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.ExviLogger
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
@@ -12,8 +13,6 @@ import kotlinx.serialization.modules.*
 import kotlin.native.concurrent.ThreadLocal
 
 // FIXME: This class can't be initialized
-
-@ThreadLocal
 object ExviSerializer {
 
     private val defaultJsonConfig: JsonBuilder.() -> Unit = {
@@ -21,11 +20,11 @@ object ExviSerializer {
         coerceInputValues = true
         ignoreUnknownKeys = true
     }
-    var serializer: Json
-    
+    val serializer: Json
+
     init {
-        try {
-            serializer = Json {
+        this.serializer = try {
+            Json {
                 serializersModule = Json.serializersModule + SerializersModule {
                     polymorphic(ActiveExercise::class) {
                         subclass(ActualActiveExercise::class)
@@ -66,19 +65,12 @@ object ExviSerializer {
                         subclass(AccountSaltResult::class)
                         subclass(AccountAccessKeyResult::class)
                     }
-                    defaultJsonConfig()
+                    this@ExviSerializer.defaultJsonConfig(this@Json)
                 }
             }
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             ExviLogger.e(e, tag = "CORE") { "Could not initialize ExviSerializer" }
-            serializer = Json { defaultJsonConfig() }
-        }
-    }
-
-    operator fun plusAssign(other: SerializersModule) {
-        serializer = Json {
-            serializersModule = serializer.serializersModule + other
-            defaultJsonConfig()
+            throw e
         }
     }
 
