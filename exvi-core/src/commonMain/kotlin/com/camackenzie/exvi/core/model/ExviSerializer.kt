@@ -21,49 +21,57 @@ object ExviSerializer {
         coerceInputValues = true
         ignoreUnknownKeys = true
     }
-
-    var serializer = Json {
-        serializersModule = Json.serializersModule + SerializersModule {
-            polymorphic(ActiveExercise::class) {
-                subclass(ActualActiveExercise::class)
+    var serializer: Json
+    
+    init {
+        try {
+            serializer = Json {
+                serializersModule = Json.serializersModule + SerializersModule {
+                    polymorphic(ActiveExercise::class) {
+                        subclass(ActualActiveExercise::class)
+                    }
+                    polymorphic(Workout::class) {
+                        subclass(ActualWorkout::class)
+                    }
+                    polymorphic(SingleExerciseSet::class) {
+                        subclass(ActualSingleExerciseSet::class)
+                    }
+                    polymorphic(ExerciseSet::class) {
+                        subclass(ActualExerciseSet::class)
+                    }
+                    polymorphic(ActiveExercise::class) {
+                        subclass(ActualActiveExercise::class)
+                    }
+                    polymorphic(Exercise::class) {
+                        subclass(ActualExercise::class)
+                    }
+                    polymorphic(GenericDataRequest::class) {
+                        subclass(WorkoutPutRequest::class)
+                        subclass(WorkoutListRequest::class)
+                        subclass(ActiveWorkoutPutRequest::class)
+                        subclass(DeleteWorkoutsRequest::class)
+                        subclass(GetBodyStatsRequest::class)
+                        subclass(SetBodyStatsRequest::class)
+                        subclass(CompatibleVersionRequest::class)
+                        subclass(AccountCreationRequest::class)
+                        subclass(LoginRequest::class)
+                        subclass(RetrieveSaltRequest::class)
+                    }
+                    polymorphic(GenericDataResult::class) {
+                        subclass(NoneResult::class)
+                        subclass(WorkoutListResult::class)
+                        subclass(ActiveWorkoutListResult::class)
+                        subclass(BooleanResult::class)
+                        subclass(GetBodyStatsResponse::class)
+                        subclass(AccountSaltResult::class)
+                        subclass(AccountAccessKeyResult::class)
+                    }
+                    defaultJsonConfig()
+                }
             }
-            polymorphic(Workout::class) {
-                subclass(ActualWorkout::class)
-            }
-            polymorphic(SingleExerciseSet::class) {
-                subclass(ActualSingleExerciseSet::class)
-            }
-            polymorphic(ExerciseSet::class) {
-                subclass(ActualExerciseSet::class)
-            }
-            polymorphic(ActiveExercise::class) {
-                subclass(ActualActiveExercise::class)
-            }
-            polymorphic(Exercise::class) {
-                subclass(ActualExercise::class)
-            }
-            polymorphic(GenericDataRequest::class) {
-//                subclass(WorkoutPutRequest::class)
-//                subclass(WorkoutListRequest::class)
-//                subclass(ActiveWorkoutPutRequest::class)
-//                subclass(DeleteWorkoutsRequest::class)
-                subclass(GetBodyStatsRequest::class)
-//                subclass(SetBodyStatsRequest::class)
-//                subclass(CompatibleVersionRequest::class)
-//                subclass(AccountCreationRequest::class)
-//                subclass(LoginRequest::class)
-//                subclass(RetrieveSaltRequest::class)
-            }
-            polymorphic(GenericDataResult::class) {
-//                subclass(NoneResult::class)
-//                subclass(WorkoutListResult::class)
-//                subclass(ActiveWorkoutListResult::class)
-//                subclass(BooleanResult::class)
-//                subclass(GetBodyStatsResponse::class)
-//                subclass(AccountSaltResult::class)
-//                subclass(AccountAccessKeyResult::class)
-            }
-            defaultJsonConfig()
+        } catch (e: Exception) {
+            ExviLogger.e(e, tag = "CORE") { "Could not initialize ExviSerializer" }
+            serializer = Json { defaultJsonConfig() }
         }
     }
 
