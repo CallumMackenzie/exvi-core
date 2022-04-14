@@ -12,6 +12,7 @@ import com.camackenzie.exvi.core.util.ExviLogger
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import kotlinx.serialization.modules.*
+import kotlin.jvm.JvmStatic
 import kotlin.native.concurrent.ThreadLocal
 
 object ExviSerializer {
