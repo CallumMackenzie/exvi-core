@@ -1,12 +1,8 @@
 import com.camackenzie.exvi.core.model.ExviSerializer
-import com.camackenzie.exvi.core.util.*
-import kotlinx.serialization.json.Json
+import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.util.cached
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
 
 
 class TestEncodedStringCache {

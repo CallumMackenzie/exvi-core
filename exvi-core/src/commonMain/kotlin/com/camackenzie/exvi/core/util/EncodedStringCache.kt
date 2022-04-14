@@ -5,9 +5,9 @@
  */
 package com.camackenzie.exvi.core.util
 
-import com.camackenzie.exvi.core.model.ExviSerializer
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlin.jvm.JvmStatic
 import kotlin.reflect.KProperty
 
@@ -16,13 +16,12 @@ import kotlin.reflect.KProperty
  * @author callum
  */
 @Serializable
-@Suppress("unused")
 data class EncodedStringCache(
     @Transient
     @kotlin.jvm.Transient
     private var actual: String? = null,
     private var encoded: String = ""
-) : SelfSerializable, Comparable<EncodedStringCache> {
+) : SelfSerializable<EncodedStringCache>, Comparable<EncodedStringCache> {
 
     constructor(s: String) : this() {
         set(s)
@@ -61,14 +60,14 @@ data class EncodedStringCache(
         fun encode(value: String) = CryptographyUtils.encodeString(value)
     }
 
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = "EncodedStringCache"
-
     override fun hashCode(): Int {
         var result = actual?.hashCode() ?: 0
         result = 31 * result + encoded.hashCode()
         return result
     }
+
+    override val serializer: KSerializer<EncodedStringCache>
+        get() = serializer()
 }
 
 fun String.cached(): EncodedStringCache = EncodedStringCache.cached(this)

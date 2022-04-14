@@ -4,12 +4,12 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
 @Suppress("unused")
-interface Exercise : Comparable<Exercise>, SelfSerializable {
+interface Exercise : Comparable<Exercise>, SelfSerializable<Exercise> {
     var name: String
     var description: String
     var videoLink: String
@@ -105,7 +105,7 @@ interface Exercise : Comparable<Exercise>, SelfSerializable {
 
 @Serializable
 
-@Suppress("unused")
+@Suppress("unused", "UNCHECKED_CAST")
 data class ActualExercise(
     override var name: String,
     override var description: String,
@@ -119,16 +119,12 @@ data class ActualExercise(
     override var forceType: ExerciseForceType,
     override var equipment: HashSet<ExerciseEquipment>
 ) : Exercise {
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
-
     override fun equals(other: Any?): Boolean = if (other is Exercise) {
         this.name == other.name
     } else false
 
     override fun hashCode(): Int = name.hashCode()
+    override val serializer: KSerializer<Exercise>
+        get() = Companion.serializer() as KSerializer<Exercise>
 
-    companion object {
-        const val uid = "ActualExercise"
-    }
 }

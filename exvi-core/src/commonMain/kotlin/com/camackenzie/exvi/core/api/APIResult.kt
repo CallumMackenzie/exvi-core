@@ -7,8 +7,7 @@ package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.CryptographyUtils
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
 /**

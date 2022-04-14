@@ -1,6 +1,12 @@
 package com.camackenzie.exvi.core.util
 
-interface SelfSerializable {
-    fun toJson(): String
-    fun getUID(): String
+import com.camackenzie.exvi.core.model.ExviSerializer
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Transient
+
+interface SelfSerializable<T : SelfSerializable<T>> {
+    fun toJson(): String = ExviSerializer.toJson(serializer, this as T)
+
+    @Transient
+    val serializer: KSerializer<T>
 }

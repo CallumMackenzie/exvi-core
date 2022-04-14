@@ -6,11 +6,11 @@ package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.coroutines.*
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
 
 
-interface SingleExerciseSet : SelfSerializable {
+interface SingleExerciseSet : SelfSerializable<SingleExerciseSet> {
     var reps: Int
     var weight: Mass
     var timing: Array<Time>
@@ -48,22 +48,21 @@ interface SingleExerciseSet : SelfSerializable {
     }
 }
 
+@Suppress("UNCHECKED_CAST")
 @Serializable
-
 data class ActualSingleExerciseSet(
     override var reps: Int,
     override var weight: Mass = MassUnit.none(),
     override var timing: Array<Time> = emptyArray()
 ) : SingleExerciseSet {
+    override val serializer: KSerializer<SingleExerciseSet>
+        get() = Companion.serializer() as KSerializer<SingleExerciseSet>
+
     override fun deepValueCopy(): SingleExerciseSet = ActualSingleExerciseSet(
         reps,
         weight.copy(),
         timing.map { it.copy() }.toTypedArray()
     )
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-
-    override fun getUID(): String = uid
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -80,9 +79,5 @@ data class ActualSingleExerciseSet(
         result = 31 * result + weight.hashCode()
         result = 31 * result + timing.contentHashCode()
         return result
-    }
-
-    companion object {
-        const val uid = "ActualSingleExerciseSet"
     }
 }

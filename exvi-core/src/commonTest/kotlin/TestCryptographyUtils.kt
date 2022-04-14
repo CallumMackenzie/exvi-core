@@ -1,4 +1,4 @@
-import com.camackenzie.exvi.core.util.*
+import com.camackenzie.exvi.core.util.CryptographyUtils
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

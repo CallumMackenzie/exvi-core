@@ -1,4 +1,5 @@
-import com.camackenzie.exvi.core.util.*
+import com.camackenzie.exvi.core.util.Identifiable
+import com.camackenzie.exvi.core.util.RawIdentifiable
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

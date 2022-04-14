@@ -6,16 +6,17 @@ package com.camackenzie.exvi.core.model
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.Identifiable
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlin.collections.ArrayList
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
 
 @Suppress("unused")
-interface Workout : SelfSerializable, Identifiable {
+interface Workout : SelfSerializable<Workout>, Identifiable {
     var name: String
     var description: String
+
     @Polymorphic
     val exercises: MutableList<ExerciseSet>
     val id: EncodedStringCache
@@ -101,8 +102,7 @@ interface Workout : SelfSerializable, Identifiable {
 }
 
 @Serializable
-
-@Suppress("unused")
+@Suppress("unused", "UNCHECKED_CAST")
 data class ActualWorkout(
     override var name: String = "",
     override var description: String = "",
@@ -110,10 +110,7 @@ data class ActualWorkout(
     override val id: EncodedStringCache = Identifiable.generateId()
 ) : Workout {
     override fun newActiveWorkout(): ActiveWorkout = ActiveWorkout(this)
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
 
-    companion object {
-        const val uid = "ActualWorkout"
-    }
+    override val serializer: KSerializer<Workout>
+        get() = Companion.serializer() as KSerializer<Workout>
 }

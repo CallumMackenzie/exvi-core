@@ -5,15 +5,15 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.api.*
-import com.camackenzie.exvi.core.util.CachedKey
-import com.camackenzie.exvi.core.util.EncodedStringCache
-import com.camackenzie.exvi.core.util.EncryptionResult
 import com.camackenzie.exvi.core.util.ExviLogger
 import kotlinx.serialization.*
-import kotlinx.serialization.json.*
-import kotlinx.serialization.modules.*
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonBuilder
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.contextual
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
 import kotlin.jvm.JvmStatic
-import kotlin.native.concurrent.ThreadLocal
 
 object ExviSerializer {
 
@@ -28,6 +28,13 @@ object ExviSerializer {
     val serializer: Json = try {
         Json {
             serializersModule = SerializersModule {
+                contextual(ActualExercise.serializer())
+                contextual(ActualSingleExerciseSet.serializer())
+                contextual(ActualExerciseSet.serializer())
+                contextual(ActualActiveExercise.serializer())
+                contextual(ActualWorkout.serializer())
+                contextual(ActualActiveWorkout.serializer())
+
                 polymorphic(Exercise::class) {
                     subclass(ActualExercise::class)
                 }
@@ -59,7 +66,6 @@ object ExviSerializer {
                     subclass(RetrieveSaltRequest::class)
                 }
                 polymorphic(GenericDataResult::class) {
-//                    subclass(NoneResult::class)
                     subclass(WorkoutListResult::class)
                     subclass(ActiveWorkoutListResult::class)
                     subclass(BooleanResult::class)

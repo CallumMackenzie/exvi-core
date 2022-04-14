@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 /*
  * Copyright (c) Callum Mackenzie 2022.
  */

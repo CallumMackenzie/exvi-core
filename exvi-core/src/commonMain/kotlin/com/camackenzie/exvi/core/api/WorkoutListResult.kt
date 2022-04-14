@@ -7,9 +7,7 @@ package com.camackenzie.exvi.core.api
 
 import com.camackenzie.exvi.core.model.ActualActiveWorkout
 import com.camackenzie.exvi.core.model.ActualWorkout
-import com.camackenzie.exvi.core.model.ExviSerializer
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 /**
  *
@@ -17,11 +15,7 @@ import kotlinx.serialization.*
  */
 @Serializable
 @Suppress("unused")
-data class WorkoutListResult(val workouts: Array<ActualWorkout>) : GenericDataResult(uid) {
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
-
+data class WorkoutListResult(val workouts: Array<ActualWorkout>) : GenericDataResult() {
     // Auto generated
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -33,19 +27,11 @@ data class WorkoutListResult(val workouts: Array<ActualWorkout>) : GenericDataRe
 
     // Auto generated
     override fun hashCode(): Int = workouts.contentHashCode()
-
-    companion object {
-        const val uid = "WorkoutListResult"
-    }
 }
 
 @Serializable
 @Suppress("unused")
-data class ActiveWorkoutListResult(val workouts: Array<ActualActiveWorkout>) : GenericDataResult(uid) {
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
-
+data class ActiveWorkoutListResult(val workouts: Array<ActualActiveWorkout>) : GenericDataResult() {
     // Auto-generated
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -57,9 +43,4 @@ data class ActiveWorkoutListResult(val workouts: Array<ActualActiveWorkout>) : G
 
     // Auto generated
     override fun hashCode(): Int = workouts.contentHashCode()
-
-    companion object {
-        const val uid = "ActiveWorkoutListResult"
-    }
-
 }

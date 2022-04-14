@@ -5,12 +5,9 @@
  */
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.EncodedStringCache
-import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 /**
  *
@@ -20,14 +17,6 @@ import kotlinx.serialization.*
 @Suppress("unused")
 data class RetrieveSaltRequest(
     val username: EncodedStringCache
-) : GenericDataRequest(uid) {
-
+) : GenericDataRequest() {
     constructor(username: String) : this(username.cached())
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
-
-    companion object {
-        const val uid = "RetrieveSaltRequest"
-    }
 }

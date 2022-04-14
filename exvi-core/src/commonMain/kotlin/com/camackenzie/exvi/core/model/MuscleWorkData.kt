@@ -5,8 +5,8 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
 import kotlin.math.abs
 
 /**
@@ -15,7 +15,7 @@ import kotlin.math.abs
  */
 @Suppress("unused")
 @Serializable
-data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double) : SelfSerializable {
+data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double) : SelfSerializable<MuscleWorkData> {
 
     override fun equals(other: Any?): Boolean = if (other is MuscleWorkData)
         equals(other, 0.1)
@@ -25,18 +25,13 @@ data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double) : Sel
         other.muscle.isInvolvedIn(this.muscle) &&
                 abs(other.workCoefficient - this.workCoefficient) < coefficientTolerance
 
-    override fun toJson(): String = ExviSerializer.toJson(this)
-
-    override fun getUID(): String = uid
-    
     override fun hashCode(): Int {
         var result = muscle.hashCode()
         result = 31 * result + workCoefficient.hashCode()
         return result
     }
 
-    companion object {
-        const val uid = "MuscleWorkData"
-    }
+    override val serializer: KSerializer<MuscleWorkData>
+        get() = Companion.serializer()
 
 }

@@ -4,16 +4,20 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.coroutines.*
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
-
 @Suppress("unused")
-interface ActiveExercise : SelfSerializable {
+interface ActiveExercise : SelfSerializable<ActiveExercise> {
     @Polymorphic
     val target: ExerciseSet
+
     @Polymorphic
     var active: ExerciseSet
     var currentSet: Int
@@ -27,7 +31,7 @@ interface ActiveExercise : SelfSerializable {
         set: Int,
         coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
         dispatcher: CoroutineDispatcher = Dispatchers.Default,
-        callback: (Int, Time) -> kotlin.Unit
+        callback: (Int, Time) -> Unit
     ): Job = active.sets[set].timingCallback(coroutineScope, dispatcher, callback)
 
     companion object {
@@ -59,17 +63,12 @@ interface ActiveExercise : SelfSerializable {
 }
 
 @Serializable
-
-@Suppress("unused")
+@Suppress("unused", "UNCHECKED_CAST")
 data class ActualActiveExercise(
     override val target: ExerciseSet,
     override var active: ExerciseSet,
     override var currentSet: Int = 0
 ) : ActiveExercise {
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
-
-    companion object {
-        const val uid = "ActualActiveExercise"
-    }
+    override val serializer: KSerializer<ActiveExercise>
+        get() = Companion.serializer() as KSerializer<ActiveExercise>
 }

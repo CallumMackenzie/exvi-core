@@ -5,15 +5,13 @@
  */
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.model.ExviSerializer
-import com.camackenzie.exvi.core.util.CryptographyUtils
 import com.camackenzie.exvi.core.util.ExviLogger
 import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.*
 import io.ktor.utils.io.core.*
 import kotlinx.coroutines.*
 import kotlinx.serialization.Polymorphic
@@ -28,7 +26,7 @@ import kotlin.jvm.JvmStatic
  */
 @Serializable
 @Suppress("unused")
-class APIRequest<T : SelfSerializable> {
+class APIRequest<T : SelfSerializable<T>> {
     @Polymorphic
     val body: T
 
@@ -46,8 +44,6 @@ class APIRequest<T : SelfSerializable> {
         this.body = body
         this.headers = headers
     }
-
-    fun toJson() = ExviSerializer.toJson(this)
 
     @JvmOverloads
     constructor(body: T, headers: HashMap<String, String> = HashMap()) : this("", body, headers)
@@ -108,7 +104,7 @@ class APIRequest<T : SelfSerializable> {
 
     companion object {
         @JvmStatic
-        suspend fun <T : SelfSerializable> request(
+        suspend fun <T : SelfSerializable<T>> request(
             endpoint: String,
             body: T,
             headers: HashMap<String, String> = jsonHeaders(),
@@ -116,7 +112,7 @@ class APIRequest<T : SelfSerializable> {
         ) = APIRequest(endpoint, body, headers).send(callback)
 
         @JvmStatic
-        fun <T : SelfSerializable> requestAsync(
+        fun <T : SelfSerializable<T>> requestAsync(
             endpoint: String,
             body: T,
             headers: HashMap<String, String> = jsonHeaders(),

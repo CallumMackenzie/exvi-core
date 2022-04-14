@@ -6,8 +6,8 @@ package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.EnumUtils
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
 
 /**
  *
@@ -18,7 +18,7 @@ import kotlinx.serialization.*
 enum class Muscle(
     subMuscles: Array<Muscle>,
     vararg altNames: String
-) : SelfSerializable {
+) : SelfSerializable<Muscle> {
     PectoralisMajor("pecs"),
     Trapezius("traps"),
     Rhomboids(),
@@ -63,6 +63,9 @@ enum class Muscle(
     val subMuscles = HashSet<Muscle>()
     val superMuscles = HashSet<Muscle>()
 
+    override val serializer: KSerializer<Muscle>
+        get() = serializer()
+
     init {
         this.altNames = arrayOf(*altNames)
         for (muscle in subMuscles) {
@@ -73,9 +76,9 @@ enum class Muscle(
         }
     }
 
-    constructor(vararg altNames: String) : this(emptyArray(), *altNames) {}
+    constructor(vararg altNames: String) : this(emptyArray(), *altNames)
     constructor(vararg muscles: Muscle) : this(arrayOf(*muscles))
-    constructor() : this(arrayOf<Muscle>()) {}
+    constructor() : this(arrayOf<Muscle>())
 
     val muscleName: String
         get() = EnumUtils.formatName(super.toString())
@@ -100,13 +103,7 @@ enum class Muscle(
 
     override fun toString(): String = muscleName
 
-    override fun getUID(): String = uid
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-
     companion object {
-        const val uid = "Muscle"
-
         private fun validateMuscleSub(constant: Muscle, dyn: Muscle): Boolean {
             if (constant.matchesName(dyn.muscleName)) {
                 return true

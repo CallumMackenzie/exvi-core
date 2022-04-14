@@ -4,13 +4,13 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
 @Suppress("unused")
-
-interface ExerciseSet : SelfSerializable {
+interface ExerciseSet : SelfSerializable<ExerciseSet> {
     @Polymorphic
     val exercise: Exercise
     var unit: String
@@ -66,23 +66,21 @@ interface ExerciseSet : SelfSerializable {
 }
 
 @Serializable
-
-@Suppress("unused")
+@Suppress("unused", "UNCHECKED_CAST")
 data class ActualExerciseSet(
     override val exercise: Exercise,
     override var unit: String,
     override val sets: ArrayList<SingleExerciseSet>
 ) : ExerciseSet {
+    override val serializer: KSerializer<ExerciseSet>
+        get() = Companion.serializer() as KSerializer<ExerciseSet>
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
-
         other as ExerciseSet
-
         if (exercise != other.exercise) return false
         if (unit != other.unit) return false
-
         return true
     }
 
@@ -90,12 +88,5 @@ data class ActualExerciseSet(
         var result = exercise.hashCode()
         result = 31 * result + unit.hashCode()
         return result
-    }
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
-
-    companion object {
-        const val uid = "ActualExerciseSet"
     }
 }

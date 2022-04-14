@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 /*
  * Copyright (c) Callum Mackenzie 2022.
  */
@@ -40,7 +41,6 @@ val Time.weeks get() = toUnit(TimeUnit.Week)
 val Time.years get() = toUnit(TimeUnit.Year)
 
 @kotlinx.serialization.Serializable
-@Suppress("unused")
 enum class TimeUnit(private val unit: Double) : ValueUnit {
     Second(1.0) {
         override val abbreviationString: String = "s"
@@ -130,11 +130,9 @@ fun Time.timesToString(
 
 fun Time.getYearUnixEpoch(): Int = 1970 + this.years.floorSelf().value.toInt()
 
-@Suppress("unused")
 fun Time.toLocalDate(): LocalDate =
     toInstant().toLocalDateTime(TimeZone.currentSystemDefault()).date
 
-@Suppress("unused")
 @JvmOverloads
 fun Time.formatToElapsedTime(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): String =
     timesToString(formatTo) { time, str ->
@@ -142,7 +140,6 @@ fun Time.formatToElapsedTime(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()
             str.append(" ").append("${time.value.toInt()}${time.unit.abbreviationString}")
     }
 
-@Suppress("unused")
 @JvmOverloads
 fun Time.formatToDate(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): String =
     timesToString(formatTo) { time, str ->
@@ -153,6 +150,5 @@ fun Time.formatToDate(formatTo: Set<TimeUnit> = TimeUnit.values().toSet()): Stri
         }
     }
 
-@Suppress("unused")
 fun Time.toInstant(): Instant =
     Instant.fromEpochMilliseconds(this.toUnit(TimeUnit.Millisecond).value.toLong())

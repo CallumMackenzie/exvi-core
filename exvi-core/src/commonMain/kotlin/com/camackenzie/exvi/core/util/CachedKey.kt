@@ -6,10 +6,9 @@
 package com.camackenzie.exvi.core.util
 
 import com.soywiz.krypto.SecureRandom
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
 import com.soywiz.krypto.encoding.Base64
 import com.soywiz.krypto.encoding.toBase64
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
 /**

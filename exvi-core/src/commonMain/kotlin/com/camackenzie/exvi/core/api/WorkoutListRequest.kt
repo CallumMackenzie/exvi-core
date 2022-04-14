@@ -5,12 +5,9 @@
  */
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.cached
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
-import kotlin.jvm.JvmStatic
+import kotlinx.serialization.Serializable
 
 /**
  *
@@ -22,7 +19,7 @@ data class WorkoutListRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
     val type: Type
-) : GenericDataRequest(uid) {
+) : GenericDataRequest() {
 
     constructor(username: String, accessKey: String, type: Type)
             : this(username.cached(), accessKey.cached(), type)
@@ -31,12 +28,5 @@ data class WorkoutListRequest(
     enum class Type {
         ListAllTemplates,
         ListAllActive
-    }
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
-
-    companion object {
-        const val uid = "WorkoutListRequest"
     }
 }

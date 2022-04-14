@@ -7,15 +7,17 @@ import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.Identifiable
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.datetime.Clock
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
 
 @Suppress("unused")
-interface ActiveWorkout : SelfSerializable, Identifiable {
+interface ActiveWorkout : SelfSerializable<ActiveWorkout>, Identifiable {
     val name: String
     val baseWorkoutId: EncodedStringCache
+
     @Polymorphic
     val exercises: Array<ActiveExercise>
     val activeWorkoutId: EncodedStringCache
@@ -86,8 +88,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
 }
 
 @Serializable
-
-@Suppress("unused")
+@Suppress("unused", "UNCHECKED_CAST")
 data class ActualActiveWorkout(
     override val name: String,
     override val baseWorkoutId: EncodedStringCache,
@@ -96,9 +97,8 @@ data class ActualActiveWorkout(
     override var startTimeMillis: Long? = null,
     override var endTimeMillis: Long? = null
 ) : ActiveWorkout {
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
+    override val serializer: KSerializer<ActiveWorkout>
+        get() = Companion.serializer() as KSerializer<ActiveWorkout>
 
     /**
      * Auto generated
@@ -130,9 +130,5 @@ data class ActualActiveWorkout(
         result = 31 * result + (startTimeMillis?.hashCode() ?: 0)
         result = 31 * result + (endTimeMillis?.hashCode() ?: 0)
         return result
-    }
-
-    companion object {
-        const val uid = "ActualActiveWorkout"
     }
 }

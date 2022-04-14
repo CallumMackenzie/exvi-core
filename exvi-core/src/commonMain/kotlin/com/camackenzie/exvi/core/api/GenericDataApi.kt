@@ -5,10 +5,8 @@
  */
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.SelfSerializable
-import com.camackenzie.exvi.core.util.cached
-import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 
 /**
@@ -17,10 +15,9 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 @Suppress("unused")
-abstract class GenericDataRequest(
-    val requester: EncodedStringCache
-) : SelfSerializable {
-    constructor(requester: String) : this(requester.cached())
+abstract class GenericDataRequest : SelfSerializable<GenericDataRequest> {
+    override val serializer: KSerializer<GenericDataRequest>
+        get() = Companion.serializer()
 }
 
 /**
@@ -29,8 +26,7 @@ abstract class GenericDataRequest(
  */
 @Serializable
 @Suppress("unused")
-abstract class GenericDataResult(
-    val responder: EncodedStringCache
-) : SelfSerializable {
-    constructor(responder: String) : this(responder.cached())
+abstract class GenericDataResult : SelfSerializable<GenericDataResult> {
+    override val serializer: KSerializer<GenericDataResult>
+        get() = Companion.serializer()
 }

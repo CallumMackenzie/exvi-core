@@ -1,10 +1,8 @@
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.cached
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 @Serializable
 
@@ -14,7 +12,7 @@ data class DeleteWorkoutsRequest(
     val accessKey: EncodedStringCache,
     val workoutIds: Array<EncodedStringCache>,
     val workoutType: WorkoutType
-) : GenericDataRequest(uid) {
+) : GenericDataRequest() {
 
     constructor(
         username: String, accessKey: String, workoutIds: Array<EncodedStringCache>,
@@ -26,9 +24,6 @@ data class DeleteWorkoutsRequest(
         Workout,
         ActiveWorkout
     }
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -47,9 +42,5 @@ data class DeleteWorkoutsRequest(
         result = 31 * result + workoutIds.contentHashCode()
         result = 31 * result + workoutType.hashCode()
         return result
-    }
-
-    companion object {
-        const val uid = "DeleteWorkoutsRequest"
     }
 }

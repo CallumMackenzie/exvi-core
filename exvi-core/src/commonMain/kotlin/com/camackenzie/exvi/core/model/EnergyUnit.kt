@@ -1,7 +1,10 @@
+@file:Suppress("unused")
 /*
  * Copyright (c) Callum Mackenzie 2022.
  */
 package com.camackenzie.exvi.core.model
+
+import kotlin.jvm.JvmStatic
 
 typealias Energy = UnitValue<EnergyUnit>
 
@@ -28,6 +31,7 @@ enum class EnergyUnit(private val unit: Double) : ValueUnit {
     override fun getBaseCoefficient(): Double = unit
 
     companion object {
+        @JvmStatic
         fun none(): Energy = Energy(KiloJoule, 0.0)
     }
 }

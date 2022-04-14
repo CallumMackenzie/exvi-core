@@ -5,12 +5,9 @@
  */
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.EncodedStringCache
-import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 
 /**
@@ -23,18 +20,10 @@ data class VerificationRequest(
     val username: EncodedStringCache,
     val email: EncodedStringCache,
     val phone: EncodedStringCache
-) : GenericDataRequest(uid) {
-
+) : GenericDataRequest() {
     constructor(
         username: String,
         email: String,
         phone: String
     ) : this(username.cached(), email.cached(), phone.cached())
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
-
-    companion object {
-        const val uid = "VerificationRequest"
-    }
 }

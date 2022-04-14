@@ -5,11 +5,9 @@
  */
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.cached
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 
 /**
@@ -20,17 +18,9 @@ import kotlinx.serialization.*
 @Suppress("unused")
 data class AccountAccessKeyResult(
     val result: EncodedStringCache
-) : GenericDataResult(uid) {
-
+) : GenericDataResult() {
     val accessKey: String
         get() = this.result.get()
 
     constructor(result: String) : this(result.cached())
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
-
-    companion object {
-        const val uid = "AccountAccessKeyResult"
-    }
 }

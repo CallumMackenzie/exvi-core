@@ -1,7 +1,10 @@
+@file:Suppress("unused")
 /*
  * Copyright (c) Callum Mackenzie 2022.
  */
 package com.camackenzie.exvi.core.model
+
+import kotlin.jvm.JvmStatic
 
 typealias Distance = UnitValue<DistanceUnit>
 
@@ -22,7 +25,6 @@ val Distance.feet get() = toUnit(DistanceUnit.Foot)
  * @author callum
  */
 @kotlinx.serialization.Serializable
-@Suppress("unused")
 enum class DistanceUnit(private val unit: Double) : ValueUnit {
     Centimeter(1.0),
     Meter(Centimeter.unit / 100.0),
@@ -33,6 +35,7 @@ enum class DistanceUnit(private val unit: Double) : ValueUnit {
     override fun getBaseCoefficient(): Double = unit
 
     companion object {
+        @JvmStatic
         fun none(): Distance = Distance(Centimeter, 0.0)
     }
 }

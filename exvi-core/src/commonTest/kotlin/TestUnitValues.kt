@@ -1,7 +1,6 @@
 import com.camackenzie.exvi.core.model.*
 import kotlinx.datetime.Clock
 import kotlin.math.abs
-import kotlin.math.absoluteValue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

@@ -4,12 +4,11 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.serialization.json.*
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
-@Suppress("unused")
-interface BodyStats : SelfSerializable {
+interface BodyStats : SelfSerializable<BodyStats> {
     var sex: GeneticSex
     var totalMass: Mass
     var height: Distance
@@ -30,19 +29,16 @@ interface BodyStats : SelfSerializable {
 }
 
 @Serializable
-@Suppress("unused")
+@Suppress("unused", "UNCHECKED_CAST")
 data class ActualBodyStats(
     override var sex: GeneticSex,
     override var totalMass: Mass,
     override var height: Distance
 ) : BodyStats {
-
-    override fun toJson(): String = ExviSerializer.toJson(this)
-    override fun getUID(): String = uid
+    override val serializer: KSerializer<BodyStats>
+        get() = serializer() as KSerializer<BodyStats>
 
     companion object {
-        const val uid = "ActualBodyStats"
-
         @JvmStatic
         fun averageMale() = BodyStats(
             GeneticSex.Male,
@@ -64,5 +60,4 @@ data class ActualBodyStats(
             UnitValue(DistanceUnit.Meter, 1.68)
         )
     }
-
 }
