@@ -73,6 +73,7 @@ object ExviSerializer {
         Json { this.defaultJsonConfig() }
     }
 
+    @JvmStatic
     fun <T> toJson(serializer: SerializationStrategy<T>, value: T): String = try {
         ExviSerializer.serializer.encodeToString(serializer, value)
     } catch (ex: SerializationException) {
@@ -80,6 +81,7 @@ object ExviSerializer {
         Json.encodeToString(serializer, value)
     }
 
+    @JvmStatic
     fun <T> fromJson(deserializer: DeserializationStrategy<T>, json: String): T = try {
         ExviSerializer.serializer.decodeFromString(deserializer, json)
     } catch (ex: SerializationException) {
