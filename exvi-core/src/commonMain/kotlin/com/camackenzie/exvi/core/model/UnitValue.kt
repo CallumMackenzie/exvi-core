@@ -29,7 +29,7 @@ data class UnitValue<T : ValueUnit>(
 
     constructor(iUnit: T, iValue: Int) : this(iUnit, iValue.toDouble())
 
-    constructor(iUnit: T, iValue: Float): this(iUnit, iValue.toDouble())
+    constructor(iUnit: T, iValue: Float) : this(iUnit, iValue.toDouble())
 
     private fun toOtherValue(unit: T): Double = if (unit == this.unit) iValue else
         iValue / iUnit.getBaseCoefficient() * unit.getBaseCoefficient()
@@ -100,11 +100,12 @@ data class UnitValue<T : ValueUnit>(
     operator fun unaryPlus(): UnitValue<T> = UnitValue(iUnit, +iValue)
 
     @Suppress("UNCHECKED_CAST")
-    override fun equals(other: Any?): Boolean = if (other is UnitValue<*>) {
+    override fun equals(other: Any?): Boolean = if (this === other) true
+    else if (other is UnitValue<*>) {
         if (this.iUnit == other.iUnit)
             this.iValue == other.iValue
         else if (this.iUnit::class == other.iUnit::class)
-            this.toUnit(other.iUnit as T) == other
+            this.toUnit(other.iUnit as T).iValue == other.iValue
         else false
     } else false
 

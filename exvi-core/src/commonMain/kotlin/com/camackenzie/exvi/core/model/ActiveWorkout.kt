@@ -11,10 +11,12 @@ import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 import kotlin.jvm.JvmStatic
 
+
 @Suppress("unused")
 interface ActiveWorkout : SelfSerializable, Identifiable {
     val name: String
     val baseWorkoutId: EncodedStringCache
+    @Polymorphic
     val exercises: Array<ActiveExercise>
     val activeWorkoutId: EncodedStringCache
     var startTimeMillis: Long?
@@ -84,6 +86,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
 }
 
 @Serializable
+
 @Suppress("unused")
 data class ActualActiveWorkout(
     override val name: String,

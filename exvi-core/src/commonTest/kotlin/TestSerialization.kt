@@ -54,8 +54,8 @@ class TestSerialization {
                 listOf(SingleExerciseSet(1))
             )
         )
-        val serialized = ExviSerializer.toJson(active)
-        val des = ExviSerializer.fromJson<ActualActiveExercise>(serialized)
+        val serialized = ExviSerializer.toJson(active as ActiveExercise)
+        val des = ExviSerializer.fromJson<ActiveExercise>(serialized)
         assertEquals(active.target.exercise.name, des.target.exercise.name)
         assertEquals(active.exercise.experienceLevel, des.exercise.experienceLevel)
         assertEquals(des.currentSet, active.currentSet)
@@ -136,32 +136,92 @@ class TestSerialization {
     }
 
     private inline fun <reified T : GenericDataRequest> testRequestSerialization(req: T) {
-        val s = ExviSerializer.toJson(req)
+        val s = ExviSerializer.toJson(req as GenericDataRequest)
         val des = ExviSerializer.fromJson<GenericDataRequest>(s)
         assertTrue { des is T }
+        assertEquals(des, req)
     }
 
     @Test
-    fun testPolymorphicSerializeLoginRequest() = testRequestSerialization(LoginRequest("", ""))
-
-    @Test
-    fun testPolymorphicSerializeWorkoutPutRequest() = testRequestSerialization(WorkoutPutRequest("", "", emptyArray()))
+    fun testPolymorphicSerializeWorkoutPutRequest() =
+        testRequestSerialization(WorkoutPutRequest("sadsd", "asdsa", emptyArray()))
 
     @Test
     fun testPolymorphicSerializeWorkoutListRequest() =
-        testRequestSerialization(WorkoutListRequest("", "", WorkoutListRequest.Type.ListAllActive))
+        testRequestSerialization(WorkoutListRequest("dsad", "213123", WorkoutListRequest.Type.ListAllActive))
 
     @Test
     fun testPolymorphicSerializeActiveWorkoutPutRequest() =
-        testRequestSerialization(ActiveWorkoutPutRequest("", "", emptyArray()))
+        testRequestSerialization(ActiveWorkoutPutRequest("dasad", "asdsa", emptyArray()))
 
     @Test
     fun testPolymorphicSerializeDeleteWorkoutsRequest() =
-        testRequestSerialization(DeleteWorkoutsRequest("", "", emptyArray(), DeleteWorkoutsRequest.WorkoutType.Workout))
+        testRequestSerialization(
+            DeleteWorkoutsRequest(
+                "asd",
+                "asds",
+                emptyArray(),
+                DeleteWorkoutsRequest.WorkoutType.Workout
+            )
+        )
 
     @Test
-    fun testPolymorphicSerializeGetBodyStatsRequest() = testRequestSerialization(GetBodyStatsRequest("", ""))
+    fun testPolymorphicSerializeGetBodyStatsRequest() =
+        testRequestSerialization(GetBodyStatsRequest("ads", "asdsdasdsad"))
 
-    // TODO: Add more polymorphic serialization request tests & result tests
+    @Test
+    fun testPolymorphicSerializeSetBodyStatsRequest() =
+        testRequestSerialization(SetBodyStatsRequest("123", "asd", ActualBodyStats.average()))
 
+    @Test
+    fun testPolymorphicSerializeCompatibleVersionRequest() =
+        testRequestSerialization(CompatibleVersionRequest(121321323))
+
+    @Test
+    fun testPolymorphicSerializeAccountCreationRequest() =
+        testRequestSerialization(AccountCreationRequest("213123", "asd", "adssds"))
+
+    @Test
+    fun testPolymorphicSerializeLoginRequest() =
+        testRequestSerialization(LoginRequest("asdsad2323221323a", "asdsadasdsad"))
+
+    @Test
+    fun testPolymorphicSerializeRetrieveSaltRequest() = testRequestSerialization(RetrieveSaltRequest(""))
+
+    private inline fun <reified T : GenericDataResult> testResponseSerialization(req: T) {
+        val s = ExviSerializer.toJson(req as GenericDataResult)
+        val des = ExviSerializer.fromJson<GenericDataResult>(s)
+        assertTrue { des is T }
+        assertEquals(des, req)
+    }
+
+    @Test
+    fun testPolymorphicSerializeWorkoutListResult() = testResponseSerialization(
+        WorkoutListResult(emptyArray())
+    )
+
+    @Test
+    fun testPolymorphicSerializeActiveWorkoutListResult() = testResponseSerialization(
+        ActiveWorkoutListResult(emptyArray())
+    )
+
+    @Test
+    fun testPolymorphicSerializeBooleanResult() = testResponseSerialization(
+        BooleanResult(true)
+    )
+
+    @Test
+    fun testPolymorphicSerializeGetBodyStatsResponse() = testResponseSerialization(
+        GetBodyStatsResponse(ActualBodyStats.average())
+    )
+
+    @Test
+    fun testPolymorphicSerializeAccountSaltResult() = testResponseSerialization(
+        AccountSaltResult("asdsad")
+    )
+
+    @Test
+    fun testPolymorphicSerializeAccountAccessKeyResult() = testResponseSerialization(
+        AccountAccessKeyResult("sadasd")
+    )
 }

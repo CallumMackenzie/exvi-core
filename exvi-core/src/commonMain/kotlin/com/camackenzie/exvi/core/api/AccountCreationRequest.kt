@@ -17,8 +17,9 @@ import kotlinx.serialization.*
  * @author callum
  */
 @Serializable
+
 @Suppress("unused")
-class AccountCreationRequest(
+data class AccountCreationRequest(
     val username: EncodedStringCache,
     val verificationCode: EncodedStringCache,
     val password: EncodedStringCache

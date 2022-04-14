@@ -35,7 +35,7 @@ class TestIdentifiable {
         val a = aIds + commonIds
         val b = bIds + commonIds
 
-        Identifiable.checkIntersects(
+        Identifiable.intersectIndexed(
             a, b, onIntersect = { ae, ai, be, bi ->
                 assertEquals(ae, be)
                 assertEquals(a[ai], b[bi])

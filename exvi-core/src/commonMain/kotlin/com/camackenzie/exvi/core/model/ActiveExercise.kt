@@ -9,9 +9,12 @@ import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 import kotlin.jvm.JvmStatic
 
+
 @Suppress("unused")
 interface ActiveExercise : SelfSerializable {
+    @Polymorphic
     val target: ExerciseSet
+    @Polymorphic
     var active: ExerciseSet
     var currentSet: Int
 
@@ -56,6 +59,7 @@ interface ActiveExercise : SelfSerializable {
 }
 
 @Serializable
+
 @Suppress("unused")
 data class ActualActiveExercise(
     override val target: ExerciseSet,

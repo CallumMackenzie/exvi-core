@@ -9,6 +9,7 @@ import kotlinx.coroutines.*
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
 
+
 interface SingleExerciseSet : SelfSerializable {
     var reps: Int
     var weight: Mass
@@ -48,6 +49,7 @@ interface SingleExerciseSet : SelfSerializable {
 }
 
 @Serializable
+
 data class ActualSingleExerciseSet(
     override var reps: Int,
     override var weight: Mass = MassUnit.none(),

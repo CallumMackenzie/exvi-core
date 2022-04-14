@@ -18,8 +18,9 @@ import kotlinx.serialization.json.*
  * @author callum
  */
 @Serializable
+
 @Suppress("unused")
-class WorkoutPutRequest(
+data class WorkoutPutRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
     val workouts: Array<ActualWorkout>
@@ -34,14 +35,32 @@ class WorkoutPutRequest(
     override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+        other as WorkoutPutRequest
+        if (username != other.username) return false
+        if (accessKey != other.accessKey) return false
+        if (!workouts.contentEquals(other.workouts)) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = username.hashCode()
+        result = 31 * result + accessKey.hashCode()
+        result = 31 * result + workouts.contentHashCode()
+        return result
+    }
+
     companion object {
         const val uid = "WorkoutPutRequest"
     }
 }
 
 @Serializable
+
 @Suppress("unused")
-class ActiveWorkoutPutRequest(
+data class ActiveWorkoutPutRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
     val workouts: Array<ActualActiveWorkout>
@@ -55,6 +74,23 @@ class ActiveWorkoutPutRequest(
 
     override fun toJson(): String = ExviSerializer.toJson(this)
     override fun getUID(): String = uid
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+        other as ActiveWorkoutPutRequest
+        if (username != other.username) return false
+        if (accessKey != other.accessKey) return false
+        if (!workouts.contentEquals(other.workouts)) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = username.hashCode()
+        result = 31 * result + accessKey.hashCode()
+        result = 31 * result + workouts.contentHashCode()
+        return result
+    }
 
     companion object {
         const val uid = "ActiveWorkoutPutRequest"

@@ -17,12 +17,12 @@ import kotlinx.serialization.*
  * @author callum
  */
 @Serializable
+
 @Suppress("unused")
 data class LoginRequest(
     val username: EncodedStringCache,
     val passwordHash: EncodedStringCache
 ) : GenericDataRequest(uid) {
-
     constructor(username: String, passwordHash: String)
             : this(username.cached(), passwordHash.cached())
 

@@ -17,7 +17,7 @@ import kotlinx.serialization.*
  */
 @Serializable
 @Suppress("unused")
-class AccountSaltResult(val result: EncodedStringCache) : GenericDataResult(uid) {
+data class AccountSaltResult(val result: EncodedStringCache) : GenericDataResult(uid) {
 
     val salt: String
         get() = result.get()

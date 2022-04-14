@@ -8,12 +8,15 @@ package com.camackenzie.exvi.core.api
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
+import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.Serializable
 
 /**
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+
 @Suppress("unused")
 abstract class GenericDataRequest(
     val requester: EncodedStringCache
@@ -25,7 +28,8 @@ abstract class GenericDataRequest(
  *
  * @author callum
  */
-@kotlinx.serialization.Serializable
+@Serializable
+
 @Suppress("unused")
 abstract class GenericDataResult(
     val responder: EncodedStringCache

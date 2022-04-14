@@ -9,14 +9,18 @@ import kotlinx.serialization.*
 import kotlin.jvm.JvmStatic
 
 @Suppress("unused")
+
 interface ExerciseSet : SelfSerializable {
+    @Polymorphic
+    val exercise: Exercise
+    var unit: String
+
+    @Polymorphic
+    val sets: MutableList<SingleExerciseSet>
+
     operator fun component1(): Exercise = exercise
     operator fun component2(): String = unit
     operator fun component3(): MutableList<SingleExerciseSet> = sets
-
-    val exercise: Exercise
-    var unit: String
-    val sets: MutableList<SingleExerciseSet>
 
     fun toActual() = ActualExerciseSet(exercise, unit, ArrayList(sets.map {
         it.toActual()
@@ -62,6 +66,7 @@ interface ExerciseSet : SelfSerializable {
 }
 
 @Serializable
+
 @Suppress("unused")
 data class ActualExerciseSet(
     override val exercise: Exercise,

@@ -72,4 +72,10 @@ class TestUnitValues {
     fun test_D_W_Convert() = assertTrue {
         Time(TimeUnit.Day, 7).inRangeOf(Time(TimeUnit.Week, 1), Time(TimeUnit.Millisecond, 1.0))
     }
+
+    @Test
+    fun testEquals() {
+        assertEquals(12.pounds, 12.pounds)
+        assertEquals(10.seconds, 10.seconds)
+    }
 }

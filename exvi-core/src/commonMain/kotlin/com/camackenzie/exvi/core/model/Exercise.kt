@@ -104,6 +104,7 @@ interface Exercise : Comparable<Exercise>, SelfSerializable {
 }
 
 @Serializable
+
 @Suppress("unused")
 data class ActualExercise(
     override var name: String,

@@ -49,16 +49,16 @@ data class EncodedStringCache(
 
     companion object {
         @JvmStatic
-        fun cached(string: String): EncodedStringCache = EncodedStringCache(string)
+        fun cached(string: String) = EncodedStringCache(string)
 
         @JvmStatic
-        fun fromEncoded(encoded: String): EncodedStringCache = EncodedStringCache(encoded = encoded)
+        fun fromEncoded(encoded: String) = EncodedStringCache(encoded = encoded)
 
         @JvmStatic
-        fun decode(encoded: String): String = CryptographyUtils.decodeString(encoded)
+        fun decode(encoded: String) = CryptographyUtils.decodeString(encoded)
 
         @JvmStatic
-        fun encode(value: String): String = CryptographyUtils.encodeString(value)
+        fun encode(value: String) = CryptographyUtils.encodeString(value)
     }
 
     override fun toJson(): String = ExviSerializer.toJson(this)

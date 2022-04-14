@@ -9,7 +9,8 @@ import kotlinx.serialization.json.*
 
 @Suppress("unused")
 @Serializable
-class GetBodyStatsRequest(
+
+data class GetBodyStatsRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache
 ) : GenericDataRequest(uid) {
@@ -28,7 +29,7 @@ class GetBodyStatsRequest(
 
 @Suppress("unused")
 @Serializable
-class GetBodyStatsResponse(
+data class GetBodyStatsResponse(
     val bodyStats: ActualBodyStats
 ) : GenericDataResult(uid) {
 
@@ -42,7 +43,8 @@ class GetBodyStatsResponse(
 
 @Suppress("unused")
 @Serializable
-class SetBodyStatsRequest(
+
+data class SetBodyStatsRequest(
     val username: EncodedStringCache,
     val accessKey: EncodedStringCache,
     val bodyStats: ActualBodyStats
