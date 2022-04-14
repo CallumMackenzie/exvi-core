@@ -1,4 +1,4 @@
-name: Run Unit Tests
+name: Run Tests
 
 on:
   push:
@@ -27,11 +27,11 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@937999e9cc2425eddc7fd62d1053baf041147db7
         with:
-          arguments: jvmTest
+          arguments: allTests
           
       - name: Archive Test Results
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: exvi-core/exvi-core/build/reports/tests/
+          path: exvi-core/exvi-core/build/reports/
