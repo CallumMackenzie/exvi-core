@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
 @Suppress("unused")
-interface ExerciseSet : SelfSerializable<ExerciseSet> {
+interface ExerciseSet : SelfSerializable {
     @Polymorphic
     val exercise: Exercise
     var unit: String
@@ -72,8 +72,8 @@ data class ActualExerciseSet(
     override var unit: String,
     override val sets: ArrayList<SingleExerciseSet>
 ) : ExerciseSet {
-    override val serializer: KSerializer<ExerciseSet>
-        get() = Companion.serializer() as KSerializer<ExerciseSet>
+    override val serializer: KSerializer<SelfSerializable>
+        get() = Companion.serializer() as KSerializer<SelfSerializable>
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

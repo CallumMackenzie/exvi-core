@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
 @Suppress("unused")
-interface Exercise : Comparable<Exercise>, SelfSerializable<Exercise> {
+interface Exercise : Comparable<Exercise>, SelfSerializable {
     var name: String
     var description: String
     var videoLink: String
@@ -124,7 +124,7 @@ data class ActualExercise(
     } else false
 
     override fun hashCode(): Int = name.hashCode()
-    override val serializer: KSerializer<Exercise>
-        get() = Companion.serializer() as KSerializer<Exercise>
+    override val serializer: KSerializer<SelfSerializable>
+        get() = Companion.serializer() as KSerializer<SelfSerializable>
 
 }

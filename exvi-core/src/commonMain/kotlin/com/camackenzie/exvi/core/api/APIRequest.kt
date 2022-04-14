@@ -26,7 +26,7 @@ import kotlin.jvm.JvmStatic
  */
 @Serializable
 @Suppress("unused")
-class APIRequest<T : SelfSerializable<T>> {
+class APIRequest<T : SelfSerializable> {
     @Polymorphic
     val body: T
 
@@ -104,7 +104,7 @@ class APIRequest<T : SelfSerializable<T>> {
 
     companion object {
         @JvmStatic
-        suspend fun <T : SelfSerializable<T>> request(
+        suspend fun <T : SelfSerializable> request(
             endpoint: String,
             body: T,
             headers: HashMap<String, String> = jsonHeaders(),
@@ -112,7 +112,7 @@ class APIRequest<T : SelfSerializable<T>> {
         ) = APIRequest(endpoint, body, headers).send(callback)
 
         @JvmStatic
-        fun <T : SelfSerializable<T>> requestAsync(
+        fun <T : SelfSerializable> requestAsync(
             endpoint: String,
             body: T,
             headers: HashMap<String, String> = jsonHeaders(),

@@ -4,9 +4,10 @@ import com.camackenzie.exvi.core.model.ExviSerializer
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Transient
 
-interface SelfSerializable<T> {
-    fun toJson(): String = ExviSerializer.toJson(serializer, this as T)
+interface SelfSerializable {
+    fun toJson(): String = ExviSerializer.toJson(serializer, this)
+    fun toJsonElement() = ExviSerializer.toJsonElement(serializer, this)
 
     @Transient
-    val serializer: KSerializer<T>
+    val serializer: KSerializer<SelfSerializable>
 }

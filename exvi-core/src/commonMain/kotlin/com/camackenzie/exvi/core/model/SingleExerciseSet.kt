@@ -10,7 +10,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 
 
-interface SingleExerciseSet : SelfSerializable<SingleExerciseSet> {
+interface SingleExerciseSet : SelfSerializable {
     var reps: Int
     var weight: Mass
     var timing: Array<Time>
@@ -55,8 +55,8 @@ data class ActualSingleExerciseSet(
     override var weight: Mass = MassUnit.none(),
     override var timing: Array<Time> = emptyArray()
 ) : SingleExerciseSet {
-    override val serializer: KSerializer<SingleExerciseSet>
-        get() = Companion.serializer() as KSerializer<SingleExerciseSet>
+    override val serializer: KSerializer<SelfSerializable>
+        get() = Companion.serializer() as KSerializer<SelfSerializable>
 
     override fun deepValueCopy(): SingleExerciseSet = ActualSingleExerciseSet(
         reps,

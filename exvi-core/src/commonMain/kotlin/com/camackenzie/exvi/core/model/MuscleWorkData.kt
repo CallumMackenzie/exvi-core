@@ -13,9 +13,9 @@ import kotlin.math.abs
  *
  * @author callum
  */
-@Suppress("unused")
+@Suppress("unused", "UNCHECKED_CAST")
 @Serializable
-data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double) : SelfSerializable<MuscleWorkData> {
+data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double) : SelfSerializable {
 
     override fun equals(other: Any?): Boolean = if (other is MuscleWorkData)
         equals(other, 0.1)
@@ -31,7 +31,7 @@ data class MuscleWorkData(val muscle: Muscle, val workCoefficient: Double) : Sel
         return result
     }
 
-    override val serializer: KSerializer<MuscleWorkData>
-        get() = Companion.serializer()
+    override val serializer: KSerializer<SelfSerializable>
+        get() = Companion.serializer() as KSerializer<SelfSerializable>
 
 }

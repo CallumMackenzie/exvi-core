@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
 @Suppress("unused")
-interface ActiveExercise : SelfSerializable<ActiveExercise> {
+interface ActiveExercise : SelfSerializable {
     @Polymorphic
     val target: ExerciseSet
 
@@ -69,6 +69,6 @@ data class ActualActiveExercise(
     override var active: ExerciseSet,
     override var currentSet: Int = 0
 ) : ActiveExercise {
-    override val serializer: KSerializer<ActiveExercise>
-        get() = Companion.serializer() as KSerializer<ActiveExercise>
+    override val serializer: KSerializer<SelfSerializable>
+        get() = Companion.serializer() as KSerializer<SelfSerializable>
 }

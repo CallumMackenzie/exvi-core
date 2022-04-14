@@ -14,11 +14,11 @@ import kotlinx.serialization.Serializable
  * @author callum
  */
 @Serializable
-@Suppress("unused")
+@Suppress("unused", "UNCHECKED_CAST")
 enum class Muscle(
     subMuscles: Array<Muscle>,
     vararg altNames: String
-) : SelfSerializable<Muscle> {
+) : SelfSerializable {
     PectoralisMajor("pecs"),
     Trapezius("traps"),
     Rhomboids(),
@@ -63,8 +63,8 @@ enum class Muscle(
     val subMuscles = HashSet<Muscle>()
     val superMuscles = HashSet<Muscle>()
 
-    override val serializer: KSerializer<Muscle>
-        get() = serializer()
+    override val serializer: KSerializer<SelfSerializable>
+        get() = serializer() as KSerializer<SelfSerializable>
 
     init {
         this.altNames = arrayOf(*altNames)

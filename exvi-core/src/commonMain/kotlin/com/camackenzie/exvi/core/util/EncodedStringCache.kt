@@ -15,13 +15,14 @@ import kotlin.reflect.KProperty
  *
  * @author callum
  */
+@Suppress("UNCHECKED_CAST")
 @Serializable
 data class EncodedStringCache(
     @Transient
     @kotlin.jvm.Transient
     private var actual: String? = null,
     private var encoded: String = ""
-) : SelfSerializable<EncodedStringCache>, Comparable<EncodedStringCache> {
+) : SelfSerializable, Comparable<EncodedStringCache> {
 
     constructor(s: String) : this() {
         set(s)
@@ -66,8 +67,8 @@ data class EncodedStringCache(
         return result
     }
 
-    override val serializer: KSerializer<EncodedStringCache>
-        get() = serializer()
+    override val serializer: KSerializer<SelfSerializable>
+        get() = serializer() as KSerializer<SelfSerializable>
 }
 
 fun String.cached(): EncodedStringCache = EncodedStringCache.cached(this)

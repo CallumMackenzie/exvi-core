@@ -9,12 +9,14 @@ import com.camackenzie.exvi.core.util.ExviLogger
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
 import kotlin.jvm.JvmStatic
 
+@Suppress("unused")
 object ExviSerializer {
 
     private val defaultJsonConfig: JsonBuilder.() -> Unit = {
@@ -81,34 +83,51 @@ object ExviSerializer {
         Json { this.defaultJsonConfig() }
     }
 
-    @JvmStatic
-    fun <T> toJson(serializer: SerializationStrategy<T>, value: T): String = try {
-        ExviSerializer.serializer.encodeToString(serializer, value)
+    fun <T> trySerialize(attempt: () -> T, onFail: () -> T) = try {
+        attempt()
     } catch (ex: SerializationException) {
         ExviLogger.e(ex, tag = "CORE") { "Primary serialization failure" }
+        onFail()
+    }
+
+    @JvmStatic
+    fun <T> toJsonElement(serializer: SerializationStrategy<T>, value: T) = trySerialize({
+        this.serializer.encodeToJsonElement(serializer, value)
+    }, {
+        Json.encodeToJsonElement(serializer, value)
+    })
+
+    @JvmStatic
+    fun <T> fromJsonElement(serializer: DeserializationStrategy<T>, value: JsonElement) = trySerialize({
+        this.serializer.decodeFromJsonElement(serializer, value)
+    }, {
+        Json.decodeFromJsonElement(serializer, value)
+    })
+
+    @JvmStatic
+    fun <T> toJson(serializer: SerializationStrategy<T>, value: T) = trySerialize({
+        this.serializer.encodeToString(serializer, value)
+    }, {
         Json.encodeToString(serializer, value)
-    }
+    })
 
     @JvmStatic
-    fun <T> fromJson(deserializer: DeserializationStrategy<T>, json: String): T = try {
-        ExviSerializer.serializer.decodeFromString(deserializer, json)
-    } catch (ex: SerializationException) {
-        ExviLogger.e(ex, tag = "CORE") { "Primary serialization failure" }
+    fun <T> fromJson(deserializer: DeserializationStrategy<T>, json: String): T = trySerialize({
+        this.serializer.decodeFromString(deserializer, json)
+    }, {
         Json.decodeFromString(deserializer, json)
-    }
+    })
 
-    inline fun <reified T> toJson(value: T): String = try {
-        ExviSerializer.serializer.encodeToString(value)
-    } catch (ex: SerializationException) {
-        ExviLogger.e(ex, tag = "CORE") { "Primary serialization failure" }
+    inline fun <reified T> toJson(value: T) = trySerialize({
+        this.serializer.encodeToString(value)
+    }, {
         Json.encodeToString(value)
-    }
+    })
 
-    inline fun <reified T> fromJson(json: String): T = try {
-        ExviSerializer.serializer.decodeFromString(json)
-    } catch (ex: SerializationException) {
-        ExviLogger.e(ex, tag = "CORE") { "Primary serialization failure" }
+    inline fun <reified T> fromJson(json: String): T = trySerialize({
+        this.serializer.decodeFromString(json)
+    }, {
         Json.decodeFromString(json)
-    }
+    })
 
 }

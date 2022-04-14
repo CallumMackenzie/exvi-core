@@ -13,7 +13,7 @@ import kotlin.jvm.JvmStatic
 
 
 @Suppress("unused")
-interface Workout : SelfSerializable<Workout>, Identifiable {
+interface Workout : SelfSerializable, Identifiable {
     var name: String
     var description: String
 
@@ -111,6 +111,6 @@ data class ActualWorkout(
 ) : Workout {
     override fun newActiveWorkout(): ActiveWorkout = ActiveWorkout(this)
 
-    override val serializer: KSerializer<Workout>
-        get() = Companion.serializer() as KSerializer<Workout>
+    override val serializer: KSerializer<SelfSerializable>
+        get() = Companion.serializer() as KSerializer<SelfSerializable>
 }

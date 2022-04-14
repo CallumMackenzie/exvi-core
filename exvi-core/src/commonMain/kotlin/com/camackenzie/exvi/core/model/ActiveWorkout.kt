@@ -14,7 +14,7 @@ import kotlin.jvm.JvmStatic
 
 
 @Suppress("unused")
-interface ActiveWorkout : SelfSerializable<ActiveWorkout>, Identifiable {
+interface ActiveWorkout : SelfSerializable, Identifiable {
     val name: String
     val baseWorkoutId: EncodedStringCache
 
@@ -97,8 +97,8 @@ data class ActualActiveWorkout(
     override var startTimeMillis: Long? = null,
     override var endTimeMillis: Long? = null
 ) : ActiveWorkout {
-    override val serializer: KSerializer<ActiveWorkout>
-        get() = Companion.serializer() as KSerializer<ActiveWorkout>
+    override val serializer: KSerializer<SelfSerializable>
+        get() = Companion.serializer() as KSerializer<SelfSerializable>
 
     /**
      * Auto generated

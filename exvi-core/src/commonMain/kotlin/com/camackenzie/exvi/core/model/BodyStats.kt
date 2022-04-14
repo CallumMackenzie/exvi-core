@@ -8,7 +8,7 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
-interface BodyStats : SelfSerializable<BodyStats> {
+interface BodyStats : SelfSerializable {
     var sex: GeneticSex
     var totalMass: Mass
     var height: Distance
@@ -35,8 +35,8 @@ data class ActualBodyStats(
     override var totalMass: Mass,
     override var height: Distance
 ) : BodyStats {
-    override val serializer: KSerializer<BodyStats>
-        get() = serializer() as KSerializer<BodyStats>
+    override val serializer: KSerializer<SelfSerializable>
+        get() = serializer() as KSerializer<SelfSerializable>
 
     companion object {
         @JvmStatic
