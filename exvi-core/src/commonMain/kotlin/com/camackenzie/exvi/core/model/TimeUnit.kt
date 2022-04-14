@@ -89,7 +89,7 @@ enum class TimeUnit(private val unit: Double) : ValueUnit {
     }
 }
 
-inline fun Time.toDuration(): Duration = when (unit) {
+fun Time.toDuration(): Duration = when (unit) {
     TimeUnit.Millisecond -> value.milliseconds
     TimeUnit.Second -> value.seconds
     TimeUnit.Minute -> value.minutes
