@@ -16,7 +16,6 @@ import kotlinx.serialization.Serializable
  * @author callum
  */
 @Serializable
-
 @Suppress("unused")
 abstract class GenericDataRequest(
     val requester: EncodedStringCache
@@ -29,7 +28,6 @@ abstract class GenericDataRequest(
  * @author callum
  */
 @Serializable
-
 @Suppress("unused")
 abstract class GenericDataResult(
     val responder: EncodedStringCache

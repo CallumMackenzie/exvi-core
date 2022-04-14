@@ -24,6 +24,7 @@ object ExviSerializer {
         classDiscriminator = "exvic"
     }
 
+    @JvmStatic
     val serializer: Json = try {
         Json {
             serializersModule = SerializersModule {

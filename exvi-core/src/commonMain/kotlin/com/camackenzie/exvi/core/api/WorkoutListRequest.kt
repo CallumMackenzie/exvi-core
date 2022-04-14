@@ -17,7 +17,6 @@ import kotlin.jvm.JvmStatic
  * @author callum
  */
 @Serializable
-
 @Suppress("unused")
 data class WorkoutListRequest(
     val username: EncodedStringCache,
