@@ -1,4 +1,5 @@
 # Exvi Core
+[![](https://jitpack.io/v/CallumMackenzie/exvi-core.svg)](https://jitpack.io/#CallumMackenzie/exvi-core)
 
 The shared model portion of my high school capstone project.
 
