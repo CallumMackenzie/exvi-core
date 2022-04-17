@@ -5,6 +5,7 @@
  */
 package com.camackenzie.exvi.core.api
 
+import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.ExviLogger
 import com.camackenzie.exvi.core.util.SelfSerializable
 import com.camackenzie.exvi.core.util.cached
@@ -14,6 +15,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.utils.io.core.*
 import kotlinx.coroutines.*
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -58,6 +60,13 @@ class APIRequest<T : SelfSerializable> {
         headers["content-type"] = "application/json"
         return this
     }
+
+    fun toJson(bodySerializer: KSerializer<T>) =
+        ExviSerializer.toJson(
+            serializer(
+                bodySerializer
+            ), this
+        )
 
     fun sendAsync(
         coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
