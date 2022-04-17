@@ -6,6 +6,7 @@ package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.api.*
 import com.camackenzie.exvi.core.util.ExviLogger
+import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
@@ -23,7 +24,7 @@ object ExviSerializer {
         isLenient = true
         coerceInputValues = true
         ignoreUnknownKeys = true
-        classDiscriminator = "exvic"
+        classDiscriminator = "exclazz"
     }
 
     @JvmStatic
@@ -54,6 +55,32 @@ object ExviSerializer {
                 }
                 polymorphic(ActiveWorkout::class) {
                     subclass(ActualActiveWorkout::class)
+                }
+                polymorphic(SelfSerializable::class) {
+                    subclass(WorkoutPutRequest::class)
+                    subclass(WorkoutListRequest::class)
+                    subclass(ActiveWorkoutPutRequest::class)
+                    subclass(DeleteWorkoutsRequest::class)
+                    subclass(GetBodyStatsRequest::class)
+                    subclass(SetBodyStatsRequest::class)
+                    subclass(CompatibleVersionRequest::class)
+                    subclass(AccountCreationRequest::class)
+                    subclass(LoginRequest::class)
+                    subclass(RetrieveSaltRequest::class)
+                    subclass(WorkoutListResult::class)
+                    subclass(ActiveWorkoutListResult::class)
+                    subclass(BooleanResult::class)
+                    subclass(GetBodyStatsResponse::class)
+                    subclass(AccountSaltResult::class)
+                    subclass(AccountAccessKeyResult::class)
+
+                    subclass(ActualActiveWorkout::class)
+                    subclass(ActualWorkout::class)
+                    subclass(ActualExerciseSet::class)
+                    subclass(ActualExercise::class)
+                    subclass(ActualSingleExerciseSet::class)
+                    subclass(ActualBodyStats::class)
+                    subclass(ActualActiveExercise::class)
                 }
                 polymorphic(GenericDataRequest::class) {
                     subclass(WorkoutPutRequest::class)

@@ -224,4 +224,34 @@ class TestSerialization {
     fun testPolymorphicSerializeAccountAccessKeyResult() = testResponseSerialization(
         AccountAccessKeyResult("sadasd")
     )
+
+    @Test
+    fun testAPIRequestNonGeneric() {
+        val request = APIRequest(
+            "", WorkoutListRequest(
+                "", "",
+                WorkoutListRequest.Type.ListAllTemplates
+            )
+        )
+        val serialized = ExviSerializer.toJson(request)
+        val des = ExviSerializer.fromJson<APIRequest<WorkoutListRequest>>(serialized)
+        assertEquals(request.endpoint, des.endpoint)
+        assertEquals(request.body.username, des.body.username)
+    }
+
+    @Test
+    fun testAPIRequestGeneric() {
+        val request = APIRequest(
+            "",
+            GetBodyStatsRequest("adjks", "") as GenericDataRequest
+        )
+        val serialized = ExviSerializer.toJson(request)
+        val des = ExviSerializer.fromJson<APIRequest<GenericDataRequest>>(serialized)
+        assertEquals(des.endpoint, request.endpoint)
+        assertTrue(des.body is GetBodyStatsRequest)
+        des as APIRequest<GetBodyStatsRequest>
+        request as APIRequest<GetBodyStatsRequest>
+        assertEquals(des.body.username, request.body.username)
+    }
+
 }
