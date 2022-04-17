@@ -9,7 +9,6 @@ import com.camackenzie.exvi.core.model.ExviSerializer
 import com.camackenzie.exvi.core.util.CryptographyUtils
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
@@ -56,6 +55,9 @@ class APIResult<T> {
         @JvmStatic
         fun <T : SelfSerializable> fromJson(bodySerializer: KSerializer<T>, json: String) =
             ExviSerializer.fromJson(serializer(bodySerializer), json)
+
+        @JvmStatic
+        fun fromJson(json: String) = ExviSerializer.fromJson<APIResult<String>>(json)
     }
 }
 
