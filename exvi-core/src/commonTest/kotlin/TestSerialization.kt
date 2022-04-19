@@ -254,4 +254,15 @@ class TestSerialization {
         assertEquals(des.body.username, request.body.username)
     }
 
+    @Test
+    fun testSerializeNoneResult() {
+        val ser = ExviSerializer.toJson<GenericDataResult>(NoneResult())
+        val og = ExviSerializer.fromJson<GenericDataResult>(ser)
+        assertTrue { og is NoneResult }
+
+        val ser2 = ExviSerializer.toJson(NoneResult())
+        val og2 = ExviSerializer.fromJson<NoneResult>(ser2)
+        assertTrue { og2 is NoneResult }
+    }
+
 }

@@ -81,6 +81,7 @@ object ExviSerializer {
                     subclass(ActualSingleExerciseSet::class)
                     subclass(ActualBodyStats::class)
                     subclass(ActualActiveExercise::class)
+                    subclass(NoneResult::class)
                 }
                 polymorphic(GenericDataRequest::class) {
                     subclass(WorkoutPutRequest::class)
@@ -101,6 +102,7 @@ object ExviSerializer {
                     subclass(GetBodyStatsResponse::class)
                     subclass(AccountSaltResult::class)
                     subclass(AccountAccessKeyResult::class)
+                    subclass(NoneResult::class)
                 }
                 this@ExviSerializer.defaultJsonConfig(this@Json)
             }
