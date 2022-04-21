@@ -27,6 +27,14 @@ object ExviSerializer {
         classDiscriminator = "exclazz"
     }
 
+    object Builtin {
+        @JvmStatic
+        val string_ = serializer<String>()
+
+        @JvmStatic
+        val int_ = serializer<Int>()
+    }
+
     @JvmStatic
     val serializer: Json = try {
         Json {
