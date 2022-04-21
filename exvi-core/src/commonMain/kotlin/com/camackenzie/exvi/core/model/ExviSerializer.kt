@@ -37,6 +37,15 @@ object ExviSerializer {
         val integer = serializer<Int>()
 
         @JvmStatic
+        val long = serializer<Long>()
+
+        @JvmStatic
+        val float = serializer<Float>()
+
+        @JvmStatic
+        val double = serializer<Double>()
+
+        @JvmStatic
         fun element(ths: ClassSerialDescriptorBuilder, name: String, ser: SerialDescriptor) =
             ths.element(name, ser)
     }
