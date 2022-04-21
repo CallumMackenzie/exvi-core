@@ -96,6 +96,7 @@ object ExviSerializer {
                     subclass(GetBodyStatsResponse::class)
                     subclass(AccountSaltResult::class)
                     subclass(AccountAccessKeyResult::class)
+                    subclass(VerificationRequest::class)
 
                     subclass(ActualActiveWorkout::class)
                     subclass(ActualWorkout::class)
@@ -117,6 +118,7 @@ object ExviSerializer {
                     subclass(AccountCreationRequest::class)
                     subclass(LoginRequest::class)
                     subclass(RetrieveSaltRequest::class)
+                    subclass(VerificationRequest::class)
                 }
                 polymorphic(GenericDataResult::class) {
                     subclass(WorkoutListResult::class)
