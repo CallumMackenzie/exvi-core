@@ -8,6 +8,8 @@ import com.camackenzie.exvi.core.api.*
 import com.camackenzie.exvi.core.util.ExviLogger
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.*
+import kotlinx.serialization.descriptors.ClassSerialDescriptorBuilder
+import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 import kotlinx.serialization.json.JsonElement
@@ -33,6 +35,10 @@ object ExviSerializer {
 
         @JvmStatic
         val int_ = serializer<Int>()
+
+        @JvmStatic
+        fun element(ths: ClassSerialDescriptorBuilder, name: String, ser: SerialDescriptor) =
+            ths.element(name, ser)
     }
 
     @JvmStatic
