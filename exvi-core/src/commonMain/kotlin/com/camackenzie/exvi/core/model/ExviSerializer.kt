@@ -31,10 +31,10 @@ object ExviSerializer {
 
     object Builtin {
         @JvmStatic
-        val string_ = serializer<String>()
+        val string = serializer<String>()
 
         @JvmStatic
-        val int_ = serializer<Int>()
+        val integer = serializer<Int>()
 
         @JvmStatic
         fun element(ths: ClassSerialDescriptorBuilder, name: String, ser: SerialDescriptor) =
