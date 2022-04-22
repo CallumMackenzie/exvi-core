@@ -1,3 +1,4 @@
+import com.camackenzie.exvi.core.util.CryptographyUtils
 import com.camackenzie.exvi.core.util.Identifiable
 import com.camackenzie.exvi.core.util.RawIdentifiable
 import kotlin.test.Test
@@ -50,6 +51,11 @@ class TestIdentifiable {
                 assertEquals(be, b[bi])
             }
         )
+    }
+
+    @Test
+    fun test(){
+        println(CryptographyUtils.encodeString("HELLO!"))
     }
 
 }
