@@ -19,7 +19,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
     val baseWorkoutId: EncodedStringCache
 
     @Polymorphic
-    var exercises: Array<ActiveExercise>
+    var exercises: List<ActiveExercise>
     val activeWorkoutId: EncodedStringCache
     var startTimeMillis: Long?
     var endTimeMillis: Long?
@@ -57,7 +57,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
 
     fun toActual() = ActualActiveWorkout(name, baseWorkoutId.copy(), exercises.map {
         it.toActual()
-    }.toTypedArray(), activeWorkoutId.copy(), startTimeMillis, endTimeMillis)
+    }, activeWorkoutId.copy(), startTimeMillis, endTimeMillis)
 
     companion object {
         /**
@@ -67,7 +67,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
         operator fun invoke(
             name: String,
             baseWorkoutId: EncodedStringCache,
-            exercises: Array<ActiveExercise>,
+            exercises: List<ActiveExercise>,
             activeWorkoutId: EncodedStringCache = Identifiable.generateId(),
             startTimeMillis: Long? = null,
             endTimeMillis: Long? = null,
@@ -82,7 +82,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
             workout.id.copy(),
             workout.exercises.map { exercise ->
                 ActiveExercise(exercise)
-            }.toTypedArray()
+            }
         )
     }
 }
@@ -92,7 +92,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
 data class ActualActiveWorkout(
     override val name: String,
     override val baseWorkoutId: EncodedStringCache,
-    override var exercises: Array<ActiveExercise>,
+    override var exercises: List<ActiveExercise>,
     override val activeWorkoutId: EncodedStringCache = Identifiable.generateId(),
     override var startTimeMillis: Long? = null,
     override var endTimeMillis: Long? = null
@@ -111,7 +111,7 @@ data class ActualActiveWorkout(
 
         if (name != other.name) return false
         if (baseWorkoutId != other.baseWorkoutId) return false
-        if (!exercises.contentEquals(other.exercises)) return false
+        if (exercises != other.exercises) return false
         if (activeWorkoutId != other.activeWorkoutId) return false
         if (startTimeMillis != other.startTimeMillis) return false
         if (endTimeMillis != other.endTimeMillis) return false
@@ -125,7 +125,7 @@ data class ActualActiveWorkout(
     override fun hashCode(): Int {
         var result = name.hashCode()
         result = 31 * result + baseWorkoutId.hashCode()
-        result = 31 * result + exercises.contentHashCode()
+        result = 31 * result + exercises.hashCode()
         result = 31 * result + activeWorkoutId.hashCode()
         result = 31 * result + (startTimeMillis?.hashCode() ?: 0)
         result = 31 * result + (endTimeMillis?.hashCode() ?: 0)
