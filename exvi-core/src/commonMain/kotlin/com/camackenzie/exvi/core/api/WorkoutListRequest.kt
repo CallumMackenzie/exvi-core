@@ -26,7 +26,22 @@ data class WorkoutListRequest(
 
     @Serializable
     enum class Type {
-        ListAllTemplates,
-        ListAllActive
+        ListAllTemplates {
+            override val workoutType = WorkoutType.Template
+        },
+        ListAllActive {
+            override val workoutType = WorkoutType.Active
+        },
+        ListLatestActive {
+            override val workoutType = WorkoutType.Active
+        };
+
+        abstract val workoutType: WorkoutType
+    }
+
+    @Serializable
+    enum class WorkoutType {
+        Active,
+        Template,
     }
 }

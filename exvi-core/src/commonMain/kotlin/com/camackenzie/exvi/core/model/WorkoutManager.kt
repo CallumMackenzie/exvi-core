@@ -5,6 +5,7 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.api.APIResult
+import com.camackenzie.exvi.core.api.WorkoutListRequest
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +13,9 @@ import kotlinx.coroutines.Job
 
 @Suppress("unused")
 interface WorkoutManager {
+    // Type must have workoutType of WorkoutType.Template
     fun getWorkouts(
+        type: WorkoutListRequest.Type,
         coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
         dispatcher: CoroutineDispatcher = Dispatchers.Default,
         onFail: (APIResult<String>) -> Unit = {},
@@ -38,7 +41,9 @@ interface WorkoutManager {
         onComplete: () -> Unit = {}
     ): Job
 
+    // Type must have workoutType of WorkoutType.Active
     fun getActiveWorkouts(
+        type: WorkoutListRequest.Type,
         coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
         dispatcher: CoroutineDispatcher = Dispatchers.Default,
         onFail: (APIResult<String>) -> Unit = {},
