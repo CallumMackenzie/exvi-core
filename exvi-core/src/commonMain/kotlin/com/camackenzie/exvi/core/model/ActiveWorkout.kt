@@ -19,7 +19,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
     val baseWorkoutId: EncodedStringCache
 
     @Polymorphic
-    var exercises: List<ActiveExercise>
+    var exercises: Array<ActiveExercise>
     val activeWorkoutId: EncodedStringCache
     var startTimeMillis: Long?
     var endTimeMillis: Long?
@@ -67,7 +67,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
         operator fun invoke(
             name: String,
             baseWorkoutId: EncodedStringCache,
-            exercises: List<ActiveExercise>,
+            exercises: Array<ActiveExercise>,
             activeWorkoutId: EncodedStringCache = Identifiable.generateId(),
             startTimeMillis: Long? = null,
             endTimeMillis: Long? = null,
@@ -92,7 +92,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
 data class ActualActiveWorkout(
     override val name: String,
     override val baseWorkoutId: EncodedStringCache,
-    override var exercises: List<ActiveExercise>,
+    override var exercises: Array<ActiveExercise>,
     override val activeWorkoutId: EncodedStringCache = Identifiable.generateId(),
     override var startTimeMillis: Long? = null,
     override var endTimeMillis: Long? = null
