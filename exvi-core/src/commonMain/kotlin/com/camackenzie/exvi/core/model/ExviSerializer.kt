@@ -5,6 +5,7 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.api.*
+import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.ExviLogger
 import com.camackenzie.exvi.core.util.SelfSerializable
 import kotlinx.serialization.*
@@ -80,6 +81,9 @@ object ExviSerializer {
                     subclass(ActualActiveWorkout::class)
                 }
                 polymorphic(SelfSerializable::class) {
+                    subclass(EncodedStringCache::class)
+
+                    subclass(EncodedStringCache::class)
                     subclass(WorkoutPutRequest::class)
                     subclass(WorkoutListRequest::class)
                     subclass(ActiveWorkoutPutRequest::class)
