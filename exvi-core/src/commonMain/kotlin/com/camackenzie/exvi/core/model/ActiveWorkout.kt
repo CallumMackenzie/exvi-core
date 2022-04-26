@@ -57,7 +57,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
 
     fun toActual() = ActualActiveWorkout(name, baseWorkoutId.copy(), exercises.map {
         it.toActual()
-    }, activeWorkoutId.copy(), startTimeMillis, endTimeMillis)
+    }.toTypedArray(), activeWorkoutId.copy(), startTimeMillis, endTimeMillis)
 
     companion object {
         /**
@@ -82,7 +82,7 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
             workout.id.copy(),
             workout.exercises.map { exercise ->
                 ActiveExercise(exercise)
-            }
+            }.toTypedArray()
         )
     }
 }
