@@ -262,7 +262,6 @@ class TestSerialization {
 
         val ser2 = ExviSerializer.toJson(NoneResult())
         val og2 = ExviSerializer.fromJson<NoneResult>(ser2)
-        assertTrue { og2 is NoneResult }
     }
 
 }

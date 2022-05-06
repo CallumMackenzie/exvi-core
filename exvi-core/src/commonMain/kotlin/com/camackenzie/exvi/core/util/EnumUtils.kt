@@ -30,6 +30,19 @@ object EnumUtils {
     }
 
     @kotlin.jvm.JvmStatic
-    fun formatName(superStr: String): String =
-        superStr.lowercase().replace(Regex("_|\\s+"), " ")
+    fun formatName(superStr: String): String {
+        // Account for "PascalCase" -> "pascal case"
+        val pascalRegex = Regex("[A-Z]")
+        var sb = StringBuilder()
+        val matches = pascalRegex.findAll(superStr).toList()
+        for ((idx, match) in matches.iterator().withIndex()) {
+            if (idx != 0)
+                sb.append(" ")
+            val endIdx = if (idx < matches.size - 1) matches[idx + 1].range.first else superStr.length
+            sb.append(superStr.substring(match.range.first, endIdx).lowercase())
+        }
+        if (matches.isEmpty()) sb.append(superStr)
+        // Account for "SCREAMING_SNAKE_CASE" -> "screaming snake case"
+        return sb.toString().lowercase().replace(Regex("_|\\s+"), " ")
+    }
 }
