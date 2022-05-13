@@ -12,12 +12,12 @@ import kotlin.jvm.JvmOverloads
 val ExviLogger = Napier
 
 private val defaultPriorityMap = mapOf(
-    LogLevel.VERBOSE to "\uD83D\uDFE2 [VERBOSE]",
-    LogLevel.DEBUG to "\uD83D\uDFE3 [DEBUG]",
-    LogLevel.INFO to "\uD83D\uDD35 [INFO]",
-    LogLevel.WARNING to "\uD83D\uDFE0 [WARN]",
-    LogLevel.ERROR to "\uD83D\uDD34 [ERROR]",
-    LogLevel.ASSERT to "\uD83D\uDFE1 [ASSERT]",
+    LogLevel.VERBOSE to "➖ - [VERBOSE]",
+    LogLevel.DEBUG to "⚙ - [DEBUG]",
+    LogLevel.INFO to "ℹ - [INFO]",
+    LogLevel.WARNING to "⚠ - [WARN]",
+    LogLevel.ERROR to "❌ - [ERROR]",
+    LogLevel.ASSERT to "⛔ - [ASSERT]",
 )
 
 @JvmOverloads
@@ -30,7 +30,7 @@ fun setDefaultLogger(
         override fun performLog(priority: LogLevel, tag: String?, throwable: Throwable?, message: String?) {
             // Build final message
             val msg = StringBuilder()
-                .append(priorityMap[priority]).append(" ")
+                .append(priorityMap[priority] ?: defaultPriorityMap[priority]).append(" ")
             if (tag != null) msg.append(tag).append(": ")
             if (message != null) msg.append(message)
             if (throwable != null) msg.append("\n\t").append(throwable.message).append("\n\t")
