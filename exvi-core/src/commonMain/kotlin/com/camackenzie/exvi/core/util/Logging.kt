@@ -8,7 +8,6 @@ import io.github.aakira.napier.Antilog
 import io.github.aakira.napier.LogLevel
 import io.github.aakira.napier.Napier
 import kotlin.jvm.JvmOverloads
-import kotlin.jvm.JvmStatic
 
 val ExviLogger = Napier
 
@@ -21,25 +20,26 @@ private val defaultPriorityMap = mapOf(
     LogLevel.ASSERT to "\uD83D\uDFE1 [ASSERT]",
 )
 
-fun setupDefaultLogger(
-    output: (String) -> Unit
+@JvmOverloads
+@Suppress("unused")
+fun setDefaultLogger(
+    output: (String) -> Unit, priorityMap: Map<LogLevel, String> = defaultPriorityMap,
 ) {
     ExviLogger.takeLogarithm()
     ExviLogger.base(object : Antilog() {
         override fun performLog(priority: LogLevel, tag: String?, throwable: Throwable?, message: String?) {
-
             // Build final message
             val msg = StringBuilder()
-                .append(defaultPriorityMap[priority]).append(" ")
-            if (tag != null) msg.append(tag).append(": ");
-            if (message != null) msg.append(message);
+                .append(priorityMap[priority]).append(" ")
+            if (tag != null) msg.append(tag).append(": ")
+            if (message != null) msg.append(message)
             if (throwable != null) msg.append("\n\t").append(throwable.message).append("\n\t")
                 .append(throwable.stackTraceToString().split("\\s*\\n+\\s*").reduce { a, b ->
                     a + "\n\t\t" + b
                 })
 
             // Log the completed log
-            output(msg.toString());
+            output(msg.toString())
         }
     })
 }
