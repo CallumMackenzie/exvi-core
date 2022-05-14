@@ -86,6 +86,9 @@ enum class TimeUnit(private val unit: Double) : ValueUnit {
             Millisecond,
             duration.inWholeMilliseconds.toDouble()
         )
+
+        @JvmStatic
+        fun since(time: Time) = now() - time
     }
 }
 
