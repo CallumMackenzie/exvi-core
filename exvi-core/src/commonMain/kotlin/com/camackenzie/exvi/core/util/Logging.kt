@@ -12,12 +12,12 @@ import kotlin.jvm.JvmOverloads
 val ExviLogger = Napier
 
 private val defaultPriorityMap = mapOf(
-    LogLevel.VERBOSE to "➖ - [VERBOSE]",
-    LogLevel.DEBUG to "⚙ - [DEBUG]",
-    LogLevel.INFO to "ℹ - [INFO]",
-    LogLevel.WARNING to "⚠ - [WARN]",
-    LogLevel.ERROR to "❌ - [ERROR]",
-    LogLevel.ASSERT to "⛔ - [ASSERT]",
+    LogLevel.VERBOSE to "[VERBOSE]",
+    LogLevel.DEBUG to "[DEBUG]",
+    LogLevel.INFO to "[INFO]",
+    LogLevel.WARNING to "[WARN]",
+    LogLevel.ERROR to "[ERROR]",
+    LogLevel.ASSERT to "[ASSERT]",
 )
 
 @JvmOverloads

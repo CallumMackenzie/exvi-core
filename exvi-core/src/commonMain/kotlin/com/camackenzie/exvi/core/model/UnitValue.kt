@@ -21,7 +21,7 @@ interface ValueUnit {
 data class UnitValue<T : ValueUnit>(
     private var iUnit: T,
     private var iValue: Double
-) {
+) : Comparable<UnitValue<T>> {
     val unit
         get() = iUnit
     val value
@@ -115,4 +115,6 @@ data class UnitValue<T : ValueUnit>(
         result = 31 * result + iValue.hashCode()
         return result
     }
+
+    override fun compareTo(other: UnitValue<T>): Int = this.toUnit(other.unit).value.compareTo(other.value)
 }
