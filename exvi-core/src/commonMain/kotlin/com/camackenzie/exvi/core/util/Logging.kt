@@ -23,7 +23,8 @@ private val defaultPriorityMap = mapOf(
 @JvmOverloads
 @Suppress("unused")
 fun setDefaultLogger(
-    output: (String) -> Unit, priorityMap: Map<LogLevel, String> = defaultPriorityMap,
+    output: (LogLevel, String) -> Unit,
+    priorityMap: Map<LogLevel, String> = defaultPriorityMap,
 ) {
     ExviLogger.takeLogarithm()
     ExviLogger.base(object : Antilog() {
@@ -39,7 +40,7 @@ fun setDefaultLogger(
                 })
 
             // Log the completed log
-            output(msg.toString())
+            output(priority, msg.toString())
         }
     })
 }
