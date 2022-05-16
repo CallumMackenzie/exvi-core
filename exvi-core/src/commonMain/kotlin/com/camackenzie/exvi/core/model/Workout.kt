@@ -27,6 +27,15 @@ interface Workout : SelfSerializable, Identifiable {
 
     fun toActual() = Workout(this)
 
+    // Converts all non-standard exercises within to equivalent standard ones with the same name
+    // Returns indices of exercises standardized
+    fun tryStandardize(): Array<Int> {
+        val nStandardized = ArrayList<Int>(exercises.size)
+        for ((idx, exSet) in exercises.iterator().withIndex())
+            if (exSet.tryStandardize()) nStandardized.add(idx)
+        return nStandardized.toTypedArray()
+    }
+
     fun formatToTable(): String {
         // Retrieve the longest exercise name
         var longestExerciseName = 0

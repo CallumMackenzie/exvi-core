@@ -59,6 +59,15 @@ interface ActiveWorkout : SelfSerializable, Identifiable {
         it.toActual()
     }.toTypedArray(), activeWorkoutId.copy(), startTimeMillis, endTimeMillis)
 
+    // Converts all non-standard exercises within to equivalent standard ones with the same name
+    // Returns indices of exercises standardized
+    fun tryStandardize(): Array<Int> {
+        val nStandardized = ArrayList<Int>(exercises.size)
+        for ((idx, exSet) in exercises.iterator().withIndex())
+            if (exSet.tryStandardize()) nStandardized.add(idx)
+        return nStandardized.toTypedArray()
+    }
+
     companion object {
         /**
          * Constructs a new ActualActiveWorkout object

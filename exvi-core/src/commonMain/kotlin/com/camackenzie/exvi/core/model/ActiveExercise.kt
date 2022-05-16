@@ -34,6 +34,10 @@ interface ActiveExercise : SelfSerializable {
         callback: (Int, Time) -> Unit
     ): Job = active.sets[set].timingCallback(coroutineScope, dispatcher, callback)
 
+    // Converts the inner exercise to standard of same name if present
+    // Returns whether the exercise was standardized or not
+    fun tryStandardize(): Boolean = target.tryStandardize() || active.tryStandardize()
+
     companion object {
         /**
          * Constructs a new ActualActiveExercise object

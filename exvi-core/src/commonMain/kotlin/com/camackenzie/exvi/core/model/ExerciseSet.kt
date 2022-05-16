@@ -12,7 +12,7 @@ import kotlin.jvm.JvmStatic
 @Suppress("unused")
 interface ExerciseSet : SelfSerializable {
     @Polymorphic
-    val exercise: Exercise
+    var exercise: Exercise
     var unit: String
 
     @Polymorphic
@@ -21,6 +21,16 @@ interface ExerciseSet : SelfSerializable {
     operator fun component1(): Exercise = exercise
     operator fun component2(): String = unit
     operator fun component3(): MutableList<SingleExerciseSet> = sets
+
+    // Converts the inner exercise to standard of same name if present
+    // Returns whether the exercise was standardized or not
+    fun tryStandardize(): Boolean {
+        val standard = exercise.tryStandardize()
+        return if (standard != null) {
+            exercise = standard
+            true
+        } else false
+    }
 
     fun toActual() = ActualExerciseSet(exercise, unit, ArrayList(sets.map {
         it.toActual()
@@ -68,7 +78,7 @@ interface ExerciseSet : SelfSerializable {
 @Serializable
 @Suppress("unused", "UNCHECKED_CAST")
 data class ActualExerciseSet(
-    override val exercise: Exercise,
+    override var exercise: Exercise,
     override var unit: String,
     override val sets: ArrayList<SingleExerciseSet>
 ) : ExerciseSet {

@@ -76,6 +76,9 @@ interface Exercise : Comparable<Exercise>, SelfSerializable {
 
     override fun compareTo(other: Exercise): Int = name.compareTo(other.name)
 
+    fun tryStandardize(): Exercise? = if (StandardExercise.standardExercisesContains(this)) StandardExercise(this.name)
+    else null
+
     companion object {
         /**
          * Constructs a new ActualExercise object
@@ -124,6 +127,7 @@ data class ActualExercise(
     override var forceType: ExerciseForceType,
     override var equipment: HashSet<ExerciseEquipment>
 ) : Exercise {
+
     override fun equals(other: Any?): Boolean = if (other is Exercise) {
         this.name == other.name
     } else false
@@ -182,6 +186,8 @@ data class StandardExercise(
 
         var standardExerciseSet: Map<String, ActualExercise>? = null
             private set
+
+        fun standardExercisesContains(item: Exercise) = standardExerciseSet?.containsKey(item.name) ?: false
 
         fun setStandardExerciseSet(exs: Array<ActualExercise>) {
             val map = HashMap<String, ActualExercise>(exs.size)
