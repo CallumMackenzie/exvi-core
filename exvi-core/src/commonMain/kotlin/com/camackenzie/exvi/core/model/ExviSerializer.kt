@@ -61,9 +61,11 @@ object ExviSerializer {
                 contextual(ActualActiveExercise.serializer())
                 contextual(ActualWorkout.serializer())
                 contextual(ActualActiveWorkout.serializer())
+                contextual(StandardExercise.serializer())
 
                 polymorphic(Exercise::class) {
                     subclass(ActualExercise::class)
+                    subclass(StandardExercise::class)
                 }
                 polymorphic(SingleExerciseSet::class) {
                     subclass(ActualSingleExerciseSet::class)
@@ -106,6 +108,7 @@ object ExviSerializer {
                     subclass(ActualWorkout::class)
                     subclass(ActualExerciseSet::class)
                     subclass(ActualExercise::class)
+                    subclass(StandardExercise::class)
                     subclass(ActualSingleExerciseSet::class)
                     subclass(ActualBodyStats::class)
                     subclass(ActualActiveExercise::class)

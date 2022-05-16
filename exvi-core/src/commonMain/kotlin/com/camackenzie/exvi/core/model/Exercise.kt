@@ -4,9 +4,15 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.descriptors.element
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmStatic
+import kotlin.native.concurrent.ThreadLocal
 
 @Suppress("unused")
 interface Exercise : Comparable<Exercise>, SelfSerializable {
@@ -104,14 +110,13 @@ interface Exercise : Comparable<Exercise>, SelfSerializable {
 }
 
 @Serializable
-
 @Suppress("unused", "UNCHECKED_CAST")
 data class ActualExercise(
     override var name: String,
-    override var description: String,
-    override var videoLink: String,
-    override var tips: String,
-    override var overview: String,
+    override var description: String = "",
+    override var videoLink: String = "",
+    override var tips: String = "",
+    override var overview: String = "",
     override var musclesWorked: Array<MuscleWorkData>,
     override var exerciseTypes: HashSet<ExerciseType>,
     override var experienceLevel: ExerciseExperienceLevel,
@@ -127,4 +132,62 @@ data class ActualExercise(
     override val serializer: KSerializer<SelfSerializable>
         get() = Companion.serializer() as KSerializer<SelfSerializable>
 
+}
+
+private object StandardExerciseSerializer : KSerializer<StandardExercise> {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("EXVI_STDEXC") {
+        element<String>("cn")
+    }
+
+    override fun serialize(encoder: Encoder, value: StandardExercise) {
+        val struct = encoder.beginStructure(descriptor)
+        struct.encodeStringElement(descriptor, 0, value.cachedName)
+        struct.endStructure(descriptor)
+    }
+
+    override fun deserialize(decoder: Decoder): StandardExercise {
+        val struct = decoder.beginStructure(descriptor)
+        var cachedName: String? = null
+        SerializerLoop@ while (true) {
+            when (val index = struct.decodeElementIndex(descriptor)) {
+                0 -> {
+                    cachedName = struct.decodeStringElement(descriptor, index)
+                    break
+                }
+                else -> break@SerializerLoop
+            }
+        }
+        struct.endStructure(descriptor)
+        return if (cachedName == null) throw SerializationException("No cached name found in JSON")
+        else StandardExercise(cachedName)
+    }
+}
+
+@Serializable(with = StandardExerciseSerializer::class)
+@Suppress("unused", "UNCHECKED_CAST")
+data class StandardExercise(
+    internal val cachedName: String,
+) : Exercise by standardExerciseSet?.get(cachedName)!! {
+
+    override fun equals(other: Any?): Boolean = if (other is Exercise) {
+        this.name == other.name
+    } else false
+
+    override fun hashCode(): Int = name.hashCode()
+    override val serializer: KSerializer<SelfSerializable>
+        get() = StandardExerciseSerializer as KSerializer<SelfSerializable>
+
+    @ThreadLocal
+    companion object {
+
+        var standardExerciseSet: Map<String, ActualExercise>? = null
+            private set
+
+        fun setStandardExerciseSet(exs: Array<ActualExercise>) {
+            val map = HashMap<String, ActualExercise>(exs.size)
+            for (item in exs) map[item.name] = item
+            standardExerciseSet = map
+        }
+
+    }
 }
