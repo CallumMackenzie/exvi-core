@@ -9,7 +9,7 @@ import kotlin.test.assertTrue
 
 class TestActiveWorkout {
 
-    fun createTestActiveWorkout() = createTestWorkout().newActiveWorkout()
+    private fun createTestActiveWorkout() = createTestWorkout().newActiveWorkout()
 
     @Test
     fun testTryStandardize() {
