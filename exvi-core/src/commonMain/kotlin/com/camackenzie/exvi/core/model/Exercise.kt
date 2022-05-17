@@ -4,8 +4,9 @@
 package com.camackenzie.exvi.core.model
 
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlinx.serialization.*
-import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.element
@@ -171,7 +172,7 @@ private object StandardExerciseSerializer : KSerializer<StandardExercise> {
 @Suppress("unused", "UNCHECKED_CAST")
 data class StandardExercise(
     internal val cachedName: String,
-) : Exercise by standardExerciseSet?.get(cachedName)!! {
+) : Exercise by standardExerciseSet?.get(cachedName) ?: placeholderBase {
 
     override fun equals(other: Any?): Boolean = if (other is Exercise) {
         this.name == other.name
@@ -181,13 +182,31 @@ data class StandardExercise(
     override val serializer: KSerializer<SelfSerializable>
         get() = StandardExerciseSerializer as KSerializer<SelfSerializable>
 
+    fun hasPlaceholderBase(): Boolean = this.name == placeholderBase.name
+            && this.videoLink == placeholderBase.videoLink
+            && this.description == placeholderBase.description
+            && this.equipment == placeholderBase.equipment
+
     @ThreadLocal
     companion object {
+
+        private val placeholderBase: Exercise = ActualExercise(
+            "PLACEHOLDER",
+            description = "PLACEHOLDER_BASE",
+            videoLink = "NONE",
+            musclesWorked = emptyArray(),
+            exerciseTypes = HashSet(),
+            experienceLevel = ExerciseExperienceLevel.Beginner,
+            mechanics = ExerciseMechanics.Other,
+            forceType = ExerciseForceType.Other,
+            equipment = HashSet()
+        )
 
         var standardExerciseSet: Map<String, ActualExercise>? = null
             private set
 
-        fun standardExercisesContains(item: Exercise) = standardExerciseSet?.containsKey(item.name) ?: false
+        private fun standardExercisesContains(name: String) = standardExerciseSet?.containsKey(name) ?: false
+        fun standardExercisesContains(item: Exercise) = standardExercisesContains(item.name)
 
         fun setStandardExerciseSet(exs: Array<ActualExercise>) {
             val map = HashMap<String, ActualExercise>(exs.size)

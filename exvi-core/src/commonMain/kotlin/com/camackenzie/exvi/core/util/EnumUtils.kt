@@ -42,7 +42,7 @@ object EnumUtils {
             sb.append(superStr.substring(match.range.first, endIdx).lowercase())
         }
         if (matches.isEmpty()) sb.append(superStr)
-        // Account for "SCREAMING_SNAKE_CASE" -> "screaming snake case"
+        // Account for snake case variants "SNAKE_CASE" -> "snake case"
         return sb.toString().lowercase().replace(Regex("_|\\s+"), " ")
     }
 }
