@@ -147,7 +147,7 @@ private object StandardExerciseSerializer : KSerializer<StandardExercise> {
 
     override fun serialize(encoder: Encoder, value: StandardExercise) {
         val struct = encoder.beginStructure(descriptor)
-        struct.encodeStringElement(descriptor, 0, value.cachedName)
+        struct.encodeStringElement(descriptor, 0, value.name)
         struct.endStructure(descriptor)
     }
 
@@ -172,8 +172,8 @@ private object StandardExerciseSerializer : KSerializer<StandardExercise> {
 @Serializable(with = StandardExerciseSerializer::class)
 @Suppress("unused", "UNCHECKED_CAST")
 data class StandardExercise(
-    internal val cachedName: String,
-) : Exercise by standardExerciseSet?.get(cachedName) ?: placeholderBase {
+    override var name: String,
+) : Exercise by standardExerciseSet?.get(name) ?: placeholderBase {
 
     override fun equals(other: Any?): Boolean = if (other is Exercise) {
         this.name == other.name
@@ -190,12 +190,6 @@ data class StandardExercise(
             && this.videoLink == placeholderBase.videoLink
             && this.description == placeholderBase.description
             && this.equipment == placeholderBase.equipment
-
-    fun tryReDelegate(): StandardExercise? = if (this.hasPlaceholderBase()) {
-        val ret = StandardExercise(cachedName)
-        if (ret.hasPlaceholderBase()) null
-        else ret
-    } else this
 
     @ThreadLocal
     companion object {
