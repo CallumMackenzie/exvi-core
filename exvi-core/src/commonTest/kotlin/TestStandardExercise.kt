@@ -1,9 +1,6 @@
 import com.camackenzie.exvi.core.model.*
 import com.camackenzie.exvi.core.util.SelfSerializable
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class TestStandardExercise {
 
@@ -26,6 +23,11 @@ class TestStandardExercise {
             equipment = HashSet()
         )
     )
+
+    @Test
+    fun testTryStandardize() {
+        assertNotNull(exerciseSet[0].tryStandardize())
+    }
 
     @Test
     fun testOriginalEquality() {

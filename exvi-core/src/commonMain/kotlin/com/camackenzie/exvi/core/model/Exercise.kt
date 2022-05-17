@@ -77,7 +77,8 @@ interface Exercise : Comparable<Exercise>, SelfSerializable {
 
     override fun compareTo(other: Exercise): Int = name.compareTo(other.name)
 
-    fun tryStandardize(): Exercise? = if (StandardExercise.standardExercisesContains(this)) StandardExercise(this.name)
+    fun tryStandardize(): Exercise? = if (StandardExercise.standardExercisesContains(this.name))
+        StandardExercise(this.name)
     else null
 
     companion object {
@@ -178,6 +179,9 @@ data class StandardExercise(
         this.name == other.name
     } else false
 
+    // Exercise is already standard
+    override fun tryStandardize(): Exercise? = null
+
     override fun hashCode(): Int = name.hashCode()
     override val serializer: KSerializer<SelfSerializable>
         get() = StandardExerciseSerializer as KSerializer<SelfSerializable>
@@ -186,6 +190,12 @@ data class StandardExercise(
             && this.videoLink == placeholderBase.videoLink
             && this.description == placeholderBase.description
             && this.equipment == placeholderBase.equipment
+
+    fun tryReDelegate(): StandardExercise? = if (this.hasPlaceholderBase()) {
+        val ret = StandardExercise(cachedName)
+        if (ret.hasPlaceholderBase()) null
+        else ret
+    } else this
 
     @ThreadLocal
     companion object {
@@ -205,8 +215,7 @@ data class StandardExercise(
         var standardExerciseSet: Map<String, ActualExercise>? = null
             private set
 
-        private fun standardExercisesContains(name: String) = standardExerciseSet?.containsKey(name) ?: false
-        fun standardExercisesContains(item: Exercise) = standardExercisesContains(item.name)
+        fun standardExercisesContains(name: String) = standardExerciseSet?.containsKey(name) ?: false
 
         fun setStandardExerciseSet(exs: Array<ActualExercise>) {
             val map = HashMap<String, ActualExercise>(exs.size)

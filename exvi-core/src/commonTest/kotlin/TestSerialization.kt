@@ -1,8 +1,5 @@
 import com.camackenzie.exvi.core.api.*
 import com.camackenzie.exvi.core.model.*
-import com.camackenzie.exvi.core.util.ExviLogger
-import io.github.aakira.napier.Antilog
-import io.github.aakira.napier.LogLevel
 import kotlin.test.*
 
 /*
@@ -10,24 +7,6 @@ import kotlin.test.*
  */
 
 class TestSerialization {
-
-    @BeforeTest
-    fun initialize() {
-        ExviLogger.base(object : Antilog() {
-            override fun performLog(priority: LogLevel, tag: String?, throwable: Throwable?, message: String?) {
-                println("[$priority]${if (tag != null) " - $tag" else ""}: ${message ?: ""} ${
-                    if (throwable != null) "\n\t" else ""
-                }${
-                    throwable?.stackTraceToString()?.lines()?.reduce { a, b -> "$a\n\t\t$b" } ?: ""
-                }")
-            }
-        })
-    }
-
-    @AfterTest
-    fun finish() {
-        ExviLogger.takeLogarithm()
-    }
 
     private val exercises = listOf(
         Exercise(
