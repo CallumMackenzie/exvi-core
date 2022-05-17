@@ -186,8 +186,7 @@ data class StandardExercise(
     override val serializer: KSerializer<SelfSerializable>
         get() = StandardExerciseSerializer as KSerializer<SelfSerializable>
 
-    fun hasPlaceholderBase(): Boolean = this.name == placeholderBase.name
-            && this.videoLink == placeholderBase.videoLink
+    fun hasPlaceholderBase(): Boolean = this.videoLink == placeholderBase.videoLink
             && this.description == placeholderBase.description
             && this.equipment == placeholderBase.equipment
 
