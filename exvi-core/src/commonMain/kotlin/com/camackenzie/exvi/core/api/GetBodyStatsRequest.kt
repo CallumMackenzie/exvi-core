@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
 data class GetBodyStatsRequest(
     override val username: EncodedStringCache,
     override val accessKey: EncodedStringCache
-) : GenericDataRequest() ,ValidatedUserRequest {
+) : GenericDataRequest(), ValidatedUserRequest {
     constructor(username: String, accessKey: String) : this(username.cached(), accessKey.cached())
     constructor(username: String, accessKey: EncodedStringCache) : this(username.cached(), accessKey)
     constructor(username: EncodedStringCache, accessKey: String) : this(username, accessKey.cached())

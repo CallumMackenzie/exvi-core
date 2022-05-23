@@ -11,4 +11,5 @@ import kotlinx.serialization.Serializable
 data class FriendedUser(
     val username: EncodedStringCache,
     val acceptedRequest: Boolean,
+    val incomingRequest: Boolean,
 )

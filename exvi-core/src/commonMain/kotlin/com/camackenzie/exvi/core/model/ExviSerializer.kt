@@ -84,7 +84,6 @@ object ExviSerializer {
                 }
                 polymorphic(SelfSerializable::class) {
                     subclass(EncodedStringCache::class)
-
                     subclass(EncodedStringCache::class)
                     subclass(WorkoutPutRequest::class)
                     subclass(WorkoutListRequest::class)
@@ -103,7 +102,6 @@ object ExviSerializer {
                     subclass(AccountSaltResult::class)
                     subclass(AccountAccessKeyResult::class)
                     subclass(VerificationRequest::class)
-
                     subclass(ActualActiveWorkout::class)
                     subclass(ActualWorkout::class)
                     subclass(ActualExerciseSet::class)
@@ -115,6 +113,10 @@ object ExviSerializer {
                     subclass(NoneResult::class)
                     subclass(GetFriendedUsersRequest::class)
                     subclass(FriendUserRequest::class)
+                    subclass(AcceptFriendRequest::class)
+                    subclass(GetFriendWorkouts::class)
+                    subclass(GetFriendedUsersResponse::class)
+                    subclass(RemoteWorkoutResponse::class)
                 }
                 polymorphic(GenericDataRequest::class) {
                     subclass(WorkoutPutRequest::class)
@@ -131,6 +133,7 @@ object ExviSerializer {
                     subclass(GetFriendedUsersRequest::class)
                     subclass(FriendUserRequest::class)
                     subclass(GetFriendWorkouts::class)
+                    subclass(AcceptFriendRequest::class)
                 }
                 polymorphic(GenericDataResult::class) {
                     subclass(WorkoutListResult::class)

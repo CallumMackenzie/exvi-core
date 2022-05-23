@@ -15,5 +15,4 @@ import kotlinx.serialization.Serializable
 data class GetFriendedUsersRequest(
     override val username: EncodedStringCache,
     override val accessKey: EncodedStringCache
-) : GenericDataRequest(), ValidatedUserRequest {
-}
+) : GenericDataRequest(), ValidatedUserRequest

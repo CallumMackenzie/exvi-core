@@ -10,5 +10,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RemoteWorkout(
     val name: EncodedStringCache,
-    val id: EncodedStringCache
+    val id: EncodedStringCache,
+    val owner: EncodedStringCache,
 )
