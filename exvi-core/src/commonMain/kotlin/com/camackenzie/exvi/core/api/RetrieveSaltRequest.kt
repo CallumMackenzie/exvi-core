@@ -10,7 +10,7 @@ import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.Serializable
 
 /**
- *
+ * Response type: AccountSaltResult
  * @author callum
  */
 @Serializable

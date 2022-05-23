@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 
 
 /**
- *
+ * Response type: NoneResult
  * @author callum
  */
 @Serializable

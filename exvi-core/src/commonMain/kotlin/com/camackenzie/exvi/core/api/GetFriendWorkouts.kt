@@ -7,6 +7,9 @@ package com.camackenzie.exvi.core.api
 import com.camackenzie.exvi.core.util.EncodedStringCache
 import kotlinx.serialization.Serializable
 
+/**
+ * Response type: RemoteWorkoutResponse
+ */
 @Serializable
 @Suppress("unused")
 data class GetFriendWorkouts(

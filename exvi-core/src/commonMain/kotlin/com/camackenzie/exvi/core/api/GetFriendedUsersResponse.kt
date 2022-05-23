@@ -4,13 +4,13 @@
 
 package com.camackenzie.exvi.core.api
 
-import com.camackenzie.exvi.core.util.EncodedStringCache
+import com.camackenzie.exvi.core.model.FriendedUser
 import kotlinx.serialization.Serializable
 
 @Serializable
 @Suppress("unused")
 data class GetFriendedUsersResponse(
-    val users: Array<EncodedStringCache>,
+    val users: Array<FriendedUser>,
 ) : GenericDataResult() {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

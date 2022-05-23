@@ -4,6 +4,9 @@ import com.camackenzie.exvi.core.util.EncodedStringCache
 import com.camackenzie.exvi.core.util.cached
 import kotlinx.serialization.Serializable
 
+/**
+ * Response type: NoneResult
+ */
 @Serializable
 @Suppress("unused")
 data class DeleteWorkoutsRequest(
