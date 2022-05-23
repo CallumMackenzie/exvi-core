@@ -8,9 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Polymorphic
-import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
 @Suppress("unused")
@@ -66,13 +64,3 @@ interface ActiveExercise : SelfSerializable {
     }
 }
 
-@Serializable
-@Suppress("unused", "UNCHECKED_CAST")
-data class ActualActiveExercise(
-    override val target: ExerciseSet,
-    override var active: ExerciseSet,
-    override var currentSet: Int = 0
-) : ActiveExercise {
-    override val serializer: KSerializer<SelfSerializable>
-        get() = Companion.serializer() as KSerializer<SelfSerializable>
-}

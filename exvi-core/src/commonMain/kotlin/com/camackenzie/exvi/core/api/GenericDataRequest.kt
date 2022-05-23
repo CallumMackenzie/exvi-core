@@ -20,13 +20,3 @@ abstract class GenericDataRequest : SelfSerializable {
         get() = Companion.serializer() as KSerializer<SelfSerializable>
 }
 
-/**
- *
- * @author callum
- */
-@Serializable
-@Suppress("unused", "UNCHECKED_CAST")
-abstract class GenericDataResult : SelfSerializable {
-    override val serializer: KSerializer<SelfSerializable>
-        get() = Companion.serializer() as KSerializer<SelfSerializable>
-}

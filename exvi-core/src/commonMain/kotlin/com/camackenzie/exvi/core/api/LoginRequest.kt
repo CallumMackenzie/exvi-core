@@ -14,7 +14,6 @@ import kotlinx.serialization.Serializable
  * @author callum
  */
 @Serializable
-
 @Suppress("unused")
 data class LoginRequest(
     val username: EncodedStringCache,

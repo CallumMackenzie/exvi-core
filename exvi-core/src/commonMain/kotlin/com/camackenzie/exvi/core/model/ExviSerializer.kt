@@ -113,6 +113,8 @@ object ExviSerializer {
                     subclass(ActualBodyStats::class)
                     subclass(ActualActiveExercise::class)
                     subclass(NoneResult::class)
+                    subclass(GetFriendedUsersRequest::class)
+                    subclass(FriendUserRequest::class)
                 }
                 polymorphic(GenericDataRequest::class) {
                     subclass(WorkoutPutRequest::class)
@@ -126,6 +128,9 @@ object ExviSerializer {
                     subclass(LoginRequest::class)
                     subclass(RetrieveSaltRequest::class)
                     subclass(VerificationRequest::class)
+                    subclass(GetFriendedUsersRequest::class)
+                    subclass(FriendUserRequest::class)
+                    subclass(GetFriendWorkouts::class)
                 }
                 polymorphic(GenericDataResult::class) {
                     subclass(WorkoutListResult::class)
@@ -135,7 +140,10 @@ object ExviSerializer {
                     subclass(AccountSaltResult::class)
                     subclass(AccountAccessKeyResult::class)
                     subclass(NoneResult::class)
+                    subclass(GetFriendedUsersResponse::class)
+                    subclass(RemoteWorkoutResponse::class)
                 }
+
                 this@ExviSerializer.defaultJsonConfig(this@Json)
             }
         }

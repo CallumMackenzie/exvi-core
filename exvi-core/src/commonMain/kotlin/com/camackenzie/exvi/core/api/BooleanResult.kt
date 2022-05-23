@@ -8,7 +8,4 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Suppress("unused")
-data class CompatibleVersionRequest(
-    val version: Int
-) : GenericDataRequest()
-
+data class BooleanResult(val result: Boolean) : GenericDataResult()

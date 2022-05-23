@@ -14,12 +14,11 @@ import kotlinx.serialization.Serializable
  * @author callum
  */
 @Serializable
-
 @Suppress("unused")
 data class AccountCreationRequest(
     val username: EncodedStringCache,
     val verificationCode: EncodedStringCache,
-    val password: EncodedStringCache
+    val password: EncodedStringCache // This is the password hash, not the raw password
 ) : GenericDataRequest() {
     constructor(
         username: String,

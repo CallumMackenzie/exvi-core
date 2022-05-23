@@ -16,10 +16,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Suppress("unused")
 data class WorkoutListRequest(
-    val username: EncodedStringCache,
-    val accessKey: EncodedStringCache,
+    override val username: EncodedStringCache,
+    override val accessKey: EncodedStringCache,
     val type: Type
-) : GenericDataRequest() {
+) : GenericDataRequest(), ValidatedUserRequest {
 
     constructor(username: String, accessKey: String, type: Type)
             : this(username.cached(), accessKey.cached(), type)
