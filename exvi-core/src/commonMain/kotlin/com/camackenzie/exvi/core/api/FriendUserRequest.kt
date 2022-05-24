@@ -8,7 +8,7 @@ import com.camackenzie.exvi.core.util.EncodedStringCache
 import kotlinx.serialization.Serializable
 
 /**
- * Response type: NoneResult
+ * Response type: BooleanResult -> Whether the user could be friended
  */
 @Serializable
 @Suppress("unused")
