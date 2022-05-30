@@ -24,7 +24,7 @@ interface Workout : SelfSerializable, Identifiable {
 
     override fun getIdentifier(): EncodedStringCache = id
 
-    fun toActual() = Workout(this)
+    fun toActual() = ActualWorkout(this)
 
     // Converts all non-standard exercises within to equivalent standard ones with the same name
     // Returns indices of exercises standardized
@@ -83,29 +83,6 @@ interface Workout : SelfSerializable, Identifiable {
 
         // Return formatted string
         return ret.toString()
-    }
-
-    companion object {
-        /**
-         * Constructs a new ActualWorkout
-         */
-        @JvmStatic
-        operator fun invoke(
-            name: String = "New Workout",
-            description: String = "",
-            exercises: List<ExerciseSet> = arrayListOf(),
-            id: EncodedStringCache = Identifiable.generateId()
-        ) = ActualWorkout(name, description, ArrayList(exercises.map {
-            it.toActual()
-        }), id)
-
-        /**
-         * Constructs a new ActualWorkout
-         */
-        @JvmStatic
-        operator fun invoke(
-            other: Workout
-        ) = invoke(other.name, other.description, other.exercises, other.id)
     }
 }
 

@@ -64,13 +64,13 @@ class TestSerialization {
 
     @Test
     fun testSerializeWorkout() {
-        val workout = Workout("test", "desc", exercises.map {
+        val workout = ActualWorkout("test", "desc", ArrayList(exercises.map {
             ExerciseSet(
                 it, "rep", listOf(
                     SingleExerciseSet(10)
                 )
             )
-        })
+        }))
         val serialized = workout.toJson()
         val des = ExviSerializer.fromJson<ActualWorkout>(serialized)
         assertEquals(workout.name, des.name)
@@ -104,7 +104,7 @@ class TestSerialization {
     fun testSerializeWorkoutPutRequest() {
         val req1 = WorkoutPutRequest(
             "username", "key", arrayOf(
-                Workout("Test")
+                ActualWorkout("Test")
             )
         )
         val req1Serialized = req1.toJson()

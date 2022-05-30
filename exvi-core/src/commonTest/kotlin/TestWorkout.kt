@@ -24,33 +24,35 @@ val exerciseSet = arrayOf(
     )
 )
 
-fun createTestWorkout() = Workout("test", "desc", listOf(
-    Exercise(
-        "test", "desc", "link", "tips", "overview",
-        arrayOf(Muscle.Abs.workData(1.0)),
-        hashSetOf(ExerciseType.Strength),
-        ExerciseExperienceLevel.Beginner,
-        ExerciseMechanics.Compound,
-        ExerciseForceType.Compression,
-        hashSetOf(ExerciseEquipment("Equipment"))
-    ),
-    StandardExercise("A"),
-    Exercise(
-        "B", "desc", "link", "tips", "overview",
-        arrayOf(Muscle.Abs.workData(1.0)),
-        hashSetOf(ExerciseType.Strength),
-        ExerciseExperienceLevel.Beginner,
-        ExerciseMechanics.Compound,
-        ExerciseForceType.Compression,
-        hashSetOf(ExerciseEquipment("Equipment"))
-    )
-).map {
-    ExerciseSet(
-        it, "rep", listOf(
-            SingleExerciseSet(10)
+fun createTestWorkout() = ActualWorkout(
+    "test", "desc", ArrayList(listOf(
+        Exercise(
+            "test", "desc", "link", "tips", "overview",
+            arrayOf(Muscle.Abs.workData(1.0)),
+            hashSetOf(ExerciseType.Strength),
+            ExerciseExperienceLevel.Beginner,
+            ExerciseMechanics.Compound,
+            ExerciseForceType.Compression,
+            hashSetOf(ExerciseEquipment("Equipment"))
+        ),
+        StandardExercise("A"),
+        Exercise(
+            "B", "desc", "link", "tips", "overview",
+            arrayOf(Muscle.Abs.workData(1.0)),
+            hashSetOf(ExerciseType.Strength),
+            ExerciseExperienceLevel.Beginner,
+            ExerciseMechanics.Compound,
+            ExerciseForceType.Compression,
+            hashSetOf(ExerciseEquipment("Equipment"))
         )
-    )
-})
+    ).map {
+        ExerciseSet(
+            it, "rep", listOf(
+                SingleExerciseSet(10)
+            )
+        )
+    })
+)
 
 /*
  * Copyright (c) Callum Mackenzie 2022.

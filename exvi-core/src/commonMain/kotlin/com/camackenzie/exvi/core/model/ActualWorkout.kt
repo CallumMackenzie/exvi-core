@@ -19,6 +19,15 @@ data class ActualWorkout(
     override val id: EncodedStringCache = Identifiable.generateId(),
     override var public: Boolean = false
 ) : Workout {
+
+    constructor(other: Workout) : this(
+        name = other.name,
+        description = other.description,
+        exercises = ArrayList(other.exercises.map { it.toActual() }),
+        id = other.id.copy(),
+        public = other.public
+    )
+
     override fun newActiveWorkout(): ActiveWorkout = ActiveWorkout(this)
 
     override val serializer: KSerializer<SelfSerializable>
