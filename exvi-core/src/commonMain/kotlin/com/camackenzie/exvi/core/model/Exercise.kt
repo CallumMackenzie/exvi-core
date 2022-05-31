@@ -154,7 +154,7 @@ data class StandardExercise(
     } else false
 
     // Exercise is already standard
-    override fun tryStandardize(): Exercise? = null
+    override fun tryStandardize(): Exercise? = if (this.hasPlaceholderBase()) StandardExercise(this.name) else null
 
     override fun hashCode(): Int = name.hashCode()
     override val serializer: KSerializer<SelfSerializable>
