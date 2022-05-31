@@ -68,12 +68,10 @@ enum class Muscle(
 
     init {
         this.altNames = arrayOf(*altNames)
-        for (muscle in subMuscles) {
+        for (muscle in subMuscles)
             this.subMuscles.add(muscle)
-        }
-        for (muscle in subMuscles) {
+        for (muscle in subMuscles)
             muscle.superMuscles.add(this)
-        }
     }
 
     constructor(vararg altNames: String) : this(emptyArray(), *altNames)

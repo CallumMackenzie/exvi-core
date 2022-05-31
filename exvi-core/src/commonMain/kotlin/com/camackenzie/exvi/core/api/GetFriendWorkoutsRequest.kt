@@ -8,11 +8,11 @@ import com.camackenzie.exvi.core.util.EncodedStringCache
 import kotlinx.serialization.Serializable
 
 /**
- * Response type: RemoteWorkoutResponse
+ * Response type: WorkoutListResult
  */
 @Serializable
 @Suppress("unused")
-data class GetFriendWorkouts(
+data class GetFriendWorkoutsRequest(
     override val username: EncodedStringCache,
     override val accessKey: EncodedStringCache,
     val friend: EncodedStringCache,

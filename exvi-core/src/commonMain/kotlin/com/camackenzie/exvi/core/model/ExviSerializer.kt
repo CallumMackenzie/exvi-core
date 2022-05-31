@@ -114,9 +114,7 @@ object ExviSerializer {
                     subclass(GetFriendedUsersRequest::class)
                     subclass(FriendUserRequest::class)
                     subclass(AcceptFriendRequest::class)
-                    subclass(GetFriendWorkouts::class)
                     subclass(GetFriendedUsersResponse::class)
-                    subclass(RemoteWorkoutResponse::class)
                 }
                 polymorphic(GenericDataRequest::class) {
                     subclass(WorkoutPutRequest::class)
@@ -132,7 +130,7 @@ object ExviSerializer {
                     subclass(VerificationRequest::class)
                     subclass(GetFriendedUsersRequest::class)
                     subclass(FriendUserRequest::class)
-                    subclass(GetFriendWorkouts::class)
+                    subclass(GetFriendWorkoutsRequest::class)
                     subclass(AcceptFriendRequest::class)
                 }
                 polymorphic(GenericDataResult::class) {
@@ -144,7 +142,6 @@ object ExviSerializer {
                     subclass(AccountAccessKeyResult::class)
                     subclass(NoneResult::class)
                     subclass(GetFriendedUsersResponse::class)
-                    subclass(RemoteWorkoutResponse::class)
                 }
 
                 this@ExviSerializer.defaultJsonConfig(this@Json)
